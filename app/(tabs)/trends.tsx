@@ -8,8 +8,8 @@ import {
   Dimensions,
 } from 'react-native';
 import { TrendingUp, Calendar } from 'lucide-react-native';
-import { useSensor } from '../../contexts/SensorContext';
-import Colors from '../../constants/colors';
+import { useSensor } from '@/contexts/SensorContext';
+import Colors from '@/constants/colors';
 
 const { width } = Dimensions.get('window');
 const CHART_WIDTH = width - 40;

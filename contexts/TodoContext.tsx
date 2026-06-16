@@ -1,7 +1,7 @@
 import createContextHook from '@nkzw/create-context-hook';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import type { TodoTask, WeeklyObjective } from '../types/todo';
+import type { TodoTask, WeeklyObjective } from '@/types/todo';
 
 const STORAGE_KEY = 'xstep_todos';
 
@@ -190,13 +190,7 @@ export const [TodoProvider, useTodo] = createContextHook(() => {
     return Math.round((completed / tasks.length) * 100);
   }, [tasks]);
 
-  const todayTasks = useMemo(() => {
-    const today = new Date().toISOString().split('T')[0];
-    return tasks.filter(task => {
-      const taskDate = new Date(task.createdAt).toISOString().split('T')[0];
-      return taskDate === today;
-    });
-  }, [tasks]);
+  const todayTasks = useMemo(() => tasks, [tasks]);
 
   return useMemo(() => ({
     tasks,

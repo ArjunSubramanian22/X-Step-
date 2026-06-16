@@ -1,21 +1,18 @@
 import createContextHook from '@nkzw/create-context-hook';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useCallback, useEffect, useState } from 'react';
+import type { OnboardingData } from '@/types/onboarding';
 
 const STORAGE_KEY = 'xstep_auth';
 
-interface User {
+export interface User {
   id: string;
   name: string;
   email: string;
   loginMethod: 'email' | 'google' | 'apple' | 'guest';
 }
 
-interface OnboardingData {
-  measurementUnit: 'kPa' | 'PSI';
-  notificationThreshold: number;
-  mockDataFrequency: 'slow' | 'normal' | 'fast';
-}
+export type { OnboardingData };
 
 export const [AuthProvider, useAuth] = createContextHook(() => {
   const [user, setUser] = useState<User | null>(null);
@@ -43,23 +40,34 @@ export const [AuthProvider, useAuth] = createContextHook(() => {
     }
   };
 
+  const persistAuth = async (
+    nextUser: User | null,
+    nextOnboarding: OnboardingData | null,
+    completed: boolean
+  ) => {
+    if (!nextUser) {
+      await AsyncStorage.removeItem(STORAGE_KEY);
+      return;
+    }
+    await AsyncStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        user: nextUser,
+        onboardingData: nextOnboarding,
+        hasCompletedOnboarding: completed,
+      })
+    );
+  };
+
   const login = useCallback(async (userData: User) => {
     setUser(userData);
-    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({
-      user: userData,
-      onboardingData,
-      hasCompletedOnboarding,
-    }));
+    await persistAuth(userData, onboardingData, hasCompletedOnboarding);
   }, [onboardingData, hasCompletedOnboarding]);
 
   const completeOnboarding = useCallback(async (data: OnboardingData) => {
     setOnboardingData(data);
     setHasCompletedOnboarding(true);
-    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({
-      user,
-      onboardingData: data,
-      hasCompletedOnboarding: true,
-    }));
+    await persistAuth(user, data, true);
   }, [user]);
 
   const logout = useCallback(async () => {

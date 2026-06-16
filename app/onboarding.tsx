@@ -101,11 +101,29 @@ export default function OnboardingScreen() {
 
   const handleComplete = async () => {
     await completeOnboarding({
+      profile: {
+        age: age ? parseInt(age, 10) : undefined,
+        gender,
+        weight: weight ? parseFloat(weight) : undefined,
+        height: height ? parseFloat(height) : undefined,
+        diabetesType,
+        diabetesDuration: diabetesDuration ? parseInt(diabetesDuration, 10) : undefined,
+        hasNeuropathy,
+        hasUlcers,
+        hasAmputation,
+        hba1c: hba1c ? parseFloat(hba1c) : undefined,
+        medications,
+        workType,
+        footwearType,
+      },
       measurementUnit,
       notificationThreshold,
       mockDataFrequency,
+      calibrationBaseline: scanProgress >= 100
+        ? { pressure: 42 + Math.random() * 6, temperature: 33.5 + Math.random() * 1 }
+        : { pressure: 45, temperature: 34 },
     });
-    router.replace('/dashboard');
+    router.replace('/(tabs)/dashboard');
   };
 
   useEffect(() => {

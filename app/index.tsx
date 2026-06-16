@@ -23,7 +23,7 @@ export default function Index() {
     return <Redirect href="/onboarding" />;
   }
 
-  return <Redirect href="/dashboard" />;
+  return <Redirect href="/(tabs)/dashboard" />;
 }
 
 const styles = StyleSheet.create({

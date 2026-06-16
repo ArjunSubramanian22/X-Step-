@@ -1,9 +1,12 @@
 import createContextHook from '@nkzw/create-context-hook';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import type { DailyRoutine, LifestyleRecommendation } from '../types/routine';
+import { generateRecommendations } from '@/services/recommendationEngine';
+import type { DailyScore } from '@/types/sensor';
+import type { DailyRoutine, LifestyleRecommendation } from '@/types/routine';
 
 const STORAGE_KEY = 'xstep_routine';
+const ROUTINE_DATE_KEY = 'xstep_routine_date';
 
 const INITIAL_ROUTINE: DailyRoutine = {
   morning: [
@@ -94,42 +97,17 @@ const INITIAL_ROUTINE: DailyRoutine = {
   ],
 };
 
-const INITIAL_RECOMMENDATIONS: LifestyleRecommendation[] = [
-  {
-    id: 'rec1',
-    category: 'footwear',
-    title: 'Rotate Your Shoes',
-    description: 'Wearing the same shoes daily increases pressure on specific foot areas. Alternate between 2-3 pairs of well-fitted diabetic shoes.',
-    priority: 'medium',
-    triggerCondition: 'High pressure detected for 2+ consecutive days',
-    canConvertToTodo: true,
-    timestamp: Date.now(),
-  },
-  {
-    id: 'rec2',
-    category: 'rest',
-    title: 'Elevate Your Feet',
-    description: 'When sitting, elevate feet to reduce swelling and improve circulation. Do this 2-3 times daily for 15 minutes.',
-    priority: 'high',
-    triggerCondition: 'Temperature spike detected',
-    canConvertToTodo: true,
-    timestamp: Date.now(),
-  },
-  {
-    id: 'rec3',
-    category: 'hydration',
-    title: 'Increase Water Intake',
-    description: 'Aim for 8 glasses of water daily to maintain skin elasticity and support circulation.',
-    priority: 'medium',
-    triggerCondition: 'General wellness',
-    canConvertToTodo: true,
-    timestamp: Date.now(),
-  },
-];
+function resetRoutineIfNewDay(routine: DailyRoutine): DailyRoutine {
+  const reset: DailyRoutine = { morning: [], midday: [], evening: [] };
+  (['morning', 'midday', 'evening'] as const).forEach((period) => {
+    reset[period] = routine[period].map((step) => ({ ...step, completed: false }));
+  });
+  return reset;
+}
 
 export const [RoutineProvider, useRoutine] = createContextHook(() => {
   const [routine, setRoutine] = useState<DailyRoutine>(INITIAL_ROUTINE);
-  const [recommendations, setRecommendations] = useState<LifestyleRecommendation[]>(INITIAL_RECOMMENDATIONS);
+  const [recommendations, setRecommendations] = useState<LifestyleRecommendation[]>([]);
 
   useEffect(() => {
     loadRoutineData();
@@ -137,23 +115,46 @@ export const [RoutineProvider, useRoutine] = createContextHook(() => {
 
   const loadRoutineData = async () => {
     try {
-      const stored = await AsyncStorage.getItem(STORAGE_KEY);
+      const [stored, storedDate] = await Promise.all([
+        AsyncStorage.getItem(STORAGE_KEY),
+        AsyncStorage.getItem(ROUTINE_DATE_KEY),
+      ]);
+
+      const today = new Date().toISOString().split('T')[0];
+      let loadedRoutine = INITIAL_ROUTINE;
+      let loadedRecommendations: LifestyleRecommendation[] = [];
+
       if (stored) {
         const data = JSON.parse(stored);
-        if (data.routine) setRoutine(data.routine);
-        if (data.recommendations) setRecommendations(data.recommendations);
+        if (data.routine) loadedRoutine = data.routine;
+        if (data.recommendations) loadedRecommendations = data.recommendations;
       }
+
+      if (storedDate !== today) {
+        loadedRoutine = resetRoutineIfNewDay(loadedRoutine);
+        await AsyncStorage.setItem(ROUTINE_DATE_KEY, today);
+        await AsyncStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({ routine: loadedRoutine, recommendations: loadedRecommendations })
+        );
+      }
+
+      setRoutine(loadedRoutine);
+      setRecommendations(loadedRecommendations);
     } catch (error) {
       console.error('Failed to load routine data:', error);
     }
   };
 
-  const saveRoutineData = async (newRoutine: DailyRoutine, newRecommendations: LifestyleRecommendation[]) => {
+  const saveRoutineData = async (
+    newRoutine: DailyRoutine,
+    newRecommendations: LifestyleRecommendation[]
+  ) => {
     try {
-      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({
-        routine: newRoutine,
-        recommendations: newRecommendations,
-      }));
+      await AsyncStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ routine: newRoutine, recommendations: newRecommendations })
+      );
     } catch (error) {
       console.error('Failed to save routine data:', error);
     }
@@ -163,9 +164,8 @@ export const [RoutineProvider, useRoutine] = createContextHook(() => {
     const updatedRoutine = { ...routine };
     let found = false;
 
-    Object.keys(updatedRoutine).forEach((period) => {
-      const periodKey = period as keyof DailyRoutine;
-      updatedRoutine[periodKey] = updatedRoutine[periodKey].map((step) => {
+    (['morning', 'midday', 'evening'] as const).forEach((period) => {
+      updatedRoutine[period] = updatedRoutine[period].map((step) => {
         if (step.id === stepId) {
           found = true;
           return { ...step, completed: !step.completed };
@@ -180,6 +180,16 @@ export const [RoutineProvider, useRoutine] = createContextHook(() => {
     }
   }, [routine, recommendations]);
 
+  const refreshRecommendations = useCallback((
+    history: DailyScore[],
+    activeAlertCount: number,
+    completionRate: number
+  ) => {
+    const generated = generateRecommendations(history, activeAlertCount, completionRate);
+    setRecommendations(generated);
+    saveRoutineData(routine, generated);
+  }, [routine]);
+
   const addRecommendation = useCallback((recommendation: Omit<LifestyleRecommendation, 'id' | 'timestamp'>) => {
     const newRec: LifestyleRecommendation = {
       ...recommendation,
@@ -191,16 +201,10 @@ export const [RoutineProvider, useRoutine] = createContextHook(() => {
     saveRoutineData(routine, updated);
   }, [recommendations, routine]);
 
-  const removeRecommendation = useCallback((recId: string) => {
-    const updated = recommendations.filter(rec => rec.id !== recId);
-    setRecommendations(updated);
-    saveRoutineData(routine, updated);
-  }, [recommendations, routine]);
-
   const completionProgress = useMemo(() => {
     const allSteps = [...routine.morning, ...routine.midday, ...routine.evening];
     if (allSteps.length === 0) return 0;
-    const completed = allSteps.filter(step => step.completed).length;
+    const completed = allSteps.filter((step) => step.completed).length;
     return Math.round((completed / allSteps.length) * 100);
   }, [routine]);
 
@@ -210,6 +214,6 @@ export const [RoutineProvider, useRoutine] = createContextHook(() => {
     completionProgress,
     toggleRoutineStep,
     addRecommendation,
-    removeRecommendation,
-  }), [routine, recommendations, completionProgress, toggleRoutineStep, addRecommendation, removeRecommendation]);
+    refreshRecommendations,
+  }), [routine, recommendations, completionProgress, toggleRoutineStep, addRecommendation, refreshRecommendations]);
 });

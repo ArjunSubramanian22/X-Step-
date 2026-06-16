@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -11,16 +11,14 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Settings as SettingsIcon, User, Bell, Sliders, Moon, Sun, LogOut } from 'lucide-react-native';
-import { useSensor } from '../../contexts/SensorContext';
-import { useAuth } from '../../contexts/AuthContext';
-import { useHealth } from '../../contexts/HealthContext';
+import { useSensor } from '@/contexts/SensorContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'expo-router';
-import Colors from '../../constants/colors';
+import Colors from '@/constants/colors';
 
 export default function SettingsScreen() {
-  const { thresholds, isDarkMode, saveThresholds, toggleTheme } = useSensor();
+  const { thresholds, isDarkMode, saveThresholds, toggleTheme, profile, saveProfile } = useSensor();
   const { logout, user } = useAuth();
-  const { medicalRecord } = useHealth();
   const router = useRouter();
   const colors = isDarkMode ? Colors.dark : Colors.light;
   const insets = useSafeAreaInsets();
@@ -29,15 +27,32 @@ export default function SettingsScreen() {
   const [editingThresholds, setEditingThresholds] = useState(false);
   
   const [tempProfile, setTempProfile] = useState({
-    name: user?.name || 'Guest User',
-    age: 0,
-    weight: 0,
-    height: 0,
+    name: user?.name || profile.name || 'Guest User',
+    age: profile.age,
+    weight: profile.weight,
+    height: profile.height,
   });
   const [tempThresholds, setTempThresholds] = useState(thresholds);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
 
-  const handleSaveProfile = () => {
+  useEffect(() => {
+    setTempProfile({
+      name: user?.name || profile.name || 'Guest User',
+      age: profile.age,
+      weight: profile.weight,
+      height: profile.height,
+    });
+    setTempThresholds(thresholds);
+  }, [profile, thresholds, user]);
+
+  const handleSaveProfile = async () => {
+    await saveProfile({
+      ...profile,
+      name: tempProfile.name,
+      age: tempProfile.age,
+      weight: tempProfile.weight,
+      height: tempProfile.height,
+    });
     setEditingProfile(false);
   };
 
@@ -276,7 +291,7 @@ export default function SettingsScreen() {
             Logged in as {user?.name || 'Guest'}
           </Text>
           <Text style={[styles.versionText, { color: colors.textTertiary }]}>
-            X-Step v1.0.0 • Mock Data Edition
+            X-Step v1.0.0 • Smart Insole Monitoring
           </Text>
         </View>
       </ScrollView>
