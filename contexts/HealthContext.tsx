@@ -1,32 +1,35 @@
 import createContextHook from '@nkzw/create-context-hook';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import type { HealthIndex, MedicalRecord } from '../types/health';
+import { useAuth } from '@/contexts/AuthContext';
+import { onboardingToMedicalRecord } from '@/services/onboardingMapper';
+import type { HealthIndex, MedicalRecord } from '@/types/health';
 
 const STORAGE_KEY = 'xstep_health';
 
-const MOCK_MEDICAL_RECORD: MedicalRecord = {
+const DEFAULT_MEDICAL_RECORD: MedicalRecord = {
   diabetesType: 'Type 2',
-  diabetesDuration: 8,
-  hba1c: 7.2,
-  lastHba1cDate: '2025-09-15',
-  medications: ['Metformin 1000mg', 'Insulin Glargine 20 units', 'Gabapentin 300mg'],
-  neuropathyStatus: 'Moderate',
+  diabetesDuration: 0,
+  hba1c: 7.0,
+  lastHba1cDate: new Date().toISOString().split('T')[0],
+  medications: [],
+  neuropathyStatus: 'None',
   hasFootUlcers: false,
-  ulcerHistory: ['Right heel ulcer (2023, healed)', 'Left toe blister (2024, healed)'],
+  ulcerHistory: [],
   amputationHistory: false,
-  vascularComplications: ['Peripheral arterial disease (mild)'],
-  cholesterol: 195,
-  bloodPressure: '138/85',
-  smokingStatus: 'Former',
-  alcoholUse: 'Occasional',
+  vascularComplications: [],
+  cholesterol: 0,
+  bloodPressure: '',
+  smokingStatus: 'Never',
+  alcoholUse: 'None',
   exerciseLevel: 'Light',
   workType: 'Standing',
-  footwearHabits: ['Steel-toe work boots 8hrs/day', 'Diabetic insoles'],
+  footwearHabits: [],
 };
 
 export const [HealthProvider, useHealth] = createContextHook(() => {
-  const [medicalRecord, setMedicalRecord] = useState<MedicalRecord>(MOCK_MEDICAL_RECORD);
+  const { onboardingData } = useAuth();
+  const [medicalRecord, setMedicalRecord] = useState<MedicalRecord>(DEFAULT_MEDICAL_RECORD);
   const [healthIndex, setHealthIndex] = useState<HealthIndex>({
     score: 0,
     level: 'green',
@@ -42,6 +45,17 @@ export const [HealthProvider, useHealth] = createContextHook(() => {
   useEffect(() => {
     loadHealthData();
   }, []);
+
+  useEffect(() => {
+    if (onboardingData?.profile) {
+      const mapped = onboardingToMedicalRecord(onboardingData);
+      setMedicalRecord(mapped);
+      AsyncStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ medicalRecord: mapped, healthIndex })
+      );
+    }
+  }, [onboardingData]);
 
   const loadHealthData = async () => {
     try {
@@ -70,7 +84,6 @@ export const [HealthProvider, useHealth] = createContextHook(() => {
       medicalRecord.hba1c > 6.5 ? 6 : 0;
 
     const totalScore = footPressureScore + temperatureScore + neuropathyScore + glycemicScore + (100 - complianceScore);
-
     const level = totalScore < 45 ? 'green' : totalScore < 75 ? 'amber' : 'red';
 
     const newIndex: HealthIndex = {

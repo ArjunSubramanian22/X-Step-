@@ -1,11 +1,12 @@
 import { Tabs } from "expo-router";
-import { Activity, TrendingUp, MessageCircle, ClipboardList, Settings } from "lucide-react-native";
+import { Activity, TrendingUp, MessageCircle, ClipboardList, Settings, AlertTriangle } from "lucide-react-native";
 import React from "react";
+import { View, Text, StyleSheet } from "react-native";
 import Colors from "@/constants/colors";
 import { useSensor } from "@/contexts/SensorContext";
 
 export default function TabLayout() {
-  const { isDarkMode } = useSensor();
+  const { isDarkMode, activeAlertCount } = useSensor();
   const colors = isDarkMode ? Colors.dark : Colors.light;
 
   return (
@@ -61,6 +62,24 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="alerts"
+        options={{
+          title: "Alerts",
+          tabBarIcon: ({ color }) => (
+            <View>
+              <AlertTriangle size={24} color={color} />
+              {activeAlertCount > 0 && (
+                <View style={[styles.badge, { backgroundColor: colors.danger }]}>
+                  <Text style={styles.badgeText}>
+                    {activeAlertCount > 9 ? '9+' : activeAlertCount}
+                  </Text>
+                </View>
+              )}
+            </View>
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="settings"
         options={{
           title: "Settings",
@@ -70,3 +89,22 @@ export default function TabLayout() {
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  badge: {
+    position: 'absolute',
+    top: -4,
+    right: -8,
+    minWidth: 16,
+    height: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 4,
+  },
+  badgeText: {
+    color: '#FFFFFF',
+    fontSize: 9,
+    fontWeight: '700' as const,
+  },
+});

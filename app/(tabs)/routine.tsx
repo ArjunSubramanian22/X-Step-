@@ -18,10 +18,10 @@ import {
   ChevronUp,
   Sparkles,
 } from 'lucide-react-native';
-import { useRoutine } from '../../contexts/RoutineContext';
-import { useTodo } from '../../contexts/TodoContext';
-import { useSensor } from '../../contexts/SensorContext';
-import Colors from '../../constants/colors';
+import { useRoutine } from '@/contexts/RoutineContext';
+import { useTodo } from '@/contexts/TodoContext';
+import { useSensor } from '@/contexts/SensorContext';
+import Colors from '@/constants/colors';
 
 export default function RoutineScreen() {
   const { routine, completionProgress, toggleRoutineStep, recommendations } = useRoutine();

@@ -1,14 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import Svg, { Path, Circle } from 'react-native-svg';
-import type { FootData, FootZone } from '../types/sensor';
-import Colors from '../constants/colors';
+import type { FootData, FootZone } from '@/types/sensor';
+import Colors from '@/constants/colors';
 
 interface FootMapProps {
   footData: FootData;
   isDarkMode: boolean;
   foot: 'left' | 'right';
   showValues?: boolean;
+  pressureThreshold?: number;
 }
 
 const { width } = Dimensions.get('window');
@@ -24,7 +25,13 @@ function getColorForValue(value: number, threshold: number, isDarkMode: boolean)
   return colors.danger;
 }
 
-export default function FootMap({ footData, isDarkMode, foot, showValues = true }: FootMapProps) {
+export default function FootMap({
+  footData,
+  isDarkMode,
+  foot,
+  showValues = true,
+  pressureThreshold = 75,
+}: FootMapProps) {
   const data = footData[foot];
   const colors = isDarkMode ? Colors.dark : Colors.light;
   
@@ -107,7 +114,7 @@ export default function FootMap({ footData, isDarkMode, foot, showValues = true 
           
           {pressurePoints.map(({ zone, x, y }) => {
             const reading = data[zone as FootZone];
-            const pressureColor = getColorForValue(reading.pressure, 75, isDarkMode);
+            const pressureColor = getColorForValue(reading.pressure, pressureThreshold, isDarkMode);
             const radius = 14;
             
             return (

@@ -21,20 +21,21 @@ import {
   Clock,
   Sparkles,
 } from 'lucide-react-native';
-import { useSensor } from '../../contexts/SensorContext';
-import { useHealth } from '../../contexts/HealthContext';
-import { useTodo } from '../../contexts/TodoContext';
-import { useRoutine } from '../../contexts/RoutineContext';
-import { useAuth } from '../../contexts/AuthContext';
-import FootMap from '../../components/FootMap';
-import Colors from '../../constants/colors';
+import { useSensor } from '@/contexts/SensorContext';
+import { useHealth } from '@/contexts/HealthContext';
+import { useTodo } from '@/contexts/TodoContext';
+import { useRoutine } from '@/contexts/RoutineContext';
+import { useAuth } from '@/contexts/AuthContext';
+import FootMap from '@/components/FootMap';
+import RiskGauge from '@/components/RiskGauge';
+import Colors from '@/constants/colors';
 
 export default function DashboardScreen() {
   const router = useRouter();
-  const { footData, isDarkMode, calculateRiskScore } = useSensor();
+  const { footData, isDarkMode, calculateRiskScore, thresholds, history, activeAlertCount } = useSensor();
   const { healthIndex, updateHealthIndex, medicalRecord } = useHealth();
   const { todayTasks, toggleTask, completionRate } = useTodo();
-  const { completionProgress, recommendations } = useRoutine();
+  const { completionProgress, recommendations, refreshRecommendations } = useRoutine();
   const { user } = useAuth();
   const [refreshing, setRefreshing] = React.useState(false);
   const colors = isDarkMode ? Colors.dark : Colors.light;
@@ -42,9 +43,13 @@ export default function DashboardScreen() {
 
   const topTasks = todayTasks.slice(0, 3);
   const topRecommendation = recommendations[0];
+  const riskScore = calculateRiskScore();
 
   useEffect(() => {
-    const riskScore = calculateRiskScore();
+    refreshRecommendations(history, activeAlertCount, completionRate);
+  }, [history, activeAlertCount, completionRate, refreshRecommendations]);
+
+  useEffect(() => {
     const maxPressure = Math.max(
       ...Object.values(footData.left).map(r => r.pressure),
       ...Object.values(footData.right).map(r => r.pressure)
@@ -78,19 +83,6 @@ export default function DashboardScreen() {
     }
   };
 
-  const getHealthLevelText = (level: string) => {
-    switch (level) {
-      case 'green':
-        return 'Good Health';
-      case 'amber':
-        return 'Moderate Risk';
-      case 'red':
-        return 'High Risk';
-      default:
-        return 'Unknown';
-    }
-  };
-
   return (
     <View style={[styles.container, { backgroundColor: colors.background, paddingTop: Platform.OS === 'web' ? insets.top : 0 }]}>
       <ScrollView
@@ -120,17 +112,18 @@ export default function DashboardScreen() {
             <Text style={[styles.healthIndexTitle, { color: colors.text }]}>
               Personal Health Index
             </Text>
+            {activeAlertCount > 0 && (
+              <TouchableOpacity
+                style={[styles.alertBadge, { backgroundColor: colors.danger }]}
+                onPress={() => router.push('/(tabs)/alerts')}
+              >
+                <Text style={styles.alertBadgeText}>{activeAlertCount}</Text>
+              </TouchableOpacity>
+            )}
           </View>
           
           <View style={styles.healthIndexBody}>
-            <View style={styles.healthIndexScore}>
-              <Text style={[styles.healthIndexValue, { color: getHealthLevelColor(healthIndex.level) }]}>
-                {healthIndex.score.toFixed(0)}
-              </Text>
-              <Text style={[styles.healthIndexLevel, { color: getHealthLevelColor(healthIndex.level) }]}>
-                {getHealthLevelText(healthIndex.level)}
-              </Text>
-            </View>
+            <RiskGauge score={riskScore} isDarkMode={isDarkMode} />
             
             <View style={styles.healthIndexFactors}>
               <View style={styles.factorRow}>
@@ -367,11 +360,13 @@ export default function DashboardScreen() {
               footData={footData}
               isDarkMode={isDarkMode}
               foot="left"
+              pressureThreshold={thresholds.pressure}
             />
             <FootMap
               footData={footData}
               isDarkMode={isDarkMode}
               foot="right"
+              pressureThreshold={thresholds.pressure}
             />
           </View>
 
@@ -430,6 +425,20 @@ const styles = StyleSheet.create({
   healthIndexTitle: {
     fontSize: 16,
     fontWeight: '600' as const,
+    flex: 1,
+  },
+  alertBadge: {
+    minWidth: 24,
+    height: 24,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 8,
+  },
+  alertBadgeText: {
+    color: '#FFFFFF',
+    fontSize: 12,
+    fontWeight: '700' as const,
   },
   healthIndexBody: {
     flexDirection: 'row',

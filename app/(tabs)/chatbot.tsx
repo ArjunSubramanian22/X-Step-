@@ -11,12 +11,12 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Send, Bot, User } from 'lucide-react-native';
-import { useSensor } from '../../contexts/SensorContext';
-import { useHealth } from '../../contexts/HealthContext';
-import { useTodo } from '../../contexts/TodoContext';
-import { createRorkTool, useRorkAgent } from '@rork/toolkit-sdk';
+import { useSensor } from '@/contexts/SensorContext';
+import { useHealth } from '@/contexts/HealthContext';
+import { useTodo } from '@/contexts/TodoContext';
+import { createRorkTool, useRorkAgent } from '@rork-ai/toolkit-sdk';
 import { z } from 'zod';
-import Colors from '../../constants/colors';
+import Colors from '@/constants/colors';
 
 
 
