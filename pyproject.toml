@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xstep-ml"
+version = "0.2.0"
+description = "DFU risk prediction ML pipelines for X-Step"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.0.0",
+    "torchvision>=0.15.0",
+    "numpy>=1.24.0",
+    "scikit-learn>=1.3.0",
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    "Pillow>=10.0.0",
+    "tqdm>=4.65.0",
+    "kagglehub>=0.3.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["xstep_ml*"]
