@@ -1,7 +1,4 @@
-# Reproducibility
-
-## Environment
-Python 3.10+ is required. On macOS, `python3` may still be 3.7; do **not** pip-install this project with that interpreter.
+See `/REPRODUCIBILITY.md` for the current commands (`make paper-assets`, `research/results/manifest.json`).
 
 ```bash
 bash scripts/setup_env.sh

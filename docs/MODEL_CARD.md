@@ -1,7 +1,4 @@
-# Model card: X-Step gait random forest and zone GBM
-
-## Intended use
-Research prototype for **pattern communication** (overload location, gait class) from four-site insoles. Not a diagnostic device. Not for autonomous treatment decisions.
+See `/models/MODEL_CARD.md` for the current card (logistic-regression production gait head; synthetic data).
 
 ## Out of scope
 Wagner/University of Texas ulcer staging from pressure alone; shear; footwear-independent absolute kPa without calibration; pediatric gait; running.

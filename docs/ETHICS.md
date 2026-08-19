@@ -6,7 +6,7 @@ X-Step software in this repository is a **research prototype** for e-health and 
 - Four FSR sites match high-risk plantar anatomy described in DFU literature.
 - Features (PPP, PTI, asymmetry, cadence) are standard biomechanical quantities.
 - Subject-grouped in-silico experiments are reproducible from this repo.
-- The system can **display** pressure, gait class, and conservative offload prompts.
+- The system can **display** pressure, gait class, and conservative offload prompts as **risk monitoring / decision-support**, not as a diagnosis.
 
 ## Disallowed claims
 - “Prevents amputation” or “detects ulcers” as a validated clinical outcome of this software release.

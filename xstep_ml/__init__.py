@@ -1,3 +1,3 @@
-"""X-Step ML: DFU prevention pipelines and EHB experiment code."""
+"""X-Step ML: four-site plantar-pressure features, models, and EHB experiment code."""
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
