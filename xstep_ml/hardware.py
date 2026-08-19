@@ -45,7 +45,8 @@ APP_ZONE_TO_SITE = {
 
 SITE_TO_APP_ZONE = {v: k for k, v in APP_ZONE_TO_SITE.items()}
 
-# ADC (12-bit) to kilopascals. FSR402 + 10k divider, calibrated at assembly.
+# ADC (12-bit) to kilopascals. Engineering default, not a fitted bench curve.
+# See xstep_ml.calibration for the research ADC→R→force pipeline.
 ADC_FULL_SCALE = 4095.0
 KPA_FULL_SCALE = 250.0  # literature DFU risk often cited near 200 kPa peak
 DEFAULT_SAMPLE_HZ = 25

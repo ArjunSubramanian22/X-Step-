@@ -11,7 +11,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from xstep_ml.biomechanics import GaitWindow, extract_features
+from xstep_ml.biomechanics import FEATURE_NAMES, GaitWindow, extract_features
 from xstep_ml.hardware import SensorSite
 from xstep_ml.models.gait import GAIT_CLASSES
 
@@ -124,10 +124,77 @@ def synthesize_window(
     return frames, label, GAIT_TO_ZONE[label]
 
 
+@dataclass
+class CohortBundle:
+    """Grouped synthetic (or later real) pressure-window cohort.
+
+    `data_source` must remain `synthetic` until human traces are substituted
+    without changing the experiment runner.
+    """
+
+    X: np.ndarray
+    y_gait: np.ndarray
+    y_zone: np.ndarray
+    subject_id: np.ndarray
+    session_id: np.ndarray
+    windows: np.ndarray
+    sample_hz: float
+    window_seconds: float
+    feature_names: list[str]
+    data_source: str = "synthetic"
+    calibration_version: str = "linear_adc_engineering_v0"
+    firmware_version: str = "sim-0"
+
+
 def make_dataset(n_per_class: int = 400, seed: int = 67) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Backward-compatible IID set (no subject ids)."""
     x, y_gait, y_zone, _ = make_cohort(n_subjects=1, windows_per_class=n_per_class, seed=seed)
     return x, y_gait, y_zone
+
+
+def make_cohort_bundle(
+    n_subjects: int = 24,
+    windows_per_class: int = 12,
+    seed: int = 67,
+    hz: float = 25.0,
+    seconds: float = 4.0,
+    noise_std: float = 3.5,
+    label_noise: float = 0.03,
+) -> CohortBundle:
+    """Generate windows + features + subject/session ids (engineering simulation)."""
+    rng = np.random.default_rng(seed)
+    xs, ys_gait, ys_zone, sids, sess, wins = [], [], [], [], [], []
+    for sid in range(n_subjects):
+        subj = sample_subject(rng, sid)
+        for gait_i, gait in enumerate(GAIT_CLASSES):
+            session = f"s{sid}_g{gait_i}"
+            for _ in range(windows_per_class):
+                frames, g, z = synthesize_window(
+                    gait, rng, seconds=seconds, hz=hz, subject=subj, noise_std=noise_std
+                )
+                if rng.random() < label_noise:
+                    g = str(rng.choice(GAIT_CLASSES))
+                    z = GAIT_TO_ZONE[g]
+                feats = extract_features(GaitWindow(frames, sample_hz=hz))
+                xs.append(feats.vector)
+                ys_gait.append(g)
+                ys_zone.append(z)
+                sids.append(sid)
+                sess.append(session)
+                wins.append(frames)
+    names = list(feats.names) if xs else list(FEATURE_NAMES)
+    return CohortBundle(
+        X=np.vstack(xs),
+        y_gait=np.array(ys_gait),
+        y_zone=np.array(ys_zone),
+        subject_id=np.array(sids, dtype=np.int32),
+        session_id=np.array(sess, dtype=object),
+        windows=np.stack(wins, axis=0),
+        sample_hz=float(hz),
+        window_seconds=float(seconds),
+        feature_names=names,
+        data_source="synthetic",
+    )
 
 
 def make_cohort(
@@ -137,21 +204,16 @@ def make_cohort(
     hz: float = 25.0,
     noise_std: float = 3.5,
     label_noise: float = 0.03,
+    seconds: float = 4.0,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """Return X, y_gait, y_zone, subject_id."""
-    rng = np.random.default_rng(seed)
-    xs, ys_gait, ys_zone, sids = [], [], [], []
-    for sid in range(n_subjects):
-        subj = sample_subject(rng, sid)
-        for gait in GAIT_CLASSES:
-            for _ in range(windows_per_class):
-                frames, g, z = synthesize_window(gait, rng, hz=hz, subject=subj, noise_std=noise_std)
-                if rng.random() < label_noise:
-                    g = str(rng.choice(GAIT_CLASSES))
-                    z = GAIT_TO_ZONE[g]
-                feats = extract_features(GaitWindow(frames, sample_hz=hz))
-                xs.append(feats.vector)
-                ys_gait.append(g)
-                ys_zone.append(z)
-                sids.append(sid)
-    return np.vstack(xs), np.array(ys_gait), np.array(ys_zone), np.array(sids, dtype=np.int32)
+    bundle = make_cohort_bundle(
+        n_subjects=n_subjects,
+        windows_per_class=windows_per_class,
+        seed=seed,
+        hz=hz,
+        seconds=seconds,
+        noise_std=noise_std,
+        label_noise=label_noise,
+    )
+    return bundle.X, bundle.y_gait, bundle.y_zone, bundle.subject_id
