@@ -143,9 +143,9 @@ def baseline_models(random_state: int = 67) -> dict[str, Pipeline]:
                     "clf",
                     MLPClassifier(
                         hidden_layer_sizes=(64, 32),
-                        max_iter=250,
+                        max_iter=80,
                         random_state=random_state,
-                        early_stopping=True,
+                        early_stopping=False,
                     ),
                 ),
             ]
