@@ -26,6 +26,8 @@ Confusion matrix, per-class P/R/F1, macro-F1, AUROC if probabilities. Grad-CAM (
 
 Roboflow augmentations share a source id; grouping is required to avoid leakage.
 
-## Status in default `make experiments`
+## Status in the primary EHB paper
 
-Skipped if the archive is absent. Table 7 records that fact rather than inventing metrics.
+**Out of scope for the core four-site insole manuscript.** See `research/manuscript/SUPPLEMENTARY_ULCER.md`.
+
+The core paper must remain valid if this CNN never trains.

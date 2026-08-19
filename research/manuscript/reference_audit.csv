@@ -1,0 +1,14 @@
+Citation Key,Verified,DOI,Metadata Source,Notes
+armstrong2017,yes,10.1056/NEJMra1615439,NEJM / Europe PMC,Armstrong DG Boulton AJM Bus SA. Diabetic foot ulcers and their recurrence. N Engl J Med. 2017;376(24):2367-2375.
+bus2016,yes,10.1002/dmrr.2702,Wiley / PubMed 26342178,Bus SA van Deursen RW Armstrong DG Lewis JEA Caravaggi CF Cavanagh PR. Diabetes Metab Res Rev. 2016;32(Suppl 1):99-118.
+singh2005,yes,10.1001/jama.293.2.217,JAMA standard citation,Singh N Armstrong DG Lipsky BA. Preventing foot ulcers in patients with diabetes. JAMA. 2005;293(2):217-228. DOI confirmed from publisher record used in prior audits; title/year/volume/pages match.
+hegde2016,yes,10.3390/electronics5030048,MDPI Electronics,Hegde N Bries M Sazonov E. A comparative review of footwear-based wearable systems. Electronics. 2016;5(3):48.
+razak2012,yes,10.3390/s120709884,MDPI Sensors,Abdul Razak AH Zayegh A Begg RK Wahab Y. Foot plantar pressure measurement system: a review. Sensors. 2012;12(7):9884-9912.
+fernando2014,yes,10.1371/journal.pone.0099050,PLoS ONE,CORRECTED. Fernando ME et al. PLoS ONE. 2014;9(6):e99050. Manuscript previously listed 2015 and article e0127738 in error.
+iwgdf2023,yes,10.1002/dmrr.3657,Wiley / IWGDF PDF,Schaper NC van Netten JJ Apelqvist J Bus SA Fitridge R Game F Monteiro-Soares M Senneville E. Diabetes Metab Res Rev. 2024;e3657 (IWGDF 2023 update). Authors are NOT Hinchliffe/Lipsky (those are 2019).
+armstrong2007,yes,10.1016/j.amjmed.2007.06.028,Am J Med,Armstrong DG Holtz-Neiderer K Wendel C Mohler MJ Kimbriel HR Lavery LA. Am J Med. 2007;120(12):1042-1046.
+lavery2007,yes,10.2337/dc06-1600,Diabetes Care,Lavery LA Higgins KR Lanctot DR et al. Preventing diabetic foot ulcer recurrence in high-risk patients. Diabetes Care. 2007;30(1):14-20.
+frykberg2017,yes,10.2337/dc16-2294,Diabetes Care,Frykberg RG Gordon IL Reyzelman AM et al. Diabetes Care. 2017;40(7):973-980.
+cavanagh2010,yes,10.1016/j.jvs.2010.06.007,J Vasc Surg,Cavanagh PR Bus SA. Off-loading the diabetic foot for ulcer prevention and healing. J Vasc Surg. 2010;52(3 Suppl):37S-43S.
+goyal2018,removed_from_primary,10.1109/TETCI.2018.2866254,IEEE TETCI,DFUNet classification paper. Manuscript previously called this FCN segmentation (2018) which is a different Goyal work. Dropped from primary insole paper; optional supplementary only.
+hegde2014_smartstep,yes,10.3390/electronics3020381,MDPI Electronics,Hegde N Sazonov E. SmartStep: a fully integrated low-power insole monitor. Electronics. 2014;3(2):381-397. Used in related-systems table.
