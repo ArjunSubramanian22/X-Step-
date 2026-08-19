@@ -13,3 +13,10 @@ DEFAULT_LR = 1e-4
 DEFAULT_WEIGHT_DECAY = 1e-4
 DEFAULT_PATIENCE = 7
 DEFAULT_MAX_EPOCHS = 50
+
+ARTIFACT_DIR = ROOT / "artifacts"
+GAIT_MODEL_NAME = "gait_pattern_rf.joblib"
+ZONE_MODEL_NAME = "high_risk_zone_gbm.joblib"
+PRODUCTION_MANIFEST = "production_manifest.json"
+DEFAULT_API_HOST = "0.0.0.0"
+DEFAULT_API_PORT = 8080
