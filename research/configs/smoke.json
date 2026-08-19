@@ -1,0 +1,11 @@
+{
+  "seed": 67,
+  "n_subjects": 6,
+  "windows_per_class": 2,
+  "n_splits": 3,
+  "sample_hz": 25,
+  "window_seconds": 4.0,
+  "data_source": "synthetic_gait_v1",
+  "validation_type": "engineering_simulation",
+  "bootstrap_n": 20
+}
