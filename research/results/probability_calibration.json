@@ -1,0 +1,11 @@
+{
+  "data_source": "synthetic",
+  "ece_oof": 0.03089637574820297,
+  "brier_oof": 0.18011262508706796,
+  "auroc_oof": 0.9789929687208301,
+  "pr_auc_oof": 0.905970501505925,
+  "holdout_macro_f1_raw": 0.8108130940743112,
+  "holdout_macro_f1_platt": 0.8596766123149817,
+  "holdout_brier_platt": 1.13095927971606,
+  "note": "Platt fitted on inner training groups only. OOF ECE uses grouped CV probabilities."
+}

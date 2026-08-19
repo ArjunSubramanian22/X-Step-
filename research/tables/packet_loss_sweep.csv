@@ -1,0 +1,7 @@
+perturbation,severity,macro_f1,accuracy,data_source,validation_type
+dropped_packets_frac,0.0,0.8468313237746331,0.8487654320987654,synthetic,engineering_simulation
+dropped_packets_frac,0.01,0.8391780862408954,0.8410493827160493,synthetic,engineering_simulation
+dropped_packets_frac,0.05,0.8189109757893478,0.8209876543209876,synthetic,engineering_simulation
+dropped_packets_frac,0.1,0.777847869335272,0.7824074074074074,synthetic,engineering_simulation
+dropped_packets_frac,0.2,0.7141545528889707,0.720679012345679,synthetic,engineering_simulation
+dropped_packets_frac,0.3,0.63050789633004,0.6450617283950617,synthetic,engineering_simulation

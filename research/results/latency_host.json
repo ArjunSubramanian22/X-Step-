@@ -1,0 +1,14 @@
+{
+  "feature_mean_ms": 0.1565333644975908,
+  "feature_p95_ms": 0.21059851860627532,
+  "feature_p99_ms": 0.2758871135301888,
+  "logreg_mean_ms": 0.07454890903318301,
+  "logreg_p95_ms": 0.12109791277907782,
+  "logreg_p99_ms": 0.20549449604004466,
+  "host_path_mean_ms": 0.23108227353077382,
+  "host_path_p95_ms": 0.3130475728539749,
+  "host_path_p99_ms": 0.5210357491159803,
+  "n": 200,
+  "ble_radio_ms": null,
+  "note": "Host CPU only. FSR sample period is 40 ms by firmware spec. BLE airtime not measured."
+}

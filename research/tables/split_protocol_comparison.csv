@@ -1,0 +1,5 @@
+protocol,macro_f1,accuracy,balanced_accuracy,macro_f1_ci95_lo,macro_f1_ci95_hi,n_windows,note,data_source,validation_type
+iid_window,0.9313491287297375,0.9301697530864198,0.9300267170270179,0.9214393871548782,0.940965144094953,2592,random windows (subject leakage possible),synthetic,engineering_simulation
+session,0.8800112467831757,0.8784722222222222,0.8779838800439621,0.8682857681051737,0.8917693515103706,2592,GroupKFold by session_id,synthetic,engineering_simulation
+subject,0.8845971882742668,0.8850308641975309,0.8846129873997054,0.8717336581907223,0.896062001690834,2592,GroupKFold by subject_id,synthetic,engineering_simulation
+loso,0.8853910832306131,0.8854166666666666,0.8850013668445681,0.8725227684568206,0.8969797290055198,2592,leave-one-subject-out,synthetic,engineering_simulation

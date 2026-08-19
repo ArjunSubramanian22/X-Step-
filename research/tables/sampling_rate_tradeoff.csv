@@ -1,0 +1,5 @@
+keep_fraction,label,effective_hz,n_samples,macro_f1,accuracy,ble_bytes_per_s_two_feet,feature_extract_ms_est,note,data_source,validation_type
+1.0,100% (25 Hz),25.0,100,0.8468313237746331,0.8487654320987654,1400.0,0.22527087276102975,train at 25 Hz; test uses original samples only (no upsampling),synthetic,engineering_simulation
+0.75,75%,18.75,75,0.828558460108384,0.8317901234567902,1050.0,0.1586302532814443,train at 25 Hz; test uses original samples only (no upsampling),synthetic,engineering_simulation
+0.5,50% (12.5 Hz),12.5,50,0.8431943171262201,0.845679012345679,700.0,0.1780208694981411,train at 25 Hz; test uses original samples only (no upsampling),synthetic,engineering_simulation
+0.25,25% (6.25 Hz),6.25,25,0.7144873409969522,0.7299382716049383,350.0,0.1538228680146858,train at 25 Hz; test uses original samples only (no upsampling),synthetic,engineering_simulation
