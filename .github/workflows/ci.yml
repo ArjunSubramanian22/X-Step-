@@ -38,7 +38,10 @@ jobs:
           python research/experiments/run_final_eval.py
           python research/experiments/generate_figures.py
           python research/experiments/generate_tables.py
+          python research/experiments/build_registry.py
           python research/experiments/generate_results.py
+          python research/experiments/verify_references.py
+          python research/experiments/lint_manuscript.py
           python -c "from pathlib import Path; assert Path('research/results/manifest.json').exists()"
 
   mobile:
