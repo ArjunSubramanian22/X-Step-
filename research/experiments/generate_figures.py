@@ -181,7 +181,7 @@ def fig_from_results(data: dict) -> None:
         ax.set_xlabel("Dropped-packet fraction")
         ax.set_ylabel("Macro-F1")
         ax.set_title(f"Robustness to BLE packet loss (simulated)\n{CAPTION_SYN}")
-        savefig(fig, "fig09b_packet_loss")
+        savefig(fig, "fig10_packet_loss")
 
     lat = data.get("latency") or []
     measured = [r for r in lat if r.get("Mean Latency") not in ("", None)]
@@ -190,7 +190,7 @@ def fig_from_results(data: dict) -> None:
         ax.barh([r["Stage"][:40] for r in measured], [float(r["Mean Latency"]) for r in measured])
         ax.set_xlabel("Mean latency (ms)")
         ax.set_title(f"Host pipeline timing (radio not measured)\n{CAPTION_SYN}")
-        savefig(fig, "fig10_latency")
+        savefig(fig, "fig11_latency")
 
     # longitudinal simulated example
     rng = np.random.default_rng(3)
@@ -201,13 +201,31 @@ def fig_from_results(data: dict) -> None:
     ax.set_xlabel("Session day (simulated)")
     ax.set_ylabel("MET2 PTI (kPa·s)")
     ax.set_title(f"Longitudinal pressure-load example (simulated)\n{CAPTION_SYN}")
-    savefig(fig, "fig11_longitudinal")
+    savefig(fig, "figS_longitudinal")
 
     fig, ax = plt.subplots(figsize=(5.5, 3.2))
-    ax.text(0.5, 0.5, "Ulcer CNN confusion matrix not generated\n(public image archive not in this checkout)", ha="center", va="center")
+    ax.text(
+        0.5,
+        0.5,
+        "Ulcer photograph CNN omitted from the primary\nfour-site insole paper (unpaired public images).",
+        ha="center",
+        va="center",
+    )
     ax.axis("off")
-    ax.set_title("Fig. 12 placeholder")
-    savefig(fig, "fig12_ulcer_placeholder")
+    ax.set_title("Supplementary: image model not in core paper")
+    savefig(fig, "figS_ulcer_omitted")
+
+
+def _alias_calibration() -> None:
+    from shutil import copyfile
+
+    src = FIG / "fig_calibration_measured_vs_pred.png"
+    if src.exists():
+        for ext in (".png", ".pdf", ".svg"):
+            s = FIG / f"fig_calibration_measured_vs_pred{ext}"
+            d = FIG / f"fig05_calibration{ext}"
+            if s.exists():
+                copyfile(s, d)
 
 
 def main() -> None:
@@ -219,6 +237,7 @@ def main() -> None:
     if RES.exists():
         data = json.loads(RES.read_text())
         fig_from_results(data)
+    _alias_calibration()
     print(f"Wrote figures under {FIG}")
 
 
