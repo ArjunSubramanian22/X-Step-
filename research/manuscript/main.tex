@@ -7,7 +7,7 @@
 \institute{Anonymous institution}
 \maketitle
 \begin{abstract}
-Continuous plantar-pressure monitoring is relevant to diabetic-foot mechanics, yet dense arrays are costly. We specify X-Step, a four-site FSR insole (MET1, MET2, MET5, HEEL) sampled at 25\,Hz with a 28-byte BLE payload, a 59-D biomechanical feature set, grouped ML baselines, sensor ablation, perturbation robustness, and host latency. All quantitative ML tables in this checkout use a synthetic 24-subject cohort, not patients. Results characterize sparse sensing and deployability on that simulator; they do not establish ulcer prediction, diagnosis, or prevention.
+Repetitive plantar loading is relevant to diabetic-foot mechanics, yet dense arrays are costly. Sparse insoles need evidence that four sites still carry usable information under grouped evaluation and wearable-like faults. We specify X-Step: four FSRs at MET1, MET2, MET5, and HEEL, sampled at 25\,Hz with a 28-byte BLE payload, a 59-D feature set, and a priori classical models. All ML tables use a synthetic 24-subject, 2592-window cohort. Logistic regression achieved macro-F1 0.885 [95\% CI 0.873--0.894]. Within evaluated layouts, dropping MET5 or HEEL reduced macro-F1 to 0.671 and 0.657. Simulated 30\% packet loss reduced held-out-subject macro-F1 from 0.847 to 0.631. Host feature-plus-inference latency was 0.23\,ms (P95 0.31\,ms). Results do not establish ulcer prediction, diagnostic replacement of a clinician, or reduction of limb-loss outcomes.
 \keywords{plantar pressure \and sparse sensing \and wearable insole \and robustness}
 \end{abstract}
 
