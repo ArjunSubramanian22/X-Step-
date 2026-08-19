@@ -1,35 +1,63 @@
-% X-Step EHB 2026 skeleton. Paste into the official Springer/IFMBE template before submission.
-% Metrics: include results_fragment.md / CSV tables — do not hard-code.
+% X-Step EHB 2026 — IFMBE/Springer LNCS-style source.
+% Copy into the official template before camera-ready. Metrics come from generated_results.md / CSV.
 \documentclass[runningheads]{llncs}
 \begin{document}
-\title{X-Step: A Low-Cost Four-Site Smart Insole and Machine-Learning Framework for Continuous Plantar-Pressure Risk Monitoring in Diabetic Foot Care}
+\title{X-Step: Sparse Four-Site Plantar-Pressure Sensing for Continuous Risk Monitoring}
+\author{Anonymous for review}
+\institute{Anonymous institution}
 \maketitle
 \begin{abstract}
-We present a four-site FSR insole and leakage-safe ML framework for continuous plantar-pressure \emph{risk monitoring} in diabetic foot care. Current quantitative tables are engineering/simulation validation on a synthetic cohort, not prospective clinical outcomes.
+Continuous plantar-pressure monitoring is relevant to diabetic-foot mechanics, yet dense arrays are costly. We specify X-Step, a four-site FSR insole (MET1, MET2, MET5, HEEL) sampled at 25\,Hz with a 28-byte BLE payload, a 59-D biomechanical feature set, grouped ML baselines, sensor ablation, perturbation robustness, and host latency. All quantitative ML tables in this checkout use a synthetic 24-subject cohort, not patients. Results characterize sparse sensing and deployability on that simulator; they do not establish ulcer prediction, diagnosis, or prevention.
+\keywords{plantar pressure \and sparse sensing \and wearable insole \and robustness}
 \end{abstract}
+
 \section{Introduction}
-DFU mechanics and the limits of episodic screening motivate low-cost continuous monitoring~\cite{armstrong2017,bus2016}.
-\section{Related Work}
-Smart insoles, DFU guidance, gait wearables, and DFU photography~\cite{iwgdf2023,hegde2016,goyal2018}.
-\section{System Architecture}
-Four FSR sites (MET1, MET2, MET5, HEEL), ESP32, 28-byte BLE payload, host ML, mobile record.
+Peak plantar pressure and related quantities are established mechanical markers of diabetic foot risk~\cite{armstrong2017,bus2016,fernando2014}. Dense systems map the foot at high spatial resolution~\cite{razak2012} at greater hardware complexity. Sparse wearables need evidence that reduced sensing still preserves usable information, and that models are tested under grouped splits and sensor imperfections~\cite{hegde2016}. Temperature home monitoring is a different modality with RCT evidence~\cite{armstrong2007,lavery2007,frykberg2017}.
+
+\paragraph{Research gaps.}
+(1) Sparse FSR layouts lack published ablation against a documented four-site contract.
+(2) IID window splits overstate generalization.
+(3) Wearable failure modes and host latency are rarely reported as operating curves.
+
+X-Step addresses these engineering questions. The mobile app is infrastructure. An LLM must not set biomechanical risk.
+
+\paragraph{Contributions.}
+(1) Four-site insole targeting MET1/MET2/MET5/HEEL.
+(2) End-to-end ADC--BLE--feature--risk pipeline.
+(3) Grouped baselines and sensor ablation.
+(4) Robustness under noise, drift, missing channels, and packet loss.
+(5) Host-side real-time characterization (radio/battery unmeasured).
+
+\section{Related work}
+IWGDF 2023 practical guidelines stratify clinical risk using neuropathy, PAD, and history, not a four-FSR classifier~\cite{iwgdf2023}. Offloading remains central~\cite{bus2016,cavanagh2010}. SmartStep-class insoles target activity monitoring~\cite{hegde2014}. We do not claim higher accuracy than dense arrays or temperature RCTs. DFU photographs are supplementary only.
+
 \section{Methods}
-Features, grouped splits, baselines, SAP: see the repository files \texttt{research/METHODS\_FEATURES.md} and \texttt{research/STATISTICAL\_ANALYSIS\_PLAN.md}.
-\section{Experiments}
-Baselines, ablation, robustness, latency; synthetic data labeled as such.
+Firmware samples four FSR402-class channels at 25\,Hz (ESP32, 10\,k$\Omega$ dividers, 12-bit ADC) and notifies a version-1 28-byte \texttt{XS} frame. Pressure uses a linear ADC$\to$kPa engineering map until a bench curve exists. Features: 59-D PPP/PTI/loading/symmetry/cadence set. Models: a priori sklearn baselines; production gait head is logistic regression. Splits: GroupKFold by subject (primary), session, LOSO, and IID as an optimistic control. Thresholds are engineering risk-alert operating points. Human recordings: importer \texttt{python -m research.import\_real\_data} (none in this checkout).
+
 \section{Results}
-\input{results_fragment} % generated; not present in TeX include path by default---copy tables from CSV
+Do not hard-code metrics. Include \texttt{research/manuscript/generated\_results.md} and CSV tables. All ML rows are \texttt{data\_source=synthetic} unless a future human hash is recorded.
+
 \section{Discussion}
-Sparse sensing, robustness, and deployment feasibility. No ulcer-prevention claim.
+Ablation on the simulator shows that removing heel or fifth-metatarsal channels loses substantial overload-pattern information; four sites are a cost/information tradeoff for these labels, not a clinical optimum. Subject-grouped evaluation is required. Host logreg latency is small versus the 40\,ms sample period; BLE airtime is unmeasured. Biomechanical monitoring is not prospective DFU-prevention evidence.
+
 \section{Limitations}
-Synthetic labels, no outcome trial, unpaired images, unmeasured BLE airtime.
+No human FSR sessions; simulated calibration; unmeasured battery and radio; sparse FSR physics; no ulcer outcomes; image CNN excluded from the core paper.
+
 \section{Conclusion}
-Methods contribution proportional to engineering evidence.
-\begin{thebibliography}{12}
-\bibitem{armstrong2017} Armstrong DG, Boulton AJM, Bus SA (2017) Diabetic foot ulcers and their recurrence. N Engl J Med 376:2367--2375
-\bibitem{bus2016} Bus SA et al. (2016) Footwear and offloading interventions. Diabetes Metab Res Rev 32(S1):99--118
-\bibitem{iwgdf2023} Schaper NC et al. (2023) IWGDF 2023 update. Diabetes Metab Res Rev 40:e3657
-\bibitem{hegde2016} Hegde N, Bries M, Sazonov E (2016) Footwear-based wearable systems. Electronics 5(3):48
-\bibitem{goyal2018} Goyal M et al. DFU image analysis literature; optional CNN on public photos only.
+Claims remain proportional to engineering/simulation evidence. Physical calibration, field radio/power, and human walking data are required before patient-facing performance statements.
+
+\begin{thebibliography}{13}
+\bibitem{armstrong2017} Armstrong DG, Boulton AJM, Bus SA (2017) Diabetic foot ulcers and their recurrence. N Engl J Med 376(24):2367--2375. https://doi.org/10.1056/NEJMra1615439
+\bibitem{bus2016} Bus SA, van Deursen RW, Armstrong DG, Lewis JEA, Caravaggi CF, Cavanagh PR (2016) Footwear and offloading interventions to prevent and heal foot ulcers and reduce plantar pressure in patients with diabetes: a systematic review. Diabetes Metab Res Rev 32(Suppl 1):99--118. https://doi.org/10.1002/dmrr.2702
+\bibitem{singh2005} Singh N, Armstrong DG, Lipsky BA (2005) Preventing foot ulcers in patients with diabetes. JAMA 293(2):217--228. https://doi.org/10.1001/jama.293.2.217
+\bibitem{hegde2016} Hegde N, Bries M, Sazonov E (2016) A comparative review of footwear-based wearable systems. Electronics 5(3):48. https://doi.org/10.3390/electronics5030048
+\bibitem{razak2012} Abdul Razak AH, Zayegh A, Begg RK, Wahab Y (2012) Foot plantar pressure measurement system: a review. Sensors 12(7):9884--9912. https://doi.org/10.3390/s120709884
+\bibitem{fernando2014} Fernando ME et al (2014) Plantar pressure in diabetic peripheral neuropathy patients with active foot ulceration, previous ulceration and no history of ulceration: a meta-analysis of observational studies. PLoS ONE 9(6):e99050. https://doi.org/10.1371/journal.pone.0099050
+\bibitem{iwgdf2023} Schaper NC, van Netten JJ, Apelqvist J, Bus SA, Fitridge R, Game F, Monteiro-Soares M, Senneville E (2024) Practical guidelines on the prevention and management of diabetes-related foot disease (IWGDF 2023 update). Diabetes Metab Res Rev 40:e3657. https://doi.org/10.1002/dmrr.3657
+\bibitem{armstrong2007} Armstrong DG, Holtz-Neiderer K, Wendel C, Mohler MJ, Kimbriel HR, Lavery LA (2007) Skin temperature monitoring reduces the risk for diabetic foot ulceration in high-risk patients. Am J Med 120(12):1042--1046. https://doi.org/10.1016/j.amjmed.2007.06.028
+\bibitem{frykberg2017} Frykberg RG, Gordon IL, Reyzelman AM et al (2017) Feasibility and efficacy of a smart mat technology to predict development of diabetic plantar ulcers. Diabetes Care 40(7):973--980. https://doi.org/10.2337/dc16-2294
+\bibitem{lavery2007} Lavery LA, Higgins KR, Lanctot DR et al (2007) Preventing diabetic foot ulcer recurrence in high-risk patients: use of temperature monitoring as a self-assessment tool. Diabetes Care 30(1):14--20. https://doi.org/10.2337/dc06-1600
+\bibitem{cavanagh2010} Cavanagh PR, Bus SA (2010) Off-loading the diabetic foot for ulcer prevention and healing. J Vasc Surg 52(3 Suppl):37S--43S. https://doi.org/10.1016/j.jvs.2010.06.007
+\bibitem{hegde2014} Hegde N, Sazonov E (2014) SmartStep: a fully integrated, low-power insole monitor. Electronics 3(2):381--397. https://doi.org/10.3390/electronics3020381
 \end{thebibliography}
 \end{document}

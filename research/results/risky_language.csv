@@ -1,0 +1,5 @@
+file,line,text
+research/manuscript/main.md,17,"**What the results establish.** On this simulator, four-site logistic regression recovers overload-pattern labels with high grouped macro-F1; dropping heel or fifth-metatarsal channels loses substantial information; host feature+logreg late"
+research/manuscript/main.md,37,"We do not ask, in this study, whether the device prevents ulcers or amputations."
+research/manuscript/main.tex,10,"Continuous plantar-pressure monitoring is relevant to diabetic-foot mechanics, yet dense arrays are costly. We specify X-Step, a four-site FSR insole (MET1, MET2, MET5, HEEL) sampled at 25\,Hz with a 28-byte BLE payload, a 59-D biomechanica"
+papers/ehb2026/manuscript_blind.md,19,We ask whether a low-cost four-site insole can preserve enough plantar information for continuous **pressure-risk monitoring** while remaining computationally practical. We do not ask whether the device prevents ulcers.
