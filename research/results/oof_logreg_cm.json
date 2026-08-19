@@ -1,0 +1,179 @@
+{
+  "per_class": {
+    "normal": {
+      "precision": 0.7025089605734767,
+      "recall": 0.6877192982456141,
+      "f1": 0.6950354609929078,
+      "specificity": 0.9640225400953619,
+      "support": 285
+    },
+    "left_forefoot_overload": {
+      "precision": 0.928082191780822,
+      "recall": 0.9312714776632303,
+      "f1": 0.9296740994854202,
+      "specificity": 0.9908735332464146,
+      "support": 291
+    },
+    "right_forefoot_overload": {
+      "precision": 0.9508771929824561,
+      "recall": 0.9344827586206896,
+      "f1": 0.9426086956521739,
+      "specificity": 0.9939183318853171,
+      "support": 290
+    },
+    "left_heel_overload": {
+      "precision": 0.9044368600682594,
+      "recall": 0.9201388888888888,
+      "f1": 0.9122203098106713,
+      "specificity": 0.9878472222222222,
+      "support": 288
+    },
+    "right_heel_overload": {
+      "precision": 0.8979591836734694,
+      "recall": 0.9263157894736842,
+      "f1": 0.9119170984455959,
+      "specificity": 0.9869960988296489,
+      "support": 285
+    },
+    "left_lateral_overload": {
+      "precision": 0.9571428571428572,
+      "recall": 0.9337979094076655,
+      "f1": 0.9453262786596119,
+      "specificity": 0.9947939262472885,
+      "support": 287
+    },
+    "right_lateral_overload": {
+      "precision": 0.9010238907849829,
+      "recall": 0.9041095890410958,
+      "f1": 0.9025641025641026,
+      "specificity": 0.9873913043478261,
+      "support": 292
+    },
+    "asymmetric_antalgic": {
+      "precision": 0.9508771929824561,
+      "recall": 0.9377162629757786,
+      "f1": 0.9442508710801394,
+      "specificity": 0.993920972644377,
+      "support": 289
+    },
+    "shuffling_low_cadence": {
+      "precision": 0.7697594501718213,
+      "recall": 0.7859649122807018,
+      "f1": 0.7777777777777778,
+      "specificity": 0.9709579540528825,
+      "support": 285
+    }
+  },
+  "confusion_matrix": [
+    [
+      196,
+      6,
+      2,
+      14,
+      16,
+      5,
+      4,
+      3,
+      39
+    ],
+    [
+      10,
+      271,
+      0,
+      0,
+      5,
+      2,
+      1,
+      0,
+      2
+    ],
+    [
+      6,
+      0,
+      271,
+      0,
+      0,
+      2,
+      3,
+      7,
+      1
+    ],
+    [
+      12,
+      1,
+      0,
+      265,
+      1,
+      1,
+      5,
+      0,
+      3
+    ],
+    [
+      6,
+      8,
+      0,
+      1,
+      264,
+      1,
+      2,
+      0,
+      3
+    ],
+    [
+      7,
+      1,
+      1,
+      3,
+      3,
+      268,
+      1,
+      0,
+      3
+    ],
+    [
+      9,
+      1,
+      6,
+      2,
+      2,
+      1,
+      264,
+      0,
+      7
+    ],
+    [
+      2,
+      0,
+      5,
+      0,
+      0,
+      0,
+      2,
+      271,
+      9
+    ],
+    [
+      31,
+      4,
+      0,
+      8,
+      3,
+      0,
+      11,
+      4,
+      224
+    ]
+  ],
+  "labels": [
+    "normal",
+    "left_forefoot_overload",
+    "right_forefoot_overload",
+    "left_heel_overload",
+    "right_heel_overload",
+    "left_lateral_overload",
+    "right_lateral_overload",
+    "asymmetric_antalgic",
+    "shuffling_low_cadence"
+  ]
+}

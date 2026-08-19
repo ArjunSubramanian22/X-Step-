@@ -1,0 +1,2 @@
+backbone,data_source,macro_f1,note
+not_run_in_default_pipeline,public_roboflow_kaggle,,"Ulcer CNN uses public photographs, not insole pressure. Do not treat image accuracy as plantar-pressure generalization. Images are gitignored; run scripts/train_ulcer.py when the archive is local."

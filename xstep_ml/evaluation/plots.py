@@ -7,7 +7,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-from sklearn.metrics import ConfusionMatrixDisplay, roc_curve, auc
+from sklearn.metrics import ConfusionMatrixDisplay, auc, roc_curve
 from sklearn.preprocessing import label_binarize
 
 plt.rcParams.update({"figure.dpi": 300, "savefig.dpi": 300, "savefig.bbox": "tight"})
@@ -78,7 +78,7 @@ def _plot_roc_curves(y_true, y_prob, labels, path):
 
 
 def _plot_summary_metrics(y_true, y_pred, y_prob, path):
-    from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+    from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
     metrics = {
         "Accuracy": accuracy_score(y_true, y_pred),

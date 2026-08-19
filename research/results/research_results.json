@@ -1,0 +1,2687 @@
+{
+  "validation_type": "engineering_simulation",
+  "data_source": "synthetic",
+  "config": {
+    "name": "full",
+    "n_subjects": 24,
+    "windows_per_class": 12,
+    "n_splits": 5,
+    "n_boot": 80,
+    "seed": 67,
+    "hz": 25.0,
+    "seconds": 4.0,
+    "noise_std": 3.5,
+    "label_noise": 0.03,
+    "models": [
+      "threshold_heuristic",
+      "majority",
+      "logreg",
+      "decision_tree",
+      "linear_svm",
+      "random_forest",
+      "gbm",
+      "mlp",
+      "hist_gbm"
+    ],
+    "latency_repeats": 40
+  },
+  "n_windows": 2592,
+  "n_subjects": 24,
+  "dataset_hash": "26180f5e5330adeac3088c43353bb05e83d90a120e2703ac673ec65e2781cd92",
+  "calibration_simulated_residuals": {
+    "mae_n": 1.3028493271009973,
+    "rmse_n": 2.019784450405351,
+    "max_abs_n": 5.244752783394162,
+    "mape_pct": 4.663059738959343,
+    "n": 50.0
+  },
+  "baselines": [
+    {
+      "model": "threshold_heuristic",
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "split": "GroupKFold-subject",
+      "accuracy": 0.49691358024691357,
+      "balanced_accuracy": 0.49535218601292363,
+      "precision_macro": 0.6123139387181337,
+      "recall_macro": 0.49535218601292363,
+      "specificity_macro": 0.937116565266085,
+      "macro_f1": 0.47971451202685866,
+      "weighted_f1": 0.48086920481331463,
+      "macro_f1_ci95_lo": 0.4598301677964287,
+      "macro_f1_ci95_hi": 0.4928722170094093,
+      "auroc_macro": null,
+      "pr_auc_macro": null,
+      "brier": null,
+      "ece": null,
+      "fold_macro_f1_mean": 0.4749842666309584,
+      "fold_macro_f1_std": 0.03703560490547116,
+      "n_windows": 2592,
+      "n_subjects": 24
+    },
+    {
+      "model": "majority",
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "split": "GroupKFold-subject",
+      "accuracy": 0.11072530864197531,
+      "balanced_accuracy": 0.1094282038004676,
+      "precision_macro": 0.024588477366255145,
+      "recall_macro": 0.1094282038004676,
+      "specificity_macro": 0.8886755600904458,
+      "macro_f1": 0.03998060677404628,
+      "weighted_f1": 0.04046399634605799,
+      "macro_f1_ci95_lo": 0.03638163505766875,
+      "macro_f1_ci95_hi": 0.043299723005938005,
+      "auroc_macro": null,
+      "pr_auc_macro": null,
+      "brier": null,
+      "ece": null,
+      "fold_macro_f1_mean": 0.0221554442589501,
+      "fold_macro_f1_std": 0.00013355592654424182,
+      "n_windows": 2592,
+      "n_subjects": 24
+    },
+    {
+      "model": "logreg",
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "split": "GroupKFold-subject",
+      "accuracy": 0.8850308641975309,
+      "balanced_accuracy": 0.8846129873997054,
+      "precision_macro": 0.8847408644622891,
+      "recall_macro": 0.8846129873997054,
+      "specificity_macro": 0.9856357648412598,
+      "macro_f1": 0.8845971882742668,
+      "weighted_f1": 0.8850328478733365,
+      "macro_f1_ci95_lo": 0.8729493692909518,
+      "macro_f1_ci95_hi": 0.8944384560951245,
+      "auroc_macro": null,
+      "pr_auc_macro": null,
+      "brier": null,
+      "ece": null,
+      "fold_macro_f1_mean": 0.8852705676125632,
+      "fold_macro_f1_std": 0.01475559343574575,
+      "n_windows": 2592,
+      "n_subjects": 24
+    },
+    {
+      "model": "decision_tree",
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "split": "GroupKFold-subject",
+      "accuracy": 0.7854938271604939,
+      "balanced_accuracy": 0.7855784053740946,
+      "precision_macro": 0.8222086507516178,
+      "recall_macro": 0.7855784053740946,
+      "specificity_macro": 0.9732012322020888,
+      "macro_f1": 0.7957848540920687,
+      "weighted_f1": 0.7960161610727922,
+      "macro_f1_ci95_lo": 0.7822201793608493,
+      "macro_f1_ci95_hi": 0.8116035618760957,
+      "auroc_macro": null,
+      "pr_auc_macro": null,
+      "brier": null,
+      "ece": null,
+      "fold_macro_f1_mean": 0.7963349141594097,
+      "fold_macro_f1_std": 0.043155664528529016,
+      "n_windows": 2592,
+      "n_subjects": 24
+    },
+    {
+      "model": "linear_svm",
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "split": "GroupKFold-subject",
+      "accuracy": 0.8738425925925926,
+      "balanced_accuracy": 0.8733552105382727,
+      "precision_macro": 0.8725388730735235,
+      "recall_macro": 0.8733552105382727,
+      "specificity_macro": 0.9842382777049399,
+      "macro_f1": 0.8727209306460951,
+      "weighted_f1": 0.8732314100379334,
+      "macro_f1_ci95_lo": 0.8588449433437413,
+      "macro_f1_ci95_hi": 0.884084500133141,
+      "auroc_macro": null,
+      "pr_auc_macro": null,
+      "brier": null,
+      "ece": null,
+      "fold_macro_f1_mean": 0.8739551981464733,
+      "fold_macro_f1_std": 0.012725189676779197,
+      "n_windows": 2592,
+      "n_subjects": 24
+    },
+    {
+      "model": "random_forest",
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "split": "GroupKFold-subject",
+      "accuracy": 0.8344907407407407,
+      "balanced_accuracy": 0.8341878628609275,
+      "precision_macro": 0.8429364811055066,
+      "recall_macro": 0.8341878628609275,
+      "specificity_macro": 0.9793212320872132,
+      "macro_f1": 0.8369588576750404,
+      "weighted_f1": 0.8373889420286821,
+      "macro_f1_ci95_lo": 0.8240827188025925,
+      "macro_f1_ci95_hi": 0.8506721156166585,
+      "auroc_macro": null,
+      "pr_auc_macro": null,
+      "brier": null,
+      "ece": null,
+      "fold_macro_f1_mean": 0.8412475483596802,
+      "fold_macro_f1_std": 0.028477115225793506,
+      "n_windows": 2592,
+      "n_subjects": 24
+    },
+    {
+      "model": "gbm",
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "split": "GroupKFold-subject",
+      "accuracy": 0.8695987654320988,
+      "balanced_accuracy": 0.8692023660113727,
+      "precision_macro": 0.871730404174689,
+      "recall_macro": 0.8692023660113727,
+      "specificity_macro": 0.983707817504519,
+      "macro_f1": 0.8701427304370215,
+      "weighted_f1": 0.870587453911354,
+      "macro_f1_ci95_lo": 0.8600894214697965,
+      "macro_f1_ci95_hi": 0.8810305902595795,
+      "auroc_macro": null,
+      "pr_auc_macro": null,
+      "brier": null,
+      "ece": null,
+      "fold_macro_f1_mean": 0.8707045758307954,
+      "fold_macro_f1_std": 0.021711729048152953,
+      "n_windows": 2592,
+      "n_subjects": 24
+    },
+    {
+      "model": "mlp",
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "split": "GroupKFold-subject",
+      "accuracy": 0.8777006172839507,
+      "balanced_accuracy": 0.8771148449904188,
+      "precision_macro": 0.8756636593614292,
+      "recall_macro": 0.8771148449904188,
+      "specificity_macro": 0.9847172643284084,
+      "macro_f1": 0.8759779016212503,
+      "weighted_f1": 0.8764545658027932,
+      "macro_f1_ci95_lo": 0.8637796477441485,
+      "macro_f1_ci95_hi": 0.8869177044745952,
+      "auroc_macro": null,
+      "pr_auc_macro": null,
+      "brier": null,
+      "ece": null,
+      "fold_macro_f1_mean": 0.8755882956327621,
+      "fold_macro_f1_std": 0.015217873375370125,
+      "n_windows": 2592,
+      "n_subjects": 24
+    },
+    {
+      "model": "hist_gbm",
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "split": "GroupKFold-subject",
+      "accuracy": 0.8854166666666666,
+      "balanced_accuracy": 0.8850250893084906,
+      "precision_macro": 0.8863116900834758,
+      "recall_macro": 0.8850250893084906,
+      "specificity_macro": 0.9856848278323209,
+      "macro_f1": 0.8854802508199078,
+      "weighted_f1": 0.8859210673802059,
+      "macro_f1_ci95_lo": 0.8746407541368676,
+      "macro_f1_ci95_hi": 0.8980149366535635,
+      "auroc_macro": null,
+      "pr_auc_macro": null,
+      "brier": null,
+      "ece": null,
+      "fold_macro_f1_mean": 0.8853848387487989,
+      "fold_macro_f1_std": 0.025462370003090366,
+      "n_windows": 2592,
+      "n_subjects": 24
+    }
+  ],
+  "per_model": {
+    "threshold_heuristic": {
+      "per_class": {
+        "normal": {
+          "precision": 0.17011834319526628,
+          "recall": 0.40350877192982454,
+          "f1": 0.2393340270551509,
+          "specificity": 0.7568270481144344,
+          "support": 285
+        },
+        "left_forefoot_overload": {
+          "precision": 0.5071942446043165,
+          "recall": 0.9690721649484536,
+          "f1": 0.6658795749704841,
+          "specificity": 0.8809213385484572,
+          "support": 291
+        },
+        "right_forefoot_overload": {
+          "precision": 0.49645390070921985,
+          "recall": 0.9655172413793104,
+          "f1": 0.6557377049180327,
+          "specificity": 0.8766290182450044,
+          "support": 290
+        },
+        "left_heel_overload": {
+          "precision": 0.9851851851851852,
+          "recall": 0.4618055555555556,
+          "f1": 0.6288416075650118,
+          "specificity": 0.9991319444444444,
+          "support": 288
+        },
+        "right_heel_overload": {
+          "precision": 0.9696969696969697,
+          "recall": 0.44912280701754387,
+          "f1": 0.6139088729016786,
+          "specificity": 0.9982661465106198,
+          "support": 285
+        },
+        "left_lateral_overload": {
+          "precision": 0.9680851063829787,
+          "recall": 0.3170731707317073,
+          "f1": 0.4776902887139108,
+          "specificity": 0.9986984815618222,
+          "support": 287
+        },
+        "right_lateral_overload": {
+          "precision": 0.9586776859504132,
+          "recall": 0.3972602739726027,
+          "f1": 0.5617433414043583,
+          "specificity": 0.9978260869565218,
+          "support": 292
+        },
+        "asymmetric_antalgic": {
+          "precision": 0.4554140127388535,
+          "recall": 0.49480968858131485,
+          "f1": 0.47429519071310117,
+          "specificity": 0.9257490230134607,
+          "support": 289
+        },
+        "shuffling_low_cadence": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "specificity": 1.0,
+          "support": 285
+        }
+      },
+      "confusion_matrix": [
+        [
+          115,
+          99,
+          67,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0
+        ],
+        [
+          4,
+          282,
+          0,
+          0,
+          0,
+          1,
+          0,
+          4,
+          0
+        ],
+        [
+          3,
+          1,
+          280,
+          0,
+          0,
+          1,
+          1,
+          4,
+          0
+        ],
+        [
+          56,
+          38,
+          23,
+          133,
+          0,
+          0,
+          0,
+          38,
+          0
+        ],
+        [
+          62,
+          37,
+          32,
+          0,
+          128,
+          0,
+          0,
+          26,
+          0
+        ],
+        [
+          59,
+          44,
+          32,
+          0,
+          2,
+          91,
+          1,
+          58,
+          0
+        ],
+        [
+          60,
+          47,
+          28,
+          1,
+          1,
+          0,
+          116,
+          39,
+          0
+        ],
+        [
+          49,
+          2,
+          95,
+          0,
+          0,
+          0,
+          0,
+          143,
+          0
+        ],
+        [
+          268,
+          6,
+          7,
+          0,
+          0,
+          0,
+          3,
+          1,
+          0
+        ]
+      ],
+      "labels": [
+        "normal",
+        "left_forefoot_overload",
+        "right_forefoot_overload",
+        "left_heel_overload",
+        "right_heel_overload",
+        "left_lateral_overload",
+        "right_lateral_overload",
+        "asymmetric_antalgic",
+        "shuffling_low_cadence"
+      ]
+    },
+    "majority": {
+      "per_class": {
+        "normal": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "specificity": 1.0,
+          "support": 285
+        },
+        "left_forefoot_overload": {
+          "precision": 0.1111111111111111,
+          "recall": 0.5773195876288659,
+          "f1": 0.18635607321131448,
+          "specificity": 0.41590612777053454,
+          "support": 291
+        },
+        "right_forefoot_overload": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "specificity": 1.0,
+          "support": 290
+        },
+        "left_heel_overload": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "specificity": 1.0,
+          "support": 288
+        },
+        "right_heel_overload": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "specificity": 1.0,
+          "support": 285
+        },
+        "left_lateral_overload": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "specificity": 1.0,
+          "support": 287
+        },
+        "right_lateral_overload": {
+          "precision": 0.11018518518518519,
+          "recall": 0.4075342465753425,
+          "f1": 0.17346938775510204,
+          "specificity": 0.5821739130434782,
+          "support": 292
+        },
+        "asymmetric_antalgic": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "specificity": 1.0,
+          "support": 289
+        },
+        "shuffling_low_cadence": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "specificity": 1.0,
+          "support": 285
+        }
+      },
+      "confusion_matrix": [
+        [
+          0,
+          170,
+          0,
+          0,
+          0,
+          0,
+          115,
+          0,
+          0
+        ],
+        [
+          0,
+          168,
+          0,
+          0,
+          0,
+          0,
+          123,
+          0,
+          0
+        ],
+        [
+          0,
+          169,
+          0,
+          0,
+          0,
+          0,
+          121,
+          0,
+          0
+        ],
+        [
+          0,
+          169,
+          0,
+          0,
+          0,
+          0,
+          119,
+          0,
+          0
+        ],
+        [
+          0,
+          165,
+          0,
+          0,
+          0,
+          0,
+          120,
+          0,
+          0
+        ],
+        [
+          0,
+          167,
+          0,
+          0,
+          0,
+          0,
+          120,
+          0,
+          0
+        ],
+        [
+          0,
+          173,
+          0,
+          0,
+          0,
+          0,
+          119,
+          0,
+          0
+        ],
+        [
+          0,
+          167,
+          0,
+          0,
+          0,
+          0,
+          122,
+          0,
+          0
+        ],
+        [
+          0,
+          164,
+          0,
+          0,
+          0,
+          0,
+          121,
+          0,
+          0
+        ]
+      ],
+      "labels": [
+        "normal",
+        "left_forefoot_overload",
+        "right_forefoot_overload",
+        "left_heel_overload",
+        "right_heel_overload",
+        "left_lateral_overload",
+        "right_lateral_overload",
+        "asymmetric_antalgic",
+        "shuffling_low_cadence"
+      ]
+    },
+    "logreg": {
+      "per_class": {
+        "normal": {
+          "precision": 0.7025089605734767,
+          "recall": 0.6877192982456141,
+          "f1": 0.6950354609929078,
+          "specificity": 0.9640225400953619,
+          "support": 285
+        },
+        "left_forefoot_overload": {
+          "precision": 0.928082191780822,
+          "recall": 0.9312714776632303,
+          "f1": 0.9296740994854202,
+          "specificity": 0.9908735332464146,
+          "support": 291
+        },
+        "right_forefoot_overload": {
+          "precision": 0.9508771929824561,
+          "recall": 0.9344827586206896,
+          "f1": 0.9426086956521739,
+          "specificity": 0.9939183318853171,
+          "support": 290
+        },
+        "left_heel_overload": {
+          "precision": 0.9044368600682594,
+          "recall": 0.9201388888888888,
+          "f1": 0.9122203098106713,
+          "specificity": 0.9878472222222222,
+          "support": 288
+        },
+        "right_heel_overload": {
+          "precision": 0.8979591836734694,
+          "recall": 0.9263157894736842,
+          "f1": 0.9119170984455959,
+          "specificity": 0.9869960988296489,
+          "support": 285
+        },
+        "left_lateral_overload": {
+          "precision": 0.9571428571428572,
+          "recall": 0.9337979094076655,
+          "f1": 0.9453262786596119,
+          "specificity": 0.9947939262472885,
+          "support": 287
+        },
+        "right_lateral_overload": {
+          "precision": 0.9010238907849829,
+          "recall": 0.9041095890410958,
+          "f1": 0.9025641025641026,
+          "specificity": 0.9873913043478261,
+          "support": 292
+        },
+        "asymmetric_antalgic": {
+          "precision": 0.9508771929824561,
+          "recall": 0.9377162629757786,
+          "f1": 0.9442508710801394,
+          "specificity": 0.993920972644377,
+          "support": 289
+        },
+        "shuffling_low_cadence": {
+          "precision": 0.7697594501718213,
+          "recall": 0.7859649122807018,
+          "f1": 0.7777777777777778,
+          "specificity": 0.9709579540528825,
+          "support": 285
+        }
+      },
+      "confusion_matrix": [
+        [
+          196,
+          6,
+          2,
+          14,
+          16,
+          5,
+          4,
+          3,
+          39
+        ],
+        [
+          10,
+          271,
+          0,
+          0,
+          5,
+          2,
+          1,
+          0,
+          2
+        ],
+        [
+          6,
+          0,
+          271,
+          0,
+          0,
+          2,
+          3,
+          7,
+          1
+        ],
+        [
+          12,
+          1,
+          0,
+          265,
+          1,
+          1,
+          5,
+          0,
+          3
+        ],
+        [
+          6,
+          8,
+          0,
+          1,
+          264,
+          1,
+          2,
+          0,
+          3
+        ],
+        [
+          7,
+          1,
+          1,
+          3,
+          3,
+          268,
+          1,
+          0,
+          3
+        ],
+        [
+          9,
+          1,
+          6,
+          2,
+          2,
+          1,
+          264,
+          0,
+          7
+        ],
+        [
+          2,
+          0,
+          5,
+          0,
+          0,
+          0,
+          2,
+          271,
+          9
+        ],
+        [
+          31,
+          4,
+          0,
+          8,
+          3,
+          0,
+          11,
+          4,
+          224
+        ]
+      ],
+      "labels": [
+        "normal",
+        "left_forefoot_overload",
+        "right_forefoot_overload",
+        "left_heel_overload",
+        "right_heel_overload",
+        "left_lateral_overload",
+        "right_lateral_overload",
+        "asymmetric_antalgic",
+        "shuffling_low_cadence"
+      ]
+    },
+    "decision_tree": {
+      "per_class": {
+        "normal": {
+          "precision": 0.4435146443514644,
+          "recall": 0.743859649122807,
+          "f1": 0.5557011795543906,
+          "specificity": 0.8846987429562202,
+          "support": 285
+        },
+        "left_forefoot_overload": {
+          "precision": 0.8932806324110671,
+          "recall": 0.7766323024054983,
+          "f1": 0.8308823529411765,
+          "specificity": 0.9882659713168188,
+          "support": 291
+        },
+        "right_forefoot_overload": {
+          "precision": 0.9301310043668122,
+          "recall": 0.7344827586206897,
+          "f1": 0.8208092485549133,
+          "specificity": 0.9930495221546481,
+          "support": 290
+        },
+        "left_heel_overload": {
+          "precision": 0.970954356846473,
+          "recall": 0.8125,
+          "f1": 0.8846880907372401,
+          "specificity": 0.9969618055555556,
+          "support": 288
+        },
+        "right_heel_overload": {
+          "precision": 0.900398406374502,
+          "recall": 0.7929824561403509,
+          "f1": 0.8432835820895522,
+          "specificity": 0.9891634156913741,
+          "support": 285
+        },
+        "left_lateral_overload": {
+          "precision": 0.9467680608365019,
+          "recall": 0.867595818815331,
+          "f1": 0.9054545454545454,
+          "specificity": 0.9939262472885032,
+          "support": 287
+        },
+        "right_lateral_overload": {
+          "precision": 0.7857142857142857,
+          "recall": 0.8287671232876712,
+          "f1": 0.8066666666666666,
+          "specificity": 0.971304347826087,
+          "support": 292
+        },
+        "asymmetric_antalgic": {
+          "precision": 0.7791164658634538,
+          "recall": 0.671280276816609,
+          "f1": 0.7211895910780669,
+          "specificity": 0.9761181068171949,
+          "support": 289
+        },
+        "shuffling_low_cadence": {
+          "precision": 0.75,
+          "recall": 0.8421052631578947,
+          "f1": 0.7933884297520661,
+          "specificity": 0.965322930212397,
+          "support": 285
+        }
+      },
+      "confusion_matrix": [
+        [
+          212,
+          4,
+          2,
+          2,
+          7,
+          2,
+          10,
+          14,
+          32
+        ],
+        [
+          29,
+          226,
+          7,
+          0,
+          2,
+          5,
+          9,
+          6,
+          7
+        ],
+        [
+          31,
+          7,
+          213,
+          0,
+          5,
+          3,
+          9,
+          21,
+          1
+        ],
+        [
+          34,
+          6,
+          1,
+          234,
+          1,
+          2,
+          8,
+          1,
+          1
+        ],
+        [
+          33,
+          6,
+          1,
+          1,
+          226,
+          1,
+          9,
+          6,
+          2
+        ],
+        [
+          18,
+          0,
+          0,
+          2,
+          2,
+          249,
+          11,
+          3,
+          2
+        ],
+        [
+          34,
+          4,
+          1,
+          1,
+          2,
+          1,
+          242,
+          0,
+          7
+        ],
+        [
+          51,
+          0,
+          4,
+          0,
+          5,
+          0,
+          7,
+          194,
+          28
+        ],
+        [
+          36,
+          0,
+          0,
+          1,
+          1,
+          0,
+          3,
+          4,
+          240
+        ]
+      ],
+      "labels": [
+        "normal",
+        "left_forefoot_overload",
+        "right_forefoot_overload",
+        "left_heel_overload",
+        "right_heel_overload",
+        "left_lateral_overload",
+        "right_lateral_overload",
+        "asymmetric_antalgic",
+        "shuffling_low_cadence"
+      ]
+    },
+    "linear_svm": {
+      "per_class": {
+        "normal": {
+          "precision": 0.6715328467153284,
+          "recall": 0.6456140350877193,
+          "f1": 0.6583184257602862,
+          "specificity": 0.9609882964889467,
+          "support": 285
+        },
+        "left_forefoot_overload": {
+          "precision": 0.9368421052631579,
+          "recall": 0.9175257731958762,
+          "f1": 0.9270833333333334,
+          "specificity": 0.9921773142112125,
+          "support": 291
+        },
+        "right_forefoot_overload": {
+          "precision": 0.9175257731958762,
+          "recall": 0.9206896551724137,
+          "f1": 0.919104991394148,
+          "specificity": 0.9895742832319722,
+          "support": 290
+        },
+        "left_heel_overload": {
+          "precision": 0.8786885245901639,
+          "recall": 0.9305555555555556,
+          "f1": 0.9038785834738617,
+          "specificity": 0.9839409722222222,
+          "support": 288
+        },
+        "right_heel_overload": {
+          "precision": 0.8959731543624161,
+          "recall": 0.9368421052631579,
+          "f1": 0.9159519725557461,
+          "specificity": 0.9865626354573038,
+          "support": 285
+        },
+        "left_lateral_overload": {
+          "precision": 0.9642857142857143,
+          "recall": 0.9407665505226481,
+          "f1": 0.9523809523809523,
+          "specificity": 0.9956616052060737,
+          "support": 287
+        },
+        "right_lateral_overload": {
+          "precision": 0.9330985915492958,
+          "recall": 0.9075342465753424,
+          "f1": 0.9201388888888888,
+          "specificity": 0.9917391304347826,
+          "support": 292
+        },
+        "asymmetric_antalgic": {
+          "precision": 0.9084745762711864,
+          "recall": 0.9273356401384083,
+          "f1": 0.9178082191780822,
+          "specificity": 0.9882761615284411,
+          "support": 289
+        },
+        "shuffling_low_cadence": {
+          "precision": 0.7464285714285714,
+          "recall": 0.7333333333333333,
+          "f1": 0.7398230088495575,
+          "specificity": 0.9692241005635024,
+          "support": 285
+        }
+      },
+      "confusion_matrix": [
+        [
+          184,
+          9,
+          6,
+          19,
+          15,
+          3,
+          1,
+          6,
+          42
+        ],
+        [
+          9,
+          267,
+          1,
+          2,
+          8,
+          2,
+          1,
+          0,
+          1
+        ],
+        [
+          7,
+          0,
+          267,
+          0,
+          0,
+          2,
+          4,
+          9,
+          1
+        ],
+        [
+          12,
+          1,
+          0,
+          268,
+          2,
+          1,
+          1,
+          0,
+          3
+        ],
+        [
+          8,
+          4,
+          0,
+          1,
+          267,
+          1,
+          1,
+          0,
+          3
+        ],
+        [
+          7,
+          1,
+          1,
+          2,
+          3,
+          270,
+          1,
+          0,
+          2
+        ],
+        [
+          7,
+          1,
+          6,
+          1,
+          2,
+          1,
+          265,
+          0,
+          9
+        ],
+        [
+          4,
+          0,
+          6,
+          0,
+          0,
+          0,
+          1,
+          268,
+          10
+        ],
+        [
+          36,
+          2,
+          4,
+          12,
+          1,
+          0,
+          9,
+          12,
+          209
+        ]
+      ],
+      "labels": [
+        "normal",
+        "left_forefoot_overload",
+        "right_forefoot_overload",
+        "left_heel_overload",
+        "right_heel_overload",
+        "left_lateral_overload",
+        "right_lateral_overload",
+        "asymmetric_antalgic",
+        "shuffling_low_cadence"
+      ]
+    },
+    "random_forest": {
+      "per_class": {
+        "normal": {
+          "precision": 0.5692307692307692,
+          "recall": 0.6491228070175439,
+          "f1": 0.6065573770491803,
+          "specificity": 0.9393151278716948,
+          "support": 285
+        },
+        "left_forefoot_overload": {
+          "precision": 0.9397163120567376,
+          "recall": 0.9106529209621993,
+          "f1": 0.924956369982548,
+          "specificity": 0.9926119078661452,
+          "support": 291
+        },
+        "right_forefoot_overload": {
+          "precision": 0.9482071713147411,
+          "recall": 0.8206896551724138,
+          "f1": 0.8798521256931608,
+          "specificity": 0.9943527367506516,
+          "support": 290
+        },
+        "left_heel_overload": {
+          "precision": 0.9692307692307692,
+          "recall": 0.875,
+          "f1": 0.9197080291970803,
+          "specificity": 0.9965277777777778,
+          "support": 288
+        },
+        "right_heel_overload": {
+          "precision": 0.8654545454545455,
+          "recall": 0.8350877192982457,
+          "f1": 0.85,
+          "specificity": 0.9839618552232337,
+          "support": 285
+        },
+        "left_lateral_overload": {
+          "precision": 0.8762541806020067,
+          "recall": 0.9128919860627178,
+          "f1": 0.89419795221843,
+          "specificity": 0.9839479392624729,
+          "support": 287
+        },
+        "right_lateral_overload": {
+          "precision": 0.8187702265372169,
+          "recall": 0.8664383561643836,
+          "f1": 0.8419301164725458,
+          "specificity": 0.9756521739130435,
+          "support": 292
+        },
+        "asymmetric_antalgic": {
+          "precision": 0.8566176470588235,
+          "recall": 0.8062283737024222,
+          "f1": 0.8306595365418895,
+          "specificity": 0.9830655666521928,
+          "support": 289
+        },
+        "shuffling_low_cadence": {
+          "precision": 0.7429467084639498,
+          "recall": 0.8315789473684211,
+          "f1": 0.7847682119205298,
+          "specificity": 0.964456003467707,
+          "support": 285
+        }
+      },
+      "confusion_matrix": [
+        [
+          185,
+          5,
+          5,
+          2,
+          16,
+          14,
+          12,
+          6,
+          40
+        ],
+        [
+          17,
+          265,
+          0,
+          0,
+          4,
+          2,
+          2,
+          0,
+          1
+        ],
+        [
+          14,
+          2,
+          238,
+          0,
+          2,
+          5,
+          9,
+          18,
+          2
+        ],
+        [
+          22,
+          3,
+          0,
+          252,
+          1,
+          3,
+          6,
+          0,
+          1
+        ],
+        [
+          21,
+          6,
+          0,
+          1,
+          238,
+          2,
+          8,
+          6,
+          3
+        ],
+        [
+          14,
+          0,
+          0,
+          2,
+          2,
+          262,
+          5,
+          0,
+          2
+        ],
+        [
+          20,
+          1,
+          1,
+          2,
+          2,
+          3,
+          253,
+          0,
+          10
+        ],
+        [
+          6,
+          0,
+          7,
+          0,
+          9,
+          4,
+          7,
+          233,
+          23
+        ],
+        [
+          26,
+          0,
+          0,
+          1,
+          1,
+          4,
+          7,
+          9,
+          237
+        ]
+      ],
+      "labels": [
+        "normal",
+        "left_forefoot_overload",
+        "right_forefoot_overload",
+        "left_heel_overload",
+        "right_heel_overload",
+        "left_lateral_overload",
+        "right_lateral_overload",
+        "asymmetric_antalgic",
+        "shuffling_low_cadence"
+      ]
+    },
+    "gbm": {
+      "per_class": {
+        "normal": {
+          "precision": 0.6484641638225256,
+          "recall": 0.6666666666666666,
+          "f1": 0.657439446366782,
+          "specificity": 0.9553532726484613,
+          "support": 285
+        },
+        "left_forefoot_overload": {
+          "precision": 0.9543859649122807,
+          "recall": 0.9347079037800687,
+          "f1": 0.9444444444444444,
+          "specificity": 0.9943502824858758,
+          "support": 291
+        },
+        "right_forefoot_overload": {
+          "precision": 0.9434628975265018,
+          "recall": 0.9206896551724137,
+          "f1": 0.9319371727748691,
+          "specificity": 0.9930495221546481,
+          "support": 290
+        },
+        "left_heel_overload": {
+          "precision": 0.9309090909090909,
+          "recall": 0.8888888888888888,
+          "f1": 0.9094138543516874,
+          "specificity": 0.9917534722222222,
+          "support": 288
+        },
+        "right_heel_overload": {
+          "precision": 0.9087719298245615,
+          "recall": 0.9087719298245615,
+          "f1": 0.9087719298245615,
+          "specificity": 0.988729952319029,
+          "support": 285
+        },
+        "left_lateral_overload": {
+          "precision": 0.9428571428571428,
+          "recall": 0.9198606271777003,
+          "f1": 0.9312169312169312,
+          "specificity": 0.993058568329718,
+          "support": 287
+        },
+        "right_lateral_overload": {
+          "precision": 0.8841059602649006,
+          "recall": 0.9143835616438356,
+          "f1": 0.898989898989899,
+          "specificity": 0.9847826086956522,
+          "support": 292
+        },
+        "asymmetric_antalgic": {
+          "precision": 0.8745519713261649,
+          "recall": 0.8442906574394463,
+          "f1": 0.8591549295774648,
+          "specificity": 0.9848024316109423,
+          "support": 289
+        },
+        "shuffling_low_cadence": {
+          "precision": 0.7580645161290323,
+          "recall": 0.8245614035087719,
+          "f1": 0.7899159663865546,
+          "specificity": 0.9674902470741222,
+          "support": 285
+        }
+      },
+      "confusion_matrix": [
+        [
+          190,
+          5,
+          7,
+          11,
+          9,
+          7,
+          8,
+          14,
+          34
+        ],
+        [
+          10,
+          272,
+          2,
+          0,
+          3,
+          2,
+          1,
+          0,
+          1
+        ],
+        [
+          9,
+          1,
+          267,
+          0,
+          0,
+          2,
+          1,
+          8,
+          2
+        ],
+        [
+          24,
+          2,
+          0,
+          256,
+          2,
+          2,
+          0,
+          0,
+          2
+        ],
+        [
+          11,
+          3,
+          0,
+          1,
+          259,
+          2,
+          2,
+          4,
+          3
+        ],
+        [
+          7,
+          1,
+          0,
+          2,
+          3,
+          264,
+          6,
+          0,
+          4
+        ],
+        [
+          8,
+          1,
+          1,
+          1,
+          2,
+          1,
+          267,
+          0,
+          11
+        ],
+        [
+          8,
+          0,
+          6,
+          0,
+          6,
+          0,
+          7,
+          244,
+          18
+        ],
+        [
+          26,
+          0,
+          0,
+          4,
+          1,
+          0,
+          10,
+          9,
+          235
+        ]
+      ],
+      "labels": [
+        "normal",
+        "left_forefoot_overload",
+        "right_forefoot_overload",
+        "left_heel_overload",
+        "right_heel_overload",
+        "left_lateral_overload",
+        "right_lateral_overload",
+        "asymmetric_antalgic",
+        "shuffling_low_cadence"
+      ]
+    },
+    "mlp": {
+      "per_class": {
+        "normal": {
+          "precision": 0.6828358208955224,
+          "recall": 0.6421052631578947,
+          "f1": 0.6618444846292948,
+          "specificity": 0.9631556133506719,
+          "support": 285
+        },
+        "left_forefoot_overload": {
+          "precision": 0.952054794520548,
+          "recall": 0.9553264604810997,
+          "f1": 0.9536878216123499,
+          "specificity": 0.9939156888309431,
+          "support": 291
+        },
+        "right_forefoot_overload": {
+          "precision": 0.9140893470790378,
+          "recall": 0.9172413793103448,
+          "f1": 0.9156626506024096,
+          "specificity": 0.9891398783666377,
+          "support": 290
+        },
+        "left_heel_overload": {
+          "precision": 0.9637681159420289,
+          "recall": 0.9236111111111112,
+          "f1": 0.9432624113475178,
+          "specificity": 0.9956597222222222,
+          "support": 288
+        },
+        "right_heel_overload": {
+          "precision": 0.9366197183098591,
+          "recall": 0.9333333333333333,
+          "f1": 0.9349736379613357,
+          "specificity": 0.9921976592977894,
+          "support": 285
+        },
+        "left_lateral_overload": {
+          "precision": 0.9090909090909091,
+          "recall": 0.9407665505226481,
+          "f1": 0.9246575342465754,
+          "specificity": 0.9882863340563991,
+          "support": 287
+        },
+        "right_lateral_overload": {
+          "precision": 0.8634920634920635,
+          "recall": 0.9315068493150684,
+          "f1": 0.8962108731466227,
+          "specificity": 0.981304347826087,
+          "support": 292
+        },
+        "asymmetric_antalgic": {
+          "precision": 0.8903654485049833,
+          "recall": 0.9273356401384083,
+          "f1": 0.9084745762711864,
+          "specificity": 0.985670864090317,
+          "support": 289
+        },
+        "shuffling_low_cadence": {
+          "precision": 0.7686567164179104,
+          "recall": 0.7228070175438597,
+          "f1": 0.7450271247739603,
+          "specificity": 0.9731252709146078,
+          "support": 285
+        }
+      },
+      "confusion_matrix": [
+        [
+          183,
+          8,
+          7,
+          5,
+          7,
+          15,
+          11,
+          7,
+          42
+        ],
+        [
+          5,
+          278,
+          0,
+          0,
+          4,
+          1,
+          2,
+          0,
+          1
+        ],
+        [
+          3,
+          0,
+          266,
+          0,
+          0,
+          2,
+          4,
+          15,
+          0
+        ],
+        [
+          13,
+          1,
+          0,
+          266,
+          1,
+          2,
+          3,
+          0,
+          2
+        ],
+        [
+          12,
+          3,
+          0,
+          1,
+          266,
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          7,
+          0,
+          0,
+          2,
+          3,
+          270,
+          2,
+          0,
+          3
+        ],
+        [
+          4,
+          1,
+          3,
+          1,
+          2,
+          1,
+          272,
+          1,
+          7
+        ],
+        [
+          0,
+          1,
+          12,
+          0,
+          0,
+          0,
+          2,
+          268,
+          6
+        ],
+        [
+          41,
+          0,
+          3,
+          1,
+          1,
+          5,
+          18,
+          10,
+          206
+        ]
+      ],
+      "labels": [
+        "normal",
+        "left_forefoot_overload",
+        "right_forefoot_overload",
+        "left_heel_overload",
+        "right_heel_overload",
+        "left_lateral_overload",
+        "right_lateral_overload",
+        "asymmetric_antalgic",
+        "shuffling_low_cadence"
+      ]
+    },
+    "hist_gbm": {
+      "per_class": {
+        "normal": {
+          "precision": 0.6816608996539792,
+          "recall": 0.6912280701754386,
+          "f1": 0.686411149825784,
+          "specificity": 0.9601213697442567,
+          "support": 285
+        },
+        "left_forefoot_overload": {
+          "precision": 0.9647887323943662,
+          "recall": 0.9415807560137457,
+          "f1": 0.9530434782608695,
+          "specificity": 0.9956540634506736,
+          "support": 291
+        },
+        "right_forefoot_overload": {
+          "precision": 0.960431654676259,
+          "recall": 0.9206896551724137,
+          "f1": 0.9401408450704225,
+          "specificity": 0.9952215464813206,
+          "support": 290
+        },
+        "left_heel_overload": {
+          "precision": 0.9134948096885813,
+          "recall": 0.9166666666666666,
+          "f1": 0.9150779896013865,
+          "specificity": 0.9891493055555556,
+          "support": 288
+        },
+        "right_heel_overload": {
+          "precision": 0.906896551724138,
+          "recall": 0.9228070175438596,
+          "f1": 0.9147826086956522,
+          "specificity": 0.988296488946684,
+          "support": 285
+        },
+        "left_lateral_overload": {
+          "precision": 0.9513888888888888,
+          "recall": 0.9547038327526133,
+          "f1": 0.9530434782608695,
+          "specificity": 0.9939262472885032,
+          "support": 287
+        },
+        "right_lateral_overload": {
+          "precision": 0.9003322259136213,
+          "recall": 0.928082191780822,
+          "f1": 0.9139966273187183,
+          "specificity": 0.9869565217391304,
+          "support": 292
+        },
+        "asymmetric_antalgic": {
+          "precision": 0.9166666666666666,
+          "recall": 0.8754325259515571,
+          "f1": 0.8955752212389381,
+          "specificity": 0.9900130264871906,
+          "support": 289
+        },
+        "shuffling_low_cadence": {
+          "precision": 0.7811447811447811,
+          "recall": 0.8140350877192982,
+          "f1": 0.7972508591065293,
+          "specificity": 0.9718248807975726,
+          "support": 285
+        }
+      },
+      "confusion_matrix": [
+        [
+          197,
+          4,
+          4,
+          18,
+          7,
+          8,
+          13,
+          3,
+          31
+        ],
+        [
+          10,
+          274,
+          0,
+          0,
+          4,
+          1,
+          1,
+          0,
+          1
+        ],
+        [
+          9,
+          0,
+          267,
+          0,
+          0,
+          2,
+          1,
+          10,
+          1
+        ],
+        [
+          16,
+          1,
+          0,
+          264,
+          5,
+          1,
+          0,
+          0,
+          1
+        ],
+        [
+          12,
+          3,
+          0,
+          1,
+          263,
+          1,
+          1,
+          2,
+          2
+        ],
+        [
+          4,
+          1,
+          0,
+          2,
+          3,
+          274,
+          1,
+          0,
+          2
+        ],
+        [
+          4,
+          1,
+          1,
+          2,
+          2,
+          1,
+          271,
+          0,
+          10
+        ],
+        [
+          6,
+          0,
+          5,
+          0,
+          5,
+          0,
+          3,
+          253,
+          17
+        ],
+        [
+          31,
+          0,
+          1,
+          2,
+          1,
+          0,
+          10,
+          8,
+          232
+        ]
+      ],
+      "labels": [
+        "normal",
+        "left_forefoot_overload",
+        "right_forefoot_overload",
+        "left_heel_overload",
+        "right_heel_overload",
+        "left_lateral_overload",
+        "right_lateral_overload",
+        "asymmetric_antalgic",
+        "shuffling_low_cadence"
+      ]
+    }
+  },
+  "sensor_ablation": [
+    {
+      "subset": "4_all",
+      "label": "4-site (met1+met2+met5+heel)",
+      "n_sites": 4,
+      "macro_f1": 0.8845729024622578,
+      "macro_f1_ci95_lo": 0.8729493692909518,
+      "macro_f1_ci95_hi": 0.8944384560951245,
+      "fold_macro_f1_mean": 0.8852705676125632,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "subset": "3_no_met1",
+      "label": "3-site (met2+met5+heel)",
+      "n_sites": 3,
+      "macro_f1": 0.8829127034899618,
+      "macro_f1_ci95_lo": 0.8732048140156919,
+      "macro_f1_ci95_hi": 0.8935868114761069,
+      "fold_macro_f1_mean": 0.8848375138752598,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "subset": "3_no_met2",
+      "label": "3-site (met1+met5+heel)",
+      "n_sites": 3,
+      "macro_f1": 0.8736789243547213,
+      "macro_f1_ci95_lo": 0.8638372415380101,
+      "macro_f1_ci95_hi": 0.8845200297311488,
+      "fold_macro_f1_mean": 0.8762732997235141,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "subset": "3_no_met5",
+      "label": "3-site (met1+met2+heel)",
+      "n_sites": 3,
+      "macro_f1": 0.6712263023881707,
+      "macro_f1_ci95_lo": 0.6518235044690921,
+      "macro_f1_ci95_hi": 0.6876927115327843,
+      "fold_macro_f1_mean": 0.6698131019408551,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "subset": "3_no_heel",
+      "label": "3-site (met1+met2+met5)",
+      "n_sites": 3,
+      "macro_f1": 0.656600395618381,
+      "macro_f1_ci95_lo": 0.6418423963946578,
+      "macro_f1_ci95_hi": 0.670650788682025,
+      "fold_macro_f1_mean": 0.6527035754321917,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "subset": "2_met2_heel",
+      "label": "2-site (met2+heel)",
+      "n_sites": 2,
+      "macro_f1": 0.6860149058469218,
+      "macro_f1_ci95_lo": 0.6714302492631767,
+      "macro_f1_ci95_hi": 0.6999751920660807,
+      "fold_macro_f1_mean": 0.682917072083036,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "subset": "2_met1_heel",
+      "label": "2-site (met1+heel)",
+      "n_sites": 2,
+      "macro_f1": 0.6638396516688048,
+      "macro_f1_ci95_lo": 0.6484555809782551,
+      "macro_f1_ci95_hi": 0.6775921001712866,
+      "fold_macro_f1_mean": 0.6647941935617431,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "subset": "2_met1_met2",
+      "label": "2-site (met1+met2)",
+      "n_sites": 2,
+      "macro_f1": 0.43505059617871816,
+      "macro_f1_ci95_lo": 0.4202235110318594,
+      "macro_f1_ci95_hi": 0.4473234814810056,
+      "fold_macro_f1_mean": 0.42914611167009953,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "subset": "1_met2",
+      "label": "1-site (met2)",
+      "n_sites": 1,
+      "macro_f1": 0.3955332990198343,
+      "macro_f1_ci95_lo": 0.3819614114582228,
+      "macro_f1_ci95_hi": 0.407336876337717,
+      "fold_macro_f1_mean": 0.3953869937659694,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "subset": "1_heel",
+      "label": "1-site (heel)",
+      "n_sites": 1,
+      "macro_f1": 0.42091694970667665,
+      "macro_f1_ci95_lo": 0.4101225906031086,
+      "macro_f1_ci95_hi": 0.4381271586227681,
+      "fold_macro_f1_mean": 0.41326686894914266,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "subset": "1_met1",
+      "label": "1-site (met1)",
+      "n_sites": 1,
+      "macro_f1": 0.39427538012774566,
+      "macro_f1_ci95_lo": 0.38040052303771305,
+      "macro_f1_ci95_hi": 0.41011683269799754,
+      "fold_macro_f1_mean": 0.3936329486507634,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "subset": "1_met5",
+      "label": "1-site (met5)",
+      "n_sites": 1,
+      "macro_f1": 0.3983056470732471,
+      "macro_f1_ci95_lo": 0.3868510862550798,
+      "macro_f1_ci95_hi": 0.4112417862834951,
+      "fold_macro_f1_mean": 0.3982937297452751,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    }
+  ],
+  "feature_ablation": [
+    {
+      "feature_set": "peak_only",
+      "n_features": 9,
+      "macro_f1": 0.8862785082701926,
+      "macro_f1_ci95_lo": 0.875718612421268,
+      "macro_f1_ci95_hi": 0.897595819790795,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "feature_set": "raw_pressure",
+      "n_features": 19,
+      "macro_f1": 0.8845156756414665,
+      "macro_f1_ci95_lo": 0.8750419760570657,
+      "macro_f1_ci95_hi": 0.8954028608574583,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "feature_set": "temporal",
+      "n_features": 26,
+      "macro_f1": 0.8641623878730845,
+      "macro_f1_ci95_lo": 0.8533758607756782,
+      "macro_f1_ci95_hi": 0.8739210411834023,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "feature_set": "pti",
+      "n_features": 17,
+      "macro_f1": 0.7284652476906137,
+      "macro_f1_ci95_lo": 0.7175263552844424,
+      "macro_f1_ci95_hi": 0.7470521488433215,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "feature_set": "symmetry",
+      "n_features": 4,
+      "macro_f1": 0.4393619929900735,
+      "macro_f1_ci95_lo": 0.4250366969366509,
+      "macro_f1_ci95_hi": 0.4565674396267403,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "feature_set": "no_asymmetry",
+      "n_features": 55,
+      "macro_f1": 0.8876516679116087,
+      "macro_f1_ci95_lo": 0.87776675566295,
+      "macro_f1_ci95_hi": 0.8962168283846909,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "feature_set": "no_temporal",
+      "n_features": 57,
+      "macro_f1": 0.8701824406568399,
+      "macro_f1_ci95_lo": 0.8567669077183027,
+      "macro_f1_ci95_hi": 0.8795424791214643,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "feature_set": "full",
+      "n_features": 59,
+      "macro_f1": 0.8845729024622578,
+      "macro_f1_ci95_lo": 0.8729493692909518,
+      "macro_f1_ci95_hi": 0.8944384560951245,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    }
+  ],
+  "robustness": [
+    {
+      "perturbation": "none",
+      "severity": 0.0,
+      "macro_f1": 0.8468313237746331,
+      "accuracy": 0.8487654320987654,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "gaussian_noise_kpa",
+      "severity": 1.5,
+      "macro_f1": 0.8812803368076231,
+      "accuracy": 0.8827160493827161,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "gaussian_noise_kpa",
+      "severity": 3.5,
+      "macro_f1": 0.8804789576471382,
+      "accuracy": 0.8827160493827161,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "gaussian_noise_kpa",
+      "severity": 7.0,
+      "macro_f1": 0.827634511150332,
+      "accuracy": 0.8317901234567902,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "gaussian_noise_kpa",
+      "severity": 12.0,
+      "macro_f1": 0.6411388665764197,
+      "accuracy": 0.6697530864197531,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "calibration_drift_gain",
+      "severity": 0.05,
+      "macro_f1": 0.8405829895026402,
+      "accuracy": 0.8425925925925926,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "calibration_drift_gain",
+      "severity": 0.15,
+      "macro_f1": 0.8408222718152664,
+      "accuracy": 0.8425925925925926,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "calibration_drift_gain",
+      "severity": 0.3,
+      "macro_f1": 0.8234112369619422,
+      "accuracy": 0.8271604938271605,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "dropped_packets_frac",
+      "severity": 0.02,
+      "macro_f1": 0.8403580213198611,
+      "accuracy": 0.8425925925925926,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "dropped_packets_frac",
+      "severity": 0.08,
+      "macro_f1": 0.806157875731929,
+      "accuracy": 0.808641975308642,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "dropped_packets_frac",
+      "severity": 0.2,
+      "macro_f1": 0.7076148866130682,
+      "accuracy": 0.7160493827160493,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "missing_sensor_index",
+      "severity": 0.0,
+      "macro_f1": 0.5051548259694791,
+      "accuracy": 0.5370370370370371,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "missing_sensor_index",
+      "severity": 1.0,
+      "macro_f1": 0.29325689325689325,
+      "accuracy": 0.3595679012345679,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "missing_sensor_index",
+      "severity": 2.0,
+      "macro_f1": 0.3808031559950973,
+      "accuracy": 0.4521604938271605,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "missing_sensor_index",
+      "severity": 3.0,
+      "macro_f1": 0.2181655755460958,
+      "accuracy": 0.3271604938271605,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "short_dropout_samples",
+      "severity": 2.0,
+      "macro_f1": 0.836795714026001,
+      "accuracy": 0.8395061728395061,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "short_dropout_samples",
+      "severity": 5.0,
+      "macro_f1": 0.8177777987026124,
+      "accuracy": 0.8209876543209876,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "short_dropout_samples",
+      "severity": 12.0,
+      "macro_f1": 0.8067679266510585,
+      "accuracy": 0.8101851851851852,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "sensor_bias_kpa",
+      "severity": 5.0,
+      "macro_f1": 0.7611714352002994,
+      "accuracy": 0.7484567901234568,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "sensor_bias_kpa",
+      "severity": 15.0,
+      "macro_f1": 0.18050941794838404,
+      "accuracy": 0.2222222222222222,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "sensor_bias_kpa",
+      "severity": 30.0,
+      "macro_f1": 0.054016362252663624,
+      "accuracy": 0.1419753086419753,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "sampling_rate_factor",
+      "severity": 1.0,
+      "macro_f1": 0.8468313237746331,
+      "accuracy": 0.8487654320987654,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "sampling_rate_factor",
+      "severity": 2.0,
+      "macro_f1": 0.8755250257389933,
+      "accuracy": 0.875,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "sampling_rate_factor",
+      "severity": 4.0,
+      "macro_f1": 0.7766564579174521,
+      "accuracy": 0.7731481481481481,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "timing_jitter_frac",
+      "severity": 0.0,
+      "macro_f1": 0.8468313237746331,
+      "accuracy": 0.8487654320987654,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "timing_jitter_frac",
+      "severity": 0.15,
+      "macro_f1": 0.8706576468100339,
+      "accuracy": 0.8719135802469136,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "perturbation": "timing_jitter_frac",
+      "severity": 0.35,
+      "macro_f1": 0.8739924181749892,
+      "accuracy": 0.875,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    }
+  ],
+  "window_fs": [
+    {
+      "sample_hz": 12.5,
+      "window_seconds": 0.5,
+      "n_samples": 6,
+      "macro_f1": 0.6995834551966129,
+      "fold_macro_f1_mean": 0.7112680111049302,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "note": "model trained and tested at the same fs/window; not a deployment downsample mismatch"
+    },
+    {
+      "sample_hz": 12.5,
+      "window_seconds": 1.0,
+      "n_samples": 12,
+      "macro_f1": 0.7594719455997071,
+      "fold_macro_f1_mean": 0.7561114837166416,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "note": "model trained and tested at the same fs/window; not a deployment downsample mismatch"
+    },
+    {
+      "sample_hz": 12.5,
+      "window_seconds": 2.0,
+      "n_samples": 25,
+      "macro_f1": 0.7982812450236049,
+      "fold_macro_f1_mean": 0.7842287098003684,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "note": "model trained and tested at the same fs/window; not a deployment downsample mismatch"
+    },
+    {
+      "sample_hz": 12.5,
+      "window_seconds": 5.0,
+      "n_samples": 62,
+      "macro_f1": 0.834594428039129,
+      "fold_macro_f1_mean": 0.8299215453324226,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "note": "model trained and tested at the same fs/window; not a deployment downsample mismatch"
+    },
+    {
+      "sample_hz": 25.0,
+      "window_seconds": 0.5,
+      "n_samples": 12,
+      "macro_f1": 0.775391335637725,
+      "fold_macro_f1_mean": 0.7791158587137791,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "note": "model trained and tested at the same fs/window; not a deployment downsample mismatch"
+    },
+    {
+      "sample_hz": 25.0,
+      "window_seconds": 1.0,
+      "n_samples": 25,
+      "macro_f1": 0.7969275177557267,
+      "fold_macro_f1_mean": 0.7898973105535226,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "note": "model trained and tested at the same fs/window; not a deployment downsample mismatch"
+    },
+    {
+      "sample_hz": 25.0,
+      "window_seconds": 2.0,
+      "n_samples": 50,
+      "macro_f1": 0.7567639421381068,
+      "fold_macro_f1_mean": 0.7208677783183101,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "note": "model trained and tested at the same fs/window; not a deployment downsample mismatch"
+    },
+    {
+      "sample_hz": 25.0,
+      "window_seconds": 5.0,
+      "n_samples": 125,
+      "macro_f1": 0.8109215530718982,
+      "fold_macro_f1_mean": 0.7949973914103984,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "note": "model trained and tested at the same fs/window; not a deployment downsample mismatch"
+    },
+    {
+      "sample_hz": 50.0,
+      "window_seconds": 0.5,
+      "n_samples": 25,
+      "macro_f1": 0.8223670171583812,
+      "fold_macro_f1_mean": 0.821072119821172,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "note": "model trained and tested at the same fs/window; not a deployment downsample mismatch"
+    },
+    {
+      "sample_hz": 50.0,
+      "window_seconds": 1.0,
+      "n_samples": 50,
+      "macro_f1": 0.6992963581915375,
+      "fold_macro_f1_mean": 0.6658332000453394,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "note": "model trained and tested at the same fs/window; not a deployment downsample mismatch"
+    },
+    {
+      "sample_hz": 50.0,
+      "window_seconds": 2.0,
+      "n_samples": 100,
+      "macro_f1": 0.7483107504348909,
+      "fold_macro_f1_mean": 0.7338572792919952,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "note": "model trained and tested at the same fs/window; not a deployment downsample mismatch"
+    },
+    {
+      "sample_hz": 50.0,
+      "window_seconds": 5.0,
+      "n_samples": 250,
+      "macro_f1": 0.5514574127576934,
+      "fold_macro_f1_mean": 0.550004448150303,
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation",
+      "note": "model trained and tested at the same fs/window; not a deployment downsample mismatch"
+    }
+  ],
+  "threshold_sweep": [
+    {
+      "threshold_kpa": 40,
+      "sensitivity": 0.8443866493281318,
+      "specificity": 0.3157894736842105,
+      "false_alert_rate": 0.6842105263157895,
+      "missed_event_rate": 0.15561335067186824,
+      "n_positive_true": 2307,
+      "label_definition": "synthetic gait class != normal (not a clinical ulcer event)",
+      "threshold_type": "engineering_risk_alert",
+      "data_source": "synthetic"
+    },
+    {
+      "threshold_kpa": 55,
+      "sensitivity": 0.6814044213263979,
+      "specificity": 0.9333333333333333,
+      "false_alert_rate": 0.06666666666666667,
+      "missed_event_rate": 0.31859557867360205,
+      "n_positive_true": 2307,
+      "label_definition": "synthetic gait class != normal (not a clinical ulcer event)",
+      "threshold_type": "engineering_risk_alert",
+      "data_source": "synthetic"
+    },
+    {
+      "threshold_kpa": 75,
+      "sensitivity": 0.4273948851322063,
+      "specificity": 0.9859649122807017,
+      "false_alert_rate": 0.014035087719298246,
+      "missed_event_rate": 0.5726051148677936,
+      "n_positive_true": 2307,
+      "label_definition": "synthetic gait class != normal (not a clinical ulcer event)",
+      "threshold_type": "engineering_risk_alert",
+      "data_source": "synthetic"
+    },
+    {
+      "threshold_kpa": 100,
+      "sensitivity": 0.19332466406588644,
+      "specificity": 0.9894736842105263,
+      "false_alert_rate": 0.010526315789473684,
+      "missed_event_rate": 0.8066753359341136,
+      "n_positive_true": 2307,
+      "label_definition": "synthetic gait class != normal (not a clinical ulcer event)",
+      "threshold_type": "engineering_risk_alert",
+      "data_source": "synthetic"
+    },
+    {
+      "threshold_kpa": 125,
+      "sensitivity": 0.06718682271348071,
+      "specificity": 0.9964912280701754,
+      "false_alert_rate": 0.0035087719298245615,
+      "missed_event_rate": 0.9328131772865192,
+      "n_positive_true": 2307,
+      "label_definition": "synthetic gait class != normal (not a clinical ulcer event)",
+      "threshold_type": "engineering_risk_alert",
+      "data_source": "synthetic"
+    },
+    {
+      "threshold_kpa": 150,
+      "sensitivity": 0.01907238838318162,
+      "specificity": 1.0,
+      "false_alert_rate": 0.0,
+      "missed_event_rate": 0.9809276116168184,
+      "n_positive_true": 2307,
+      "label_definition": "synthetic gait class != normal (not a clinical ulcer event)",
+      "threshold_type": "engineering_risk_alert",
+      "data_source": "synthetic"
+    },
+    {
+      "threshold_kpa": 200,
+      "sensitivity": 0.0017338534893801473,
+      "specificity": 1.0,
+      "false_alert_rate": 0.0,
+      "missed_event_rate": 0.9982661465106198,
+      "n_positive_true": 2307,
+      "label_definition": "synthetic gait class != normal (not a clinical ulcer event)",
+      "threshold_type": "engineering_risk_alert",
+      "data_source": "synthetic"
+    }
+  ],
+  "latency": [
+    {
+      "Stage": "BLE packet decode (host, not radio)",
+      "Mean Latency": 0.0019126266124658287,
+      "Median": 0.0015409896150231361,
+      "P95": 0.001710085780359804,
+      "Std Dev": 0.004399882535926626,
+      "Notes": "Software decode of 28-byte payload. Radio/airtime not measured in this repo."
+    },
+    {
+      "Stage": "Preprocessing / feature extraction",
+      "Mean Latency": 0.16271863132715225,
+      "Median": 0.15050001093186438,
+      "P95": 0.24895896203815926,
+      "Std Dev": 0.04259980672249096,
+      "Notes": "4.0s window at 25.0 Hz, host CPU."
+    },
+    {
+      "Stage": "Inference (logreg_production)",
+      "Mean Latency": 0.07351037784246728,
+      "Median": 0.06141650374047458,
+      "P95": 0.0712211040081456,
+      "Std Dev": 0.06810378149423309,
+      "Notes": "serialized 7.74 KB; params=540"
+    },
+    {
+      "Stage": "Inference (zone_gbm)",
+      "Mean Latency": 0.33824999554781243,
+      "Median": 0.32245798502117395,
+      "P95": 0.42393681651446957,
+      "Std Dev": 0.04328331990640685,
+      "Notes": "serialized 722.74 KB; params=0"
+    },
+    {
+      "Stage": "Inference (threshold_heuristic)",
+      "Mean Latency": 0.012816593516618013,
+      "Median": 0.012603995855897665,
+      "P95": 0.013551473966799676,
+      "Std Dev": 0.0009607102007753982,
+      "Notes": "serialized 2.13 KB; params=None"
+    },
+    {
+      "Stage": "Inference (logreg)",
+      "Mean Latency": 0.06207275437191129,
+      "Median": 0.06143751670606434,
+      "P95": 0.06663955864496529,
+      "Std Dev": 0.002819439783207154,
+      "Notes": "serialized 7.74 KB; params=540"
+    },
+    {
+      "Stage": "Inference (decision_tree)",
+      "Mean Latency": 0.04726452461909503,
+      "Median": 0.04308350617066026,
+      "P95": 0.07910025597084311,
+      "Std Dev": 0.015551483107576456,
+      "Notes": "serialized 11.64 KB; params=None"
+    },
+    {
+      "Stage": "Inference (linear_svm)",
+      "Mean Latency": 0.07988224679138511,
+      "Median": 0.06104150088503957,
+      "P95": 0.08308543474413443,
+      "Std Dev": 0.10018914321853403,
+      "Notes": "serialized 7.59 KB; params=540"
+    },
+    {
+      "Stage": "Inference (random_forest)",
+      "Mean Latency": 12.576419772813097,
+      "Median": 12.607666983967647,
+      "P95": 12.92033604113385,
+      "Std Dev": 0.28375086537896926,
+      "Notes": "serialized 3547.54 KB; params=0"
+    },
+    {
+      "Stage": "FSR sample period (firmware design)",
+      "Mean Latency": 40.0,
+      "Median": 40.0,
+      "P95": 40.0,
+      "Std Dev": "",
+      "Notes": "25 Hz design specification from firmware delay; not a scope measurement."
+    },
+    {
+      "Stage": "BLE radio notify (not measured)",
+      "Mean Latency": "",
+      "Median": "",
+      "P95": "",
+      "Std Dev": "",
+      "Notes": "Requires instrumented ESP32 + phone capture. Do not invent values."
+    },
+    {
+      "Stage": "Host alert path (features + one model)",
+      "Mean Latency": 2.047035240684636,
+      "Median": "",
+      "P95": 2.200083345607189,
+      "Std Dev": "",
+      "Notes": "Excludes BLE airtime and UI render. Engineering host timing only."
+    }
+  ],
+  "efficiency": [
+    {
+      "model": "logreg_production",
+      "n_params": 540,
+      "serialized_bytes": 7921,
+      "serialized_kb": 7.74,
+      "mean_ms": 0.0627864501439035,
+      "median_ms": 0.0609374837949872,
+      "p95_ms": 0.06539760215673593,
+      "std_ms": 0.00771785501379078,
+      "n": 40.0,
+      "runtime": "cpython-sklearn"
+    },
+    {
+      "model": "zone_gbm",
+      "n_params": 0,
+      "serialized_bytes": 740082,
+      "serialized_kb": 722.74,
+      "mean_ms": 0.32949789747362956,
+      "median_ms": 0.31431252136826515,
+      "p95_ms": 0.4077413352206349,
+      "std_ms": 0.037452939389520025,
+      "n": 40.0,
+      "runtime": "cpython-sklearn"
+    },
+    {
+      "model": "threshold_heuristic",
+      "n_params": null,
+      "serialized_bytes": 2179,
+      "serialized_kb": 2.13,
+      "mean_ms": 0.012765571591444314,
+      "median_ms": 0.012708012945950031,
+      "p95_ms": 0.013339240103960037,
+      "std_ms": 0.00026006061274140693,
+      "n": 40.0,
+      "runtime": "cpython-sklearn"
+    },
+    {
+      "model": "logreg",
+      "n_params": 540,
+      "serialized_bytes": 7921,
+      "serialized_kb": 7.74,
+      "mean_ms": 0.06517509900731966,
+      "median_ms": 0.06225050310604274,
+      "p95_ms": 0.07095354085322467,
+      "std_ms": 0.012719133998878565,
+      "n": 40.0,
+      "runtime": "cpython-sklearn"
+    },
+    {
+      "model": "decision_tree",
+      "n_params": null,
+      "serialized_bytes": 11922,
+      "serialized_kb": 11.64,
+      "mean_ms": 0.04147290310356766,
+      "median_ms": 0.04147901199758053,
+      "p95_ms": 0.042889558244496584,
+      "std_ms": 0.0009851424435580436,
+      "n": 40.0,
+      "runtime": "cpython-sklearn"
+    },
+    {
+      "model": "linear_svm",
+      "n_params": 540,
+      "serialized_bytes": 7773,
+      "serialized_kb": 7.59,
+      "mean_ms": 0.06790607294533402,
+      "median_ms": 0.06322900298982859,
+      "p95_ms": 0.07595211791340258,
+      "std_ms": 0.018395805180323986,
+      "n": 40.0,
+      "runtime": "cpython-sklearn"
+    },
+    {
+      "model": "random_forest",
+      "n_params": 0,
+      "serialized_bytes": 3632682,
+      "serialized_kb": 3547.54,
+      "mean_ms": 13.124740800412837,
+      "median_ms": 12.695291981799528,
+      "p95_ms": 13.992344107828101,
+      "std_ms": 2.1606667012231475,
+      "n": 40.0,
+      "runtime": "cpython-sklearn"
+    }
+  ],
+  "mcnemar_rf_vs_logreg": {
+    "n01": 88,
+    "n10": 219,
+    "chi2": 55.04885993485342,
+    "p_approx": 1.1757049702154737e-13
+  },
+  "ulcer": {
+    "task": "dfu_photograph_grade",
+    "dataset_present": true,
+    "data_source": "public_roboflow_kaggle",
+    "validation_type": "computer_vision_public_images",
+    "note": "Ulcer CNN uses public photographs, not insole pressure. Do not treat image accuracy as plantar-pressure generalization. Images are gitignored; run scripts/train_ulcer.py when the archive is local.",
+    "metrics": null
+  },
+  "alert_threshold_kpa": 75.0,
+  "alert_threshold_type": "engineering_risk_alert"
+}

@@ -102,3 +102,18 @@ def decode_packet(
         charging=bool(flags & 8),
         temperatures_c=temps,
     )
+
+
+def packet_gap_flags(seq: list[int]) -> list[bool]:
+    """True when uint16 sequence is not previous+1 (wrap-aware)."""
+    flags = [False] * len(seq)
+    for i in range(1, len(seq)):
+        expected = (int(seq[i - 1]) + 1) & 0xFFFF
+        flags[i] = int(seq[i]) != expected
+    return flags
+
+
+def packet_loss_fraction(seq: list[int]) -> float:
+    if len(seq) < 2:
+        return 0.0
+    return float(sum(packet_gap_flags(seq)) / (len(seq) - 1))

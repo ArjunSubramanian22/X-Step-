@@ -1,0 +1,8 @@
+threshold_kpa,sensitivity,specificity,false_alert_rate,missed_event_rate,n_positive_true,label_definition,threshold_type,data_source
+40,0.8443866493281318,0.3157894736842105,0.6842105263157895,0.15561335067186824,2307,synthetic gait class != normal (not a clinical ulcer event),engineering_risk_alert,synthetic
+55,0.6814044213263979,0.9333333333333333,0.06666666666666667,0.31859557867360205,2307,synthetic gait class != normal (not a clinical ulcer event),engineering_risk_alert,synthetic
+75,0.4273948851322063,0.9859649122807017,0.014035087719298246,0.5726051148677936,2307,synthetic gait class != normal (not a clinical ulcer event),engineering_risk_alert,synthetic
+100,0.19332466406588644,0.9894736842105263,0.010526315789473684,0.8066753359341136,2307,synthetic gait class != normal (not a clinical ulcer event),engineering_risk_alert,synthetic
+125,0.06718682271348071,0.9964912280701754,0.0035087719298245615,0.9328131772865192,2307,synthetic gait class != normal (not a clinical ulcer event),engineering_risk_alert,synthetic
+150,0.01907238838318162,1.0,0.0,0.9809276116168184,2307,synthetic gait class != normal (not a clinical ulcer event),engineering_risk_alert,synthetic
+200,0.0017338534893801473,1.0,0.0,0.9982661465106198,2307,synthetic gait class != normal (not a clinical ulcer event),engineering_risk_alert,synthetic

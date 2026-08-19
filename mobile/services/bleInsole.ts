@@ -8,7 +8,7 @@ export type BleListener = (packet: DecodedPacket) => void;
  */
 export async function startInsoleScan(onPacket: BleListener): Promise<() => void> {
   try {
-    const ble = await import('react-native-ble-plx').catch(() => null);
+    const ble = await import('react-native-ble-plx' as string).catch(() => null);
     if (!ble) {
       return () => undefined;
     }
@@ -16,7 +16,7 @@ export async function startInsoleScan(onPacket: BleListener): Promise<() => void
     const manager = new BleManager();
     const sub = manager.onStateChange((state: string) => {
       if (state === 'PoweredOn') {
-        manager.startDeviceScan(null, { allowDuplicates: true }, (err: Error | null, device: { name?: string | null; serviceUUIDs?: string[] | null }) => {
+        manager.startDeviceScan(null, { allowDuplicates: true }, (err: Error | null, device: { id: string; name?: string | null; serviceUUIDs?: string[] | null } | null) => {
           if (err || !device?.name?.startsWith(DEVICE_PREFIX)) return;
           deviceConnect(manager, device, onPacket);
         });

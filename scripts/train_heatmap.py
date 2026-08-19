@@ -14,16 +14,10 @@ import argparse
 import json
 from pathlib import Path
 
-import torch
-
 from xstep_ml.config import ROOT
 from xstep_ml.data.heatmap import (
-    HeatmapDataset,
     build_heatmap_dataloaders,
     build_heatmap_kfold_loaders,
-    heatmap_eval_transforms,
-    heatmap_train_transforms,
-    load_heatmap_arrays,
 )
 from xstep_ml.evaluation.metrics import compute_metrics, summarize_cv_results
 from xstep_ml.evaluation.plots import save_evaluation_plots

@@ -1,0 +1,13 @@
+sample_hz,window_seconds,n_samples,macro_f1,fold_macro_f1_mean,data_source,validation_type,note
+12.5,0.5,6,0.6995834551966129,0.7112680111049302,synthetic,engineering_simulation,model trained and tested at the same fs/window; not a deployment downsample mismatch
+12.5,1.0,12,0.7594719455997071,0.7561114837166416,synthetic,engineering_simulation,model trained and tested at the same fs/window; not a deployment downsample mismatch
+12.5,2.0,25,0.7982812450236049,0.7842287098003684,synthetic,engineering_simulation,model trained and tested at the same fs/window; not a deployment downsample mismatch
+12.5,5.0,62,0.834594428039129,0.8299215453324226,synthetic,engineering_simulation,model trained and tested at the same fs/window; not a deployment downsample mismatch
+25.0,0.5,12,0.775391335637725,0.7791158587137791,synthetic,engineering_simulation,model trained and tested at the same fs/window; not a deployment downsample mismatch
+25.0,1.0,25,0.7969275177557267,0.7898973105535226,synthetic,engineering_simulation,model trained and tested at the same fs/window; not a deployment downsample mismatch
+25.0,2.0,50,0.7567639421381068,0.7208677783183101,synthetic,engineering_simulation,model trained and tested at the same fs/window; not a deployment downsample mismatch
+25.0,5.0,125,0.8109215530718982,0.7949973914103984,synthetic,engineering_simulation,model trained and tested at the same fs/window; not a deployment downsample mismatch
+50.0,0.5,25,0.8223670171583812,0.821072119821172,synthetic,engineering_simulation,model trained and tested at the same fs/window; not a deployment downsample mismatch
+50.0,1.0,50,0.6992963581915375,0.6658332000453394,synthetic,engineering_simulation,model trained and tested at the same fs/window; not a deployment downsample mismatch
+50.0,2.0,100,0.7483107504348909,0.7338572792919952,synthetic,engineering_simulation,model trained and tested at the same fs/window; not a deployment downsample mismatch
+50.0,5.0,250,0.5514574127576934,0.550004448150303,synthetic,engineering_simulation,model trained and tested at the same fs/window; not a deployment downsample mismatch

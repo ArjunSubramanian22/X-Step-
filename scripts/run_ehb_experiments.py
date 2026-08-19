@@ -105,7 +105,7 @@ def run() -> dict:
 
     # --- ablation on RF ---
     ablation = []
-    rf_factory = lambda: gait_pipeline()
+    rf_factory = gait_pipeline
     for gname, selector in FEATURE_GROUPS.items():
         idx = selector(names)
         oof, folds = group_cv_predict(rf_factory, x[:, idx], y_gait, groups)
@@ -157,8 +157,8 @@ def run() -> dict:
     labels = list(GAIT_CLASSES)
     cm = confusion_matrix(y_gait, oof_store["random_forest"], labels=labels)
     fig, ax = plt.subplots(figsize=(7.2, 6.2))
-    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=[l.replace("_", "\n") for l in labels],
-                yticklabels=[l.replace("_", "\n") for l in labels], ax=ax)
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=[lab.replace("_", "\n") for lab in labels],
+                yticklabels=[lab.replace("_", "\n") for lab in labels], ax=ax)
     ax.set_xlabel("Predicted gait pattern")
     ax.set_ylabel("True gait pattern")
     ax.set_title("Subject-grouped OOF confusion (random forest)")

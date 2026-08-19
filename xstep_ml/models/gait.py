@@ -5,9 +5,8 @@ from __future__ import annotations
 from pathlib import Path
 
 import joblib
-import numpy as np
+from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 

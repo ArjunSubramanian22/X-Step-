@@ -1,0 +1,35 @@
+% X-Step EHB 2026 skeleton. Paste into the official Springer/IFMBE template before submission.
+% Metrics: include results_fragment.md / CSV tables — do not hard-code.
+\documentclass[runningheads]{llncs}
+\begin{document}
+\title{X-Step: A Low-Cost Four-Site Smart Insole and Machine-Learning Framework for Continuous Plantar-Pressure Risk Monitoring in Diabetic Foot Care}
+\maketitle
+\begin{abstract}
+We present a four-site FSR insole and leakage-safe ML framework for continuous plantar-pressure \emph{risk monitoring} in diabetic foot care. Current quantitative tables are engineering/simulation validation on a synthetic cohort, not prospective clinical outcomes.
+\end{abstract}
+\section{Introduction}
+DFU mechanics and the limits of episodic screening motivate low-cost continuous monitoring~\cite{armstrong2017,bus2016}.
+\section{Related Work}
+Smart insoles, DFU guidance, gait wearables, and DFU photography~\cite{iwgdf2023,hegde2016,goyal2018}.
+\section{System Architecture}
+Four FSR sites (MET1, MET2, MET5, HEEL), ESP32, 28-byte BLE payload, host ML, mobile record.
+\section{Methods}
+Features, grouped splits, baselines, SAP: see the repository files \texttt{research/METHODS\_FEATURES.md} and \texttt{research/STATISTICAL\_ANALYSIS\_PLAN.md}.
+\section{Experiments}
+Baselines, ablation, robustness, latency; synthetic data labeled as such.
+\section{Results}
+\input{results_fragment} % generated; not present in TeX include path by default---copy tables from CSV
+\section{Discussion}
+Sparse sensing, robustness, and deployment feasibility. No ulcer-prevention claim.
+\section{Limitations}
+Synthetic labels, no outcome trial, unpaired images, unmeasured BLE airtime.
+\section{Conclusion}
+Methods contribution proportional to engineering evidence.
+\begin{thebibliography}{12}
+\bibitem{armstrong2017} Armstrong DG, Boulton AJM, Bus SA (2017) Diabetic foot ulcers and their recurrence. N Engl J Med 376:2367--2375
+\bibitem{bus2016} Bus SA et al. (2016) Footwear and offloading interventions. Diabetes Metab Res Rev 32(S1):99--118
+\bibitem{iwgdf2023} Schaper NC et al. (2023) IWGDF 2023 update. Diabetes Metab Res Rev 40:e3657
+\bibitem{hegde2016} Hegde N, Bries M, Sazonov E (2016) Footwear-based wearable systems. Electronics 5(3):48
+\bibitem{goyal2018} Goyal M et al. DFU image analysis literature; optional CNN on public photos only.
+\end{thebibliography}
+\end{document}

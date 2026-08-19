@@ -1,0 +1,12 @@
+{
+  "data_source": "simulated_example",
+  "validation_type": "pipeline_demo",
+  "residuals": {
+    "mae_n": 1.3028493271009973,
+    "rmse_n": 2.019784450405351,
+    "max_abs_n": 5.244752783394162,
+    "mape_pct": 4.663059738959343,
+    "n": 50.0
+  },
+  "note": "Generated from a known log-log curve plus ADC noise. Not this device's bench calibration."
+}

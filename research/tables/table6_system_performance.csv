@@ -1,0 +1,13 @@
+Stage,Mean Latency,Median,P95,Std Dev,Notes
+"BLE packet decode (host, not radio)",0.0019126266124658287,0.0015409896150231361,0.001710085780359804,0.004399882535926626,Software decode of 28-byte payload. Radio/airtime not measured in this repo.
+Preprocessing / feature extraction,0.16271863132715225,0.15050001093186438,0.24895896203815926,0.04259980672249096,"4.0s window at 25.0 Hz, host CPU."
+Inference (logreg_production),0.07351037784246728,0.06141650374047458,0.0712211040081456,0.06810378149423309,serialized 7.74 KB; params=540
+Inference (zone_gbm),0.33824999554781243,0.32245798502117395,0.42393681651446957,0.04328331990640685,serialized 722.74 KB; params=0
+Inference (threshold_heuristic),0.012816593516618013,0.012603995855897665,0.013551473966799676,0.0009607102007753982,serialized 2.13 KB; params=None
+Inference (logreg),0.06207275437191129,0.06143751670606434,0.06663955864496529,0.002819439783207154,serialized 7.74 KB; params=540
+Inference (decision_tree),0.04726452461909503,0.04308350617066026,0.07910025597084311,0.015551483107576456,serialized 11.64 KB; params=None
+Inference (linear_svm),0.07988224679138511,0.06104150088503957,0.08308543474413443,0.10018914321853403,serialized 7.59 KB; params=540
+Inference (random_forest),12.576419772813097,12.607666983967647,12.92033604113385,0.28375086537896926,serialized 3547.54 KB; params=0
+FSR sample period (firmware design),40.0,40.0,40.0,,25 Hz design specification from firmware delay; not a scope measurement.
+BLE radio notify (not measured),,,,,Requires instrumented ESP32 + phone capture. Do not invent values.
+Host alert path (features + one model),2.047035240684636,,2.200083345607189,,Excludes BLE airtime and UI render. Engineering host timing only.

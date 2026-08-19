@@ -24,7 +24,11 @@ from xstep_ml.protocol import decode_packet, encode_packet
 app = FastAPI(
     title="X-Step ML API",
     version="1.0.0",
-    description="Production inference for smart-insole pressure, gait, ulcer imaging, and care guidance.",
+    description=(
+        "Research inference for four-site plantar pressure, gait-pattern characterization, "
+        "optional public-dataset ulcer-image grading, and educational prompts. "
+        "Not a medical device. The LLM does not set the risk score."
+    ),
 )
 app.add_middleware(
     CORSMiddleware,
@@ -106,8 +110,14 @@ def analyze(body: AnalyzeIn):
         "factors": result.factors,
         "extras": result.extras,
         "alerts": [a.__dict__ for a in result.alerts],
+        "contributions": result.contributions,
         "recommendations": recs,
         "foot_pressures": latest_frame_to_app_zones(last),
+        "disclaimer": (
+            "Educational decision-support only. Not a medical diagnosis. "
+            "The language model does not set the risk score; scores come from the deterministic engine."
+        ),
+        "risk_source": "deterministic_engine",
         "stepmate_prompt": stepmate_system_prompt(
             result,
             body.clinical.model_dump() if body.clinical else {},

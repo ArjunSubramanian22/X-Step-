@@ -12,23 +12,24 @@ _ROOT = Path(__file__).resolve().parents[1]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
-from sklearn.metrics import classification_report
-from sklearn.model_selection import train_test_split
-
-from xstep_ml.biomechanics import extract_features, GaitWindow
-from xstep_ml.config import ARTIFACT_DIR, GAIT_MODEL_NAME, PRODUCTION_MANIFEST, ZONE_MODEL_NAME
-from xstep_ml.data.synthetic_gait import make_cohort, synthesize_window
-from xstep_ml.models.gait import gait_pipeline, zone_pipeline
 import joblib
 import numpy as np
+from sklearn.metrics import classification_report
+
+from xstep_ml.biomechanics import GaitWindow, extract_features
+from xstep_ml.config import ARTIFACT_DIR, GAIT_MODEL_NAME, PRODUCTION_MANIFEST, ZONE_MODEL_NAME
+from xstep_ml.data.synthetic_gait import make_cohort, synthesize_window
+from xstep_ml.evaluation.splits import grouped_train_test_split
+from xstep_ml.models.gait import gait_pipeline, zone_pipeline
 
 
 def main() -> None:
     ARTIFACT_DIR.mkdir(parents=True, exist_ok=True)
     x, y_gait, y_zone, groups = make_cohort(n_subjects=24, windows_per_class=12, seed=67)
-    x_tr, x_te, g_tr, g_te, z_tr, z_te = train_test_split(
-        x, y_gait, y_zone, test_size=0.2, random_state=67, stratify=y_gait
-    )
+    tr, te = grouped_train_test_split(x, y_gait, groups, test_size=0.2, random_state=67, kind="subject")
+    x_tr, x_te = x[tr], x[te]
+    g_tr, g_te = y_gait[tr], y_gait[te]
+    z_tr, z_te = y_zone[tr], y_zone[te]
 
     gait = gait_pipeline()
     gait.fit(x_tr, g_tr)
@@ -60,7 +61,7 @@ def main() -> None:
         "sample_hz": 25,
         "channels": 8,
         "n_subjects": int(len(np.unique(groups))),
-        "eval_note": "IID stratified split for the shipped artifact smoke test. Report GroupKFold numbers from scripts/run_ehb_experiments.py in the paper.",
+        "eval_note": "Subject-grouped hold-out for the shipped artifact. Paper tables use GroupKFold from research/experiments/run_research.py. Synthetic data only.",
         "sites": ["met1", "met2", "met5", "heel"],
     }
     with open(ARTIFACT_DIR / PRODUCTION_MANIFEST, "w") as f:

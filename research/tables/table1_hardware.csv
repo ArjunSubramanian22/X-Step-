@@ -1,0 +1,8 @@
+item,specification
+Sensors,4 × FSR402-class force-sensitive resistors
+Sites,"MET1, MET2, MET5, HEEL (canonical names)"
+MCU,"ESP32, 12-bit ADC, 10 kΩ divider"
+Wireless,"BLE Nordic UART-style UUIDs, 28-byte LE payload"
+Nominal rate,25 Hz (40 ms loop; design spec)
+Pressure map (engineering default),"linear ADC→kPa, 250 kPa full scale; not bench-calibrated"
+Mobile,Expo / React Native client; not the scientific novelty

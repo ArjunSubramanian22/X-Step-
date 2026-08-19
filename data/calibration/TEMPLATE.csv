@@ -1,0 +1,2 @@
+site,trial,direction,force_n,adc,notes
+met1,1,loading,,,# fill after bench calibration; do not invent values

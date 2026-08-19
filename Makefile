@@ -1,20 +1,37 @@
-.PHONY: env test experiments api paper
+.PHONY: setup test lint experiments figures tables paper-assets api ci-local
 PYTHON ?= python3
+export PYTHONPATH := .
 
-env:
+setup:
 	bash scripts/setup_env.sh
+	chmod +x scripts/lock_requirements.sh
+	@echo "Optional: source .venv/bin/activate && bash scripts/lock_requirements.sh"
 
 test:
-	PYTHONPATH=. $(PYTHON) -m pytest tests -q
+	$(PYTHON) -m pytest tests -q
+
+lint:
+	$(PYTHON) -m ruff check xstep_ml tests research/experiments api scripts --exclude 'ulcer model,heatmap model' || true
 
 experiments:
-	PYTHONPATH=. $(PYTHON) scripts/run_ehb_experiments.py
+	$(PYTHON) research/experiments/run_research.py
+	$(PYTHON) scripts/run_ehb_experiments.py
 
-train:
-	PYTHONPATH=. $(PYTHON) scripts/train_production.py
+figures:
+	$(PYTHON) research/experiments/generate_figures.py
+
+tables:
+	$(PYTHON) research/experiments/generate_tables.py
+	$(PYTHON) research/experiments/inject_results.py
+
+paper-assets: experiments figures tables
+	@echo "Paper assets in research/figures, research/tables, research/manuscript/results_fragment.md"
 
 api:
-	PYTHONPATH=. $(PYTHON) -m api.main
+	$(PYTHON) -m api.main
 
-paper: experiments
-	@echo "Figures in papers/ehb2026/figures (300 dpi)"
+ci-local: test
+	RESEARCH_SMOKE=1 $(PYTHON) research/experiments/run_research.py
+	$(PYTHON) research/experiments/generate_figures.py
+	$(PYTHON) research/experiments/generate_tables.py
+	$(PYTHON) research/experiments/inject_results.py

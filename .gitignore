@@ -1,12 +1,15 @@
 .DS_Store
+**/.DS_Store
 __pycache__/
 *.py[cod]
 .venv/
 venv/
 .env
 .env.local
+.env.*.local
 outputs/
 *.pt
+!artifacts/*.joblib
 tools/preproc_*.png
 node_modules/
 .expo/
@@ -18,7 +21,17 @@ mobile/dist/
 *.egg-info/
 .pytest_cache/
 .ruff_cache/
+.mypy_cache/
 artifacts/*.tmp
 ulcer model/archive/train/
 ulcer model/archive/valid/
 ulcer model/archive/test/
+*.log
+.coverage
+htmlcov/
+.idea/
+.vscode/
+*.pem
+*.p12
+secrets/
+.mplconfig/

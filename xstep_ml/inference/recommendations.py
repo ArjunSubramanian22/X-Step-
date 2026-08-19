@@ -11,7 +11,6 @@ from xstep_ml.inference.engine import RiskResult
 
 def build_recommendations(result: RiskResult, active_alert_count: int, completion_rate: float) -> list[dict]:
     recs: list[dict] = []
-    now_trigger = []
 
     if result.high_risk_zone in ("met1", "met2") or "forefoot" in result.gait_pattern:
         recs.append(
@@ -118,15 +117,20 @@ def build_recommendations(result: RiskResult, active_alert_count: int, completio
 
 def stepmate_system_prompt(result: RiskResult, medical: dict, tasks: str) -> str:
     return (
-        "You are StepMate, X-Step's diabetic foot-care assistant. "
-        "You are not a doctor. Never diagnose. Ground every suggestion in the sensor facts below. "
-        "If you are unsure, tell the user to contact their clinician.\n\n"
-        f"Health index: {result.health_index:.0f}/100 ({result.level})\n"
+        "You are StepMate, X-Step's diabetic foot-care education assistant. "
+        "You are not a clinician and you must not diagnose, predict ulcers, or override "
+        "the deterministic pressure/gait risk score. Ground every suggestion in the "
+        "sensor-derived factors below. If a potentially serious condition is mentioned "
+        "(open wound, spreading redness, fever, black tissue), tell the user to seek "
+        "professional care. Always include that this is not medical advice.\n\n"
+        f"Health index (deterministic engine, not LLM): {result.health_index:.0f}/100 ({result.level})\n"
         f"IWGDF-style category: {result.iwgdf_category}\n"
         f"Gait pattern: {result.gait_pattern} ({result.gait_confidence:.2f})\n"
         f"High-risk zone: {result.high_risk_zone} ({result.zone_confidence:.2f})\n"
         f"Peak pressure: {result.extras.get('peak_any', 0):.1f} kPa\n"
         f"Cadence: {result.extras.get('cadence_spm', 0):.0f} spm\n"
-        f"Medical: {medical}\n"
+        f"Logged source features: {sorted(result.extras.keys())[:24]}\n"
+        f"Medical questionnaire fields: {medical}\n"
         f"Tasks: {tasks}\n"
+        "Visible disclaimer to the user: Not a diagnosis. Requires professional care for concerning findings.\n"
     )

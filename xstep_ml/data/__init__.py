@@ -1,13 +1,13 @@
+from xstep_ml.data.schema import CANONICAL_SITES, PressureSample, PressureWindowRecord
 from xstep_ml.data.splits import extract_source_id, groupwise_split_indices
-from xstep_ml.data.ulcer import UlcerImageDataset, build_ulcer_dataloaders
-from xstep_ml.data.heatmap import HeatmapDataset, load_heatmap_arrays, build_heatmap_dataloaders
+from xstep_ml.data.synthetic_gait import make_cohort, make_cohort_bundle
 
 __all__ = [
+    "CANONICAL_SITES",
+    "PressureSample",
+    "PressureWindowRecord",
     "extract_source_id",
     "groupwise_split_indices",
-    "UlcerImageDataset",
-    "build_ulcer_dataloaders",
-    "HeatmapDataset",
-    "load_heatmap_arrays",
-    "build_heatmap_dataloaders",
+    "make_cohort",
+    "make_cohort_bundle",
 ]
