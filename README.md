@@ -2,7 +2,7 @@
 
 Research software for a **four-site plantar-pressure insole** and a leakage-safe machine-learning framework for **continuous biomechanical risk monitoring** in diabetic foot care.
 
-**Paper title:** *X-Step: A Low-Cost Four-Site Smart Insole and Machine-Learning Framework for Continuous Plantar-Pressure Risk Monitoring in Diabetic Foot Care*
+**Paper title:** *X-Step: Sparse Four-Site Plantar-Pressure Sensing for Continuous Risk Monitoring—Methods, Ablation, and Wearable Deployment Characterization*
 
 Target venue: [EHB 2026](https://www.ehbconference.ro/) (wearables, biosignals, AI in medicine, biomechanics). This repository is a **methods / biomedical-engineering** project. It is **not** a medical device, not FDA-cleared, and not a claim that ulcers or amputations are prevented.
 
@@ -47,7 +47,13 @@ RESEARCH_SMOKE=1 python research/experiments/run_research.py
 make figures
 ```
 
-Full paper assets (slower):
+Full paper assets **without retraining**:
+
+```bash
+make paper
+```
+
+Full regeneration **with** training (do not use to chase decimals after freeze):
 
 ```bash
 make paper-assets
@@ -68,7 +74,7 @@ See [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md). Manifests: `research/results/man
 
 ## Current results
 
-After experiments, read `research/tables/table3_model_comparison.csv` and `research/manuscript/results_fragment.md`. **Do not** cite IID window accuracy as the paper result.
+After `make paper`, read `research/results/final_results_registry.json` and `research/manuscript/generated_results.md`. **Do not** cite IID window accuracy as the paper result. Canonical grouped logistic-regression macro-F1 is **0.885 [95% CI: 0.873–0.894]** on the synthetic cohort.
 
 ## Dataset disclosure
 

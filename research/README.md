@@ -1,6 +1,6 @@
 # X-Step research
 
-**Title.** X-Step: A Low-Cost Four-Site Smart Insole and Machine-Learning Framework for Continuous Plantar-Pressure Risk Monitoring in Diabetic Foot Care
+**Title.** X-Step: Sparse Four-Site Plantar-Pressure Sensing for Continuous Risk Monitoring—Methods, Ablation, and Wearable Deployment Characterization
 
 ## Research question
 
@@ -45,9 +45,9 @@ bash scripts/setup_env.sh
 source .venv/bin/activate
 make test
 make final-eval                    # last-mile splits, ablation extras, robustness, latency
+make paper                         # registry + rounded tables + figures + lint + dist/ehb26 (no training)
 make generated-results             # research/manuscript/generated_results.md
-RESEARCH_SMOKE=1 make ci-local     # fast (does not replace frozen full tables if using final-eval smoke dir)
-make paper-assets                  # full experiments + last-mile + figures + tables
+make paper-assets                  # retrains; do not use to chase decimals after freeze
 ```
 
 ## Figures and tables

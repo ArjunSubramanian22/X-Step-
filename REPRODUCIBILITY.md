@@ -17,7 +17,7 @@ Deep learning extras (ulcer/heatmap): `WITH_DL=1 bash scripts/setup_env.sh`.
 
 ## One-command paper assets
 
-`make paper-assets` regenerates models where the synthetic trainer runs, metrics JSON/CSV, figures (PNG/PDF/SVG), tables, and `research/manuscript/results_fragment.md`.
+`make paper` rebuilds the submission bundle from frozen result files (no training). `make paper-assets` regenerates models where the synthetic trainer runs and **will change numbers** if sklearn versions differ.
 
 ## Recorded metadata
 
