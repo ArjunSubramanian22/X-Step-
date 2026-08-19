@@ -598,10 +598,9 @@ def main() -> dict:
     ]
     # Canonical display strings used by the manuscript (3 decimals for rates).
     for e in entries:
-        if e["key"] == "logreg_grouped_macro_f1" and e.get("value") is not None and e.get("ci"):
-            e["display"] = (
-                f"{e['value']:.3f} [95% CI: {e['ci']['lo']:.3f}–{e['ci']['hi']:.3f}]"
-            )
+        if e["key"] == "logreg_grouped_macro_f1" and e.get("value") is not None and e.get("confidence_interval"):
+            ci = e["confidence_interval"]
+            e["display"] = f"{e['value']:.3f} [95% CI: {ci['lo']:.3f}–{ci['hi']:.3f}]"
         elif e["metric"] == "macro_f1" and isinstance(e.get("value"), float):
             e["display"] = f"{e['value']:.3f}"
         elif e["key"] == "logreg_grouped_auroc" and isinstance(e.get("value"), float):

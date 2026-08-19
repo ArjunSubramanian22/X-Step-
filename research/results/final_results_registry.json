@@ -1,6 +1,6 @@
 {
-  "built_utc": "2026-08-19T08:31:50.933897+00:00",
-  "git_sha": "3600b1ac913f833da7a19c324bc3c3ffd24b8d10",
+  "built_utc": "2026-08-19T18:07:37.852790+00:00",
+  "git_sha": "b80ce4010f56235ebfca2802b8433b4d38c69e1c",
   "does_not_retrain": true,
   "rounding": {
     "rates": 3,
@@ -61,7 +61,7 @@
       "key": "logreg_grouped_macro_f1",
       "metric": "macro_f1",
       "value": 0.8845971882742668,
-      "display": "0.885",
+      "display": "0.885 [95% CI: 0.873\u20130.894]",
       "confidence_interval": {
         "lo": 0.8729493692909518,
         "hi": 0.8944384560951245,
@@ -634,7 +634,7 @@
       "key": "logreg_grouped_macro_f1",
       "metric": "macro_f1",
       "value": 0.8845971882742668,
-      "display": "0.885",
+      "display": "0.885 [95% CI: 0.873\u20130.894]",
       "confidence_interval": {
         "lo": 0.8729493692909518,
         "hi": 0.8944384560951245,

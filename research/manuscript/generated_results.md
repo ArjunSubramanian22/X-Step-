@@ -2,13 +2,13 @@
 
 All quantitative ML rows below are **synthetic / engineering validation** unless a cell says otherwise. 
 Display rounding: rates to 3 decimals; latency to 0.01 ms; force to 0.01 N. 
-Registry git SHA at build: `3600b1ac913f833da7a19c324bc3c3ffd24b8d10`. Dataset hash: `26180f5e5330adeac3088c43353bb05e83d90a120e2703ac673ec65e2781cd92`.
+Registry git SHA at build: `b80ce4010f56235ebfca2802b8433b4d38c69e1c`. Dataset hash: `26180f5e5330adeac3088c43353bb05e83d90a120e2703ac673ec65e2781cd92`.
 
 Cohort: **2592** windows, **24** virtual subjects, **0** human walking subjects in-repo, 25 Hz, 4 s windows.
 
 ## 6.1 Baseline models (subject-independent)
 
-Logistic regression achieved macro-F1 **0.885** on grouped out-of-fold predictions (OOF AUROC 0.979; ECE 0.031). A majority dummy was 0.040 and a threshold heuristic was 0.480. Histogram gradient boosting was 0.885; overlapping CIs mean this is not a ranking.
+Logistic regression achieved macro-F1 **0.885 [95% CI: 0.873–0.894]** on grouped out-of-fold predictions (OOF AUROC 0.979; ECE 0.031). A majority dummy was 0.040 and a threshold heuristic was 0.480. Histogram gradient boosting was 0.885; overlapping CIs mean this is not a ranking.
 
 | model | macro_f1 | macro_f1_ci95_lo | macro_f1_ci95_hi | accuracy | auroc_macro | ece | serialized_kb | inference_mean_ms | data_source |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -24,7 +24,7 @@ Logistic regression achieved macro-F1 **0.885** on grouped out-of-fold predictio
 
 ## 6.2 Split protocol (leakage check)
 
-IID-window macro-F1 **0.931** vs subject-grouped **0.885** vs session-grouped **0.880** (Δ IID−subject = 0.047). IID is an optimistic control, not the paper result.
+IID-window macro-F1 **0.931** vs subject-grouped **0.885 [95% CI: 0.873–0.894]** vs session-grouped **0.880** (Δ IID−subject = 0.047). IID is an optimistic control, not the paper result.
 
 | protocol | macro_f1 | accuracy | macro_f1_ci95_lo | macro_f1_ci95_hi | note |
 | --- | --- | --- | --- | --- | --- |
