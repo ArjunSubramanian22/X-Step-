@@ -216,6 +216,128 @@ def fig_from_results(data: dict) -> None:
     savefig(fig, "figS_ulcer_omitted")
 
 
+def fig_from_csv() -> None:
+    """Publication plots from frozen CSVs (does not retrain)."""
+    import csv
+
+    tab = _ROOT / "research" / "tables"
+    ablation_path = tab / "sensor_ablation_publication.csv"
+    if ablation_path.exists():
+        with ablation_path.open() as f:
+            rows = list(csv.DictReader(f))
+        want = {
+            "1_met2",
+            "1_heel",
+            "2_met1_met2",
+            "2_met2_heel",
+            "3_no_met1",
+            "3_no_met5",
+            "3_no_heel",
+            "4_all",
+        }
+        rows = [r for r in rows if r.get("subset") in want]
+        if rows:
+            fig, ax = plt.subplots(figsize=(7.8, 4.3))
+            labels = [
+                r["Sensor Configuration"]
+                .replace("3-site ", "")
+                .replace("2-site ", "")
+                .replace("1-site ", "")
+                for r in rows
+            ]
+            y = [float(r["Performance"]) for r in rows]
+            lo = [float(r["macro_f1_ci95_lo"]) for r in rows]
+            hi = [float(r["macro_f1_ci95_hi"]) for r in rows]
+            x = np.arange(len(rows))
+            ax.bar(
+                x,
+                y,
+                yerr=[np.array(y) - np.array(lo), np.array(hi) - np.array(y)],
+                capsize=3,
+                color="#1f4e79",
+            )
+            ax.set_xticks(x)
+            ax.set_xticklabels(labels, rotation=28, ha="right", fontsize=8)
+            ax.set_ylim(0, 1.05)
+            ax.set_ylabel("Macro-F1 (subject-grouped CV)")
+            ax.set_title(f"Sensor-site ablation (logistic regression)\n{CAPTION_SYN}")
+            savefig(fig, "fig08_sensor_ablation")
+
+    pkt = tab / "packet_loss_sweep.csv"
+    if pkt.exists():
+        with pkt.open() as f:
+            rows = list(csv.DictReader(f))
+        fig, ax = plt.subplots(figsize=(6.4, 3.8))
+        ax.plot(
+            [100 * float(r["severity"]) for r in rows],
+            [float(r["macro_f1"]) for r in rows],
+            marker="o",
+            color="#1f4e79",
+        )
+        ax.set_xlabel("Simulated packet loss (%)")
+        ax.set_ylabel("Macro-F1 (held-out subjects)")
+        ax.set_title(f"Robustness to simulated packet loss\n{CAPTION_SYN}")
+        savefig(fig, "fig10_packet_loss")
+
+    models = tab / "model_comparison.csv"
+    if models.exists():
+        with models.open() as f:
+            rows = list(csv.DictReader(f))
+        fig, ax = plt.subplots(figsize=(7.4, 4.2))
+        names = [r["model"] for r in rows]
+        means = [float(r["macro_f1"]) for r in rows]
+        lo = [float(r["macro_f1"]) - float(r["macro_f1_ci95_lo"]) for r in rows]
+        hi = [float(r["macro_f1_ci95_hi"]) - float(r["macro_f1"]) for r in rows]
+        ax.bar(names, means, yerr=[lo, hi], capsize=3, color="#1f4e79")
+        ax.set_ylim(0, 1.05)
+        ax.set_ylabel("Macro-F1 (bootstrap 95% CI)")
+        plt.xticks(rotation=25, ha="right")
+        ax.set_title(f"Model comparison, subject-grouped CV\n{CAPTION_SYN}")
+        savefig(fig, "fig07_model_comparison")
+
+    lat_path = _ROOT / "research" / "results" / "latency_host.json"
+    if lat_path.exists():
+        lat = json.loads(lat_path.read_text())
+        fig, ax = plt.subplots(figsize=(7.0, 3.6))
+        stages = ["Feature extraction", "Logistic regression", "Host path"]
+        means = [lat["feature_mean_ms"], lat["logreg_mean_ms"], lat["host_path_mean_ms"]]
+        p95 = [lat["feature_p95_ms"], lat["logreg_p95_ms"], lat["host_path_p95_ms"]]
+        y = np.arange(len(stages))
+        ax.barh(y, means, color="#1f4e79")
+        ax.set_yticks(y)
+        ax.set_yticklabels(stages)
+        ax.set_xlabel("Mean latency (ms); whiskers = P95")
+        ax.errorbar(
+            means,
+            y,
+            xerr=[np.zeros(3), np.array(p95) - np.array(means)],
+            fmt="none",
+            ecolor="k",
+            capsize=3,
+        )
+        ax.set_title(f"Host-side latency (BLE radio not measured)\n{CAPTION_SYN}")
+        savefig(fig, "fig11_latency")
+
+    summary = tab / "publication" / "table_V_robustness_summary.csv"
+    if summary.exists():
+        with summary.open() as f:
+            rows = [r for r in csv.DictReader(f) if r.get("perturbation") != "none"]
+        if rows:
+            fig, ax = plt.subplots(figsize=(7.4, 4.0))
+            labels = [r["perturbation"].replace("_", " ") for r in rows]
+            y = [float(r["perturbed_macro_f1"]) for r in rows]
+            base = float(rows[0]["baseline_macro_f1"]) if rows else 0.85
+            ax.axhline(base, color="#888", ls="--", label=f"holdout baseline {base:.3f}")
+            ax.bar(range(len(rows)), y, color="#8c2d04")
+            ax.set_xticks(range(len(rows)))
+            ax.set_xticklabels(labels, rotation=25, ha="right", fontsize=8)
+            ax.set_ylim(0, 1.05)
+            ax.set_ylabel("Macro-F1")
+            ax.legend(frameon=False)
+            ax.set_title(f"Robustness summary (held-out subjects)\n{CAPTION_SYN}")
+            savefig(fig, "fig_robustness_summary")
+
+
 def _alias_calibration() -> None:
     from shutil import copyfile
 
@@ -237,6 +359,7 @@ def main() -> None:
     if RES.exists():
         data = json.loads(RES.read_text())
         fig_from_results(data)
+    fig_from_csv()
     _alias_calibration()
     print(f"Wrote figures under {FIG}")
 
