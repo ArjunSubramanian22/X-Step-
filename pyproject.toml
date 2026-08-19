@@ -4,24 +4,27 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "xstep-ml"
-version = "0.3.0"
-description = "Four-site plantar pressure ML and EHB experiment pipelines for DFU prevention"
+version = "0.4.0"
+description = "Four-site plantar-pressure sensing and ML for DFU risk monitoring (engineering validation)"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "numpy>=2.0.0,<2.5",
-    "scipy>=1.13.0",
-    "scikit-learn>=1.5.0",
-    "matplotlib>=3.9.0",
-    "seaborn>=0.13.0",
-    "Pillow>=10.4.0",
-    "joblib>=1.4.0",
-    "tqdm>=4.66.0",
-    "fastapi>=0.115.0",
-    "uvicorn>=0.32.0",
-    "python-multipart>=0.0.12",
-    "pydantic>=2.9.0",
-    "pytest>=8.3.0",
+    "scipy>=1.13.0,<1.17",
+    "pandas>=2.2.0,<2.4",
+    "scikit-learn>=1.5.0,<1.10",
+    "matplotlib>=3.9.0,<3.11",
+    "seaborn>=0.13.0,<0.14",
+    "Pillow>=10.4.0,<12",
+    "joblib>=1.4.0,<1.6",
+    "tqdm>=4.66.0,<5",
+    "fastapi>=0.115.0,<0.129",
+    "uvicorn>=0.32.0,<0.36",
+    "python-multipart>=0.0.12,<0.1",
+    "pydantic>=2.9.0,<2.12",
+    "httpx>=0.27.0,<0.29",
+    "pytest>=8.3.0,<9",
+    "ruff>=0.6.0,<0.14",
 ]
 
 [project.optional-dependencies]
@@ -33,3 +36,36 @@ dl = [
 
 [tool.setuptools.packages.find]
 include = ["xstep_ml*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+exclude = [
+    "ulcer model",
+    "heatmap model",
+    "mobile",
+    "papers",
+    "xstep_ml/models/ulcer.py",
+    "xstep_ml/models/heatmap.py",
+    "xstep_ml/models/fusion.py",
+    "xstep_ml/training",
+    "xstep_ml/evaluation/gradcam.py",
+    "xstep_ml/data/ulcer.py",
+    "xstep_ml/data/heatmap.py",
+    "xstep_ml/inference/ulcer.py",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/*.py" = ["E402"]
+"research/experiments/*.py" = ["E402"]
+"api/main.py" = ["E402"]
+"research/statistics/*.py" = ["E402"]
