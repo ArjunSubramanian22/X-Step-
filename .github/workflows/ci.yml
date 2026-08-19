@@ -22,7 +22,7 @@ jobs:
           pip install -r requirements.txt
           pip install -e .
       - name: Ruff
-        run: python -m ruff check xstep_ml tests research/experiments api scripts
+        run: python -m ruff check xstep_ml tests research api scripts
       - name: Unit tests
         run: python -m pytest tests -q
       - name: Model / API / reproducibility smoke
@@ -35,8 +35,10 @@ jobs:
           RESEARCH_SMOKE: "1"
         run: |
           python research/experiments/run_research.py
+          python research/experiments/run_final_eval.py
           python research/experiments/generate_figures.py
           python research/experiments/generate_tables.py
+          python research/experiments/generate_results.py
           python -c "from pathlib import Path; assert Path('research/results/manifest.json').exists()"
 
   mobile:

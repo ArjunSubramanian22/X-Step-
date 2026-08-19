@@ -27,7 +27,7 @@ Do **not** claim clinical ulcer prediction, prevention rates, or FDA status.
 | --- | --- |
 | In-silico 4-FSR gait cohort | **Available** (`xstep_ml.data.synthetic_gait`) — **engineering/simulation validation only** |
 | Physical FSR bench calibration | **Not in repo** — pipeline + simulated example only |
-| Human walking traces | **Not in repo** — see `protocols/REAL_DATA_PROTOCOL.md` (not IRB approval) |
+| Human walking traces | **Not in repo** — importer `python -m research.import_real_data`; protocol `protocols/EHB26_WALKING_PROTOCOL.md` (not IRB approval) |
 | Public DFU photographs | Optional, gitignored; unpaired with insole data |
 
 ## Experimental design
@@ -44,8 +44,10 @@ Publication metrics (accuracy, balanced accuracy, precision, recall, specificity
 bash scripts/setup_env.sh
 source .venv/bin/activate
 make test
-RESEARCH_SMOKE=1 make ci-local     # fast
-make paper-assets                  # full experiments + figures + tables
+make final-eval                    # last-mile splits, ablation extras, robustness, latency
+make generated-results             # research/manuscript/generated_results.md
+RESEARCH_SMOKE=1 make ci-local     # fast (does not replace frozen full tables if using final-eval smoke dir)
+make paper-assets                  # full experiments + last-mile + figures + tables
 ```
 
 ## Figures and tables
@@ -54,7 +56,7 @@ Generated under `research/figures/` (PNG/PDF/SVG) and `research/tables/`. Captio
 
 ## Current limitations
 
-See `/RESEARCH_LIMITATIONS.md`. Synthetic labels are not patient generalization.
+Inventory: `DATA_INVENTORY.md`. Freeze: `releases/EHB26_EXPERIMENTAL_FREEZE.md`. Readiness: `EHB26_READINESS_REPORT.md`.
 
 ## Next clinical-validation step
 
