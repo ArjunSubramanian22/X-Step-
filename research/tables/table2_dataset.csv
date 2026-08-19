@@ -1,0 +1,2 @@
+dataset,data_source,n_subjects,n_windows,sample_hz,window_s,classes,split,labels
+synthetic_4fsr_gait,synthetic,24,2592,25.0,4.0,9,GroupKFold by virtual subject,simulator gait overload patterns; zone derived from gait class

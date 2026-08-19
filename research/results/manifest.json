@@ -1,0 +1,54 @@
+{
+  "environment": {
+    "python": "3.13.2",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "git_sha": "8baadaf6b27b527c44e050e9bcb80828c1632d67",
+    "xstep_ml": "0.4.0",
+    "packages": {
+      "numpy": "2.4.6",
+      "scipy": "1.16.3",
+      "pandas": "2.3.3",
+      "sklearn": "1.7.2",
+      "matplotlib": "3.10.9",
+      "seaborn": "0.13.2",
+      "joblib": "1.5.3",
+      "pydantic": "2.11.10",
+      "fastapi": "0.128.8",
+      "pytest": "8.4.2"
+    },
+    "cwd": "/Users/Arjun/cursor/xstep-ml",
+    "timestamp_utc": "2026-08-19T04:04:06.446205+00:00",
+    "research_smoke": "0"
+  },
+  "experiment": "ehb26_research_pipeline",
+  "validation_type": "engineering_simulation",
+  "data_source": "synthetic",
+  "dataset_hash": "26180f5e5330adeac3088c43353bb05e83d90a120e2703ac673ec65e2781cd92",
+  "config": {
+    "name": "full",
+    "n_subjects": 24,
+    "windows_per_class": 12,
+    "n_splits": 5,
+    "n_boot": 80,
+    "seed": 67,
+    "hz": 25.0,
+    "seconds": 4.0,
+    "noise_std": 3.5,
+    "label_noise": 0.03,
+    "models": [
+      "threshold_heuristic",
+      "majority",
+      "logreg",
+      "decision_tree",
+      "linear_svm",
+      "random_forest",
+      "gbm",
+      "mlp",
+      "hist_gbm"
+    ],
+    "latency_repeats": 40
+  },
+  "n_windows": 2592,
+  "n_subjects": 24
+}
