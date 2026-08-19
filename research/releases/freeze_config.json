@@ -1,6 +1,7 @@
 {
   "tag_intended": "v0.9-ehb26-experimental",
-  "tag_applied": false,
+  "tag_applied": true,
+  "tag_name": "v0.9-ehb26-experimental",
   "infrastructure_sha": "097a1a8cf60298b47a6f7e3cb170d07eeb27eabd",
   "branch": "ehb26-research",
   "xstep_ml_version": "0.4.0",

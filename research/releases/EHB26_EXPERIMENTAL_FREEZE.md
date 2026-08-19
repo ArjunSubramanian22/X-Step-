@@ -11,7 +11,7 @@ Do not treat later exploratory notebooks as part of the freeze unless they are l
 | Branch | `ehb26-research` |
 | Infrastructure freeze SHA | `097a1a8cf60298b47a6f7e3cb170d07eeb27eabd` (`record final validation and CI mobile checks`) |
 | Intended tag | `v0.9-ehb26-experimental` |
-| Tag status | **Not applied until tests pass** after last-mile evaluation |
+| Tag status | Applied after last-mile tests: see `tagged_sha` in `freeze_config.json` |
 | Package version | `xstep_ml` 0.4.0 |
 
 The last-mile importer, split dumps, extra robustness sweeps, and generated Results live in commits **after** the infrastructure SHA. Re-record the tagged SHA in `freeze_config.json` (`tag_applied: true`) when the tag is created.
