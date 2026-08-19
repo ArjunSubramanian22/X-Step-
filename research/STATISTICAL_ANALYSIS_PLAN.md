@@ -14,10 +14,10 @@ Written **before** treating experiment outputs as camera-ready claims. This SAP 
 ## Splits
 
 - Default: GroupKFold by `subject_id`.
+- Also report: GroupKFold by `session_id`, leave-one-subject-out, and IID StratifiedKFold as an **optimistic control** (may leak subjects).
 - Artifact training: GroupShuffleSplit by subject (no window IID split).
-- Session-level grouping is supported via `session_id`.
-- Leave-one-subject-out is available when \(N_{\mathrm{subjects}}\) is small enough.
-- Tests **fail** if subject/session IDs overlap train/test.
+- Split definitions are written to `research/results/splits/`.
+- Tests **fail** if subject/session IDs overlap train/test (except the explicit IID control).
 
 ## Comparisons
 

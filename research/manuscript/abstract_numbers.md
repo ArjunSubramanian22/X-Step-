@@ -1,0 +1,7 @@
+- grouped logreg macro-F1: 0.885 [95% CI: 0.873–0.894]
+- four-site ablation F1: 0.885
+- drop MET5 F1: 0.671
+- drop HEEL F1: 0.657
+- 30% packet-loss F1: 0.631
+- host path mean: 0.23 ms
+- simulated calibration MAE: 1.30 N

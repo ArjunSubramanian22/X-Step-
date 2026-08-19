@@ -16,4 +16,4 @@ In-silico cohort (see `docs/DATASET_CARD.md`). Optional ulcer CNN uses a public 
 Alerts can cause anxiety or false reassurance. Copy is educational. Clinical endpoints require IRB-approved prospective study.
 
 ## Caveats
-Do not report IID 99% toy accuracy as a clinical result. Paper numbers come from `papers/ehb2026/tables/ehb_results.json`.
+Do not report IID 99% toy accuracy as a clinical result. Paper numbers come from `research/tables/model_comparison.csv` and `research/results/final_results_registry.json`.

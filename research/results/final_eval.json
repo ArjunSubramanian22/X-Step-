@@ -1,0 +1,81 @@
+{
+  "data_source": "synthetic",
+  "n_windows": 2592,
+  "n_subjects": 24,
+  "split_protocols": [
+    {
+      "protocol": "iid_window",
+      "macro_f1": 0.9313491287297375,
+      "accuracy": 0.9301697530864198,
+      "balanced_accuracy": 0.9300267170270179,
+      "macro_f1_ci95_lo": 0.9214393871548782,
+      "macro_f1_ci95_hi": 0.940965144094953,
+      "n_windows": 2592,
+      "note": "random windows (subject leakage possible)",
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "protocol": "session",
+      "macro_f1": 0.8800112467831757,
+      "accuracy": 0.8784722222222222,
+      "balanced_accuracy": 0.8779838800439621,
+      "macro_f1_ci95_lo": 0.8682857681051737,
+      "macro_f1_ci95_hi": 0.8917693515103706,
+      "n_windows": 2592,
+      "note": "GroupKFold by session_id",
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "protocol": "subject",
+      "macro_f1": 0.8845971882742668,
+      "accuracy": 0.8850308641975309,
+      "balanced_accuracy": 0.8846129873997054,
+      "macro_f1_ci95_lo": 0.8717336581907223,
+      "macro_f1_ci95_hi": 0.896062001690834,
+      "n_windows": 2592,
+      "note": "GroupKFold by subject_id",
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    },
+    {
+      "protocol": "loso",
+      "macro_f1": 0.8853910832306131,
+      "accuracy": 0.8854166666666666,
+      "balanced_accuracy": 0.8850013668445681,
+      "macro_f1_ci95_lo": 0.8725227684568206,
+      "macro_f1_ci95_hi": 0.8969797290055198,
+      "n_windows": 2592,
+      "note": "leave-one-subject-out",
+      "data_source": "synthetic",
+      "validation_type": "engineering_simulation"
+    }
+  ],
+  "calibration": {
+    "task": "sensor_calibration_not_ml_accuracy",
+    "data_source": "simulated_example",
+    "mae_n": 1.3028493271009973,
+    "rmse_n": 2.019784450405351,
+    "mape_pct": 4.663059738959343,
+    "hysteresis_mae_n": 1.7981803900074214,
+    "ml_accuracy_note": "These residuals are sensor-curve reconstruction error on a simulated load cell, not classification macro-F1.",
+    "physical_bench_present": false
+  },
+  "latency_host": {
+    "feature_mean_ms": 0.1565333644975908,
+    "feature_p95_ms": 0.21059851860627532,
+    "feature_p99_ms": 0.2758871135301888,
+    "logreg_mean_ms": 0.07454890903318301,
+    "logreg_p95_ms": 0.12109791277907782,
+    "logreg_p99_ms": 0.20549449604004466,
+    "host_path_mean_ms": 0.23108227353077382,
+    "host_path_p95_ms": 0.3130475728539749,
+    "host_path_p99_ms": 0.5210357491159803,
+    "n": 200,
+    "ble_radio_ms": null,
+    "note": "Host CPU only. FSR sample period is 40 ms by firmware spec. BLE airtime not measured."
+  },
+  "logreg_oof_macro_f1": 0.8845971882742668,
+  "logreg_oof_auroc": 0.9789929687208301
+}

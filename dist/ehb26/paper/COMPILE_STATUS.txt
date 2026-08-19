@@ -1,0 +1,2 @@
+pdflatex not found. Canonical manuscript is research/manuscript/main.md.
+Camera-ready Word/Springer template remains HUMAN_VERIFICATION.

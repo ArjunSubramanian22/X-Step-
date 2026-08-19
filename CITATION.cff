@@ -1,5 +1,6 @@
 cff-version: 1.2.0
-title: "X-Step: four-site plantar pressure sensing and machine learning for diabetic foot ulcer prevention"
+title: "X-Step: sparse four-site plantar-pressure sensing for continuous biomechanical risk monitoring"
+message: If you use this software, please cite the EHB manuscript once published.
 message: If you use this software, please cite the EHB manuscript once published.
 type: software
 license: MIT

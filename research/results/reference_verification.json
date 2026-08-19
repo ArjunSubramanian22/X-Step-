@@ -1,0 +1,106 @@
+{
+  "n_refs": 12,
+  "n_cited": 12,
+  "unused_refs": [],
+  "missing_bib": [],
+  "issues": [],
+  "items": [
+    {
+      "n": 1,
+      "text": "Armstrong DG, Boulton AJM, Bus SA (2017) Diabetic foot ulcers and their recurrence. N Engl J Med 376(24):2367\u20132375. https://doi.org/10.1056/NEJMra1615439",
+      "doi": "10.1056/NEJMra1615439",
+      "cited": true,
+      "verification_status": "yes",
+      "crossref": null
+    },
+    {
+      "n": 2,
+      "text": "Bus SA, van Deursen RW, Armstrong DG, Lewis JEA, Caravaggi CF, Cavanagh PR (2016) Footwear and offloading interventions to prevent and heal foot ulcers and reduce plantar pressure in patients with diabetes: a systematic review. Diabetes Metab Res Rev 32(Suppl 1):99\u2013118. https://doi.org/10.1002/dmrr.2702",
+      "doi": "10.1002/dmrr.2702",
+      "cited": true,
+      "verification_status": "yes",
+      "crossref": null
+    },
+    {
+      "n": 3,
+      "text": "Singh N, Armstrong DG, Lipsky BA (2005) Preventing foot ulcers in patients with diabetes. JAMA 293(2):217\u2013228. https://doi.org/10.1001/jama.293.2.217",
+      "doi": "10.1001/jama.293.2.217",
+      "cited": true,
+      "verification_status": "yes",
+      "crossref": null
+    },
+    {
+      "n": 4,
+      "text": "Hegde N, Bries M, Sazonov E (2016) A comparative review of footwear-based wearable systems. Electronics 5(3):48. https://doi.org/10.3390/electronics5030048",
+      "doi": "10.3390/electronics5030048",
+      "cited": true,
+      "verification_status": "yes",
+      "crossref": null
+    },
+    {
+      "n": 5,
+      "text": "Abdul Razak AH, Zayegh A, Begg RK, Wahab Y (2012) Foot plantar pressure measurement system: a review. Sensors 12(7):9884\u20139912. https://doi.org/10.3390/s120709884",
+      "doi": "10.3390/s120709884",
+      "cited": true,
+      "verification_status": "yes",
+      "crossref": null
+    },
+    {
+      "n": 6,
+      "text": "Fernando ME, Crowther RG, Pappas E, Lazzarini PA, Cunningham M, Sangla KS, Buttner P, Golledge J (2014) Plantar pressure in diabetic peripheral neuropathy patients with active foot ulceration, previous ulceration and no history of ulceration: a meta-analysis of observational studies. PLoS ONE 9(6):e99050. https://doi.org/10.1371/journal.pone.0099050",
+      "doi": "10.1371/journal.pone.0099050",
+      "cited": true,
+      "verification_status": "yes",
+      "crossref": null
+    },
+    {
+      "n": 7,
+      "text": "Schaper NC, van Netten JJ, Apelqvist J, Bus SA, Fitridge R, Game F, Monteiro-Soares M, Senneville E, on behalf of the IWGDF Editorial Board (2024) Practical guidelines on the prevention and management of diabetes-related foot disease (IWGDF 2023 update). Diabetes Metab Res Rev 40:e3657. https://doi.org/10.1002/dmrr.3657",
+      "doi": "10.1002/dmrr.3657",
+      "cited": true,
+      "verification_status": "yes",
+      "crossref": null
+    },
+    {
+      "n": 8,
+      "text": "Armstrong DG, Holtz-Neiderer K, Wendel C, Mohler MJ, Kimbriel HR, Lavery LA (2007) Skin temperature monitoring reduces the risk for diabetic foot ulceration in high-risk patients. Am J Med 120(12):1042\u20131046. https://doi.org/10.1016/j.amjmed.2007.06.028",
+      "doi": "10.1016/j.amjmed.2007.06.028",
+      "cited": true,
+      "verification_status": "yes",
+      "crossref": null
+    },
+    {
+      "n": 9,
+      "text": "Frykberg RG, Gordon IL, Reyzelman AM, et al. (2017) Feasibility and efficacy of a smart mat technology to predict development of diabetic plantar ulcers. Diabetes Care 40(7):973\u2013980. https://doi.org/10.2337/dc16-2294",
+      "doi": "10.2337/dc16-2294",
+      "cited": true,
+      "verification_status": "yes",
+      "crossref": null
+    },
+    {
+      "n": 10,
+      "text": "Lavery LA, Higgins KR, Lanctot DR, Constantinides GP, Zamorano RG, Athanasiou KA, Armstrong DG, Agrawal CM (2007) Preventing diabetic foot ulcer recurrence in high-risk patients: use of temperature monitoring as a self-assessment tool. Diabetes Care 30(1):14\u201320. https://doi.org/10.2337/dc06-1600",
+      "doi": "10.2337/dc06-1600",
+      "cited": true,
+      "verification_status": "yes",
+      "crossref": null
+    },
+    {
+      "n": 11,
+      "text": "Cavanagh PR, Bus SA (2010) Off-loading the diabetic foot for ulcer prevention and healing. J Vasc Surg 52(3 Suppl):37S\u201343S. https://doi.org/10.1016/j.jvs.2010.06.007",
+      "doi": "10.1016/j.jvs.2010.06.007",
+      "cited": true,
+      "verification_status": "yes",
+      "crossref": null
+    },
+    {
+      "n": 12,
+      "text": "Hegde N, Sazonov E (2014) SmartStep: a fully integrated, low-power insole monitor. Electronics 3(2):381\u2013397. https://doi.org/10.3390/electronics3020381",
+      "doi": "10.3390/electronics3020381",
+      "cited": true,
+      "verification_status": "yes",
+      "crossref": null
+    }
+  ],
+  "ok": true
+}

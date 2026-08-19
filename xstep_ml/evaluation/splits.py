@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import json
 from collections.abc import Iterable, Sequence
+from pathlib import Path
 
 import numpy as np
 from sklearn.model_selection import GroupKFold, GroupShuffleSplit, LeaveOneGroupOut
@@ -78,3 +80,41 @@ def leave_one_subject_out(groups: np.ndarray) -> list[tuple[np.ndarray, np.ndarr
 
 def session_ids_from_subject_and_bout(subject_id: Sequence, bout_id: Sequence) -> np.ndarray:
     return np.array([f"{int(s)}::{int(b)}" for s, b in zip(subject_id, bout_id)], dtype=object)
+
+
+def dump_split_definitions(
+    path: Path,
+    folds: Sequence[tuple[np.ndarray, np.ndarray]],
+    groups: np.ndarray,
+    *,
+    protocol: str,
+    y: np.ndarray | None = None,
+) -> dict:
+    """Write exact train/test indices so a table can be reproduced."""
+    payload = {
+        "protocol": protocol,
+        "n_folds": len(folds),
+        "n_examples": int(len(groups)),
+        "n_groups": int(len(np.unique(groups))),
+        "folds": [],
+    }
+    for i, (tr, te) in enumerate(folds, 1):
+        tr = np.asarray(tr)
+        te = np.asarray(te)
+        assert_no_group_overlap(groups[tr], groups[te], kind=protocol) if protocol != "iid_window" else None
+        row = {
+            "fold": i,
+            "n_train": int(len(tr)),
+            "n_test": int(len(te)),
+            "train_idx": tr.astype(int).tolist(),
+            "test_idx": te.astype(int).tolist(),
+            "train_groups": sorted({str(g) for g in groups[tr]}),
+            "test_groups": sorted({str(g) for g in groups[te]}),
+        }
+        if y is not None:
+            row["n_train_labels"] = {str(k): int(v) for k, v in zip(*np.unique(y[tr], return_counts=True))}
+            row["n_test_labels"] = {str(k): int(v) for k, v in zip(*np.unique(y[te], return_counts=True))}
+        payload["folds"].append(row)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, indent=2))
+    return payload

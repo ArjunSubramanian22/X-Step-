@@ -65,6 +65,7 @@ def inference_latency(
         "mean_ms": float(arr.mean()),
         "median_ms": float(np.median(arr)),
         "p95_ms": float(np.percentile(arr, 95)),
+        "p99_ms": float(np.percentile(arr, 99)),
         "std_ms": float(arr.std(ddof=1)) if len(arr) > 1 else 0.0,
         "n": float(len(arr)),
     }

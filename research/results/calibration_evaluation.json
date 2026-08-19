@@ -1,0 +1,10 @@
+{
+  "task": "sensor_calibration_not_ml_accuracy",
+  "data_source": "simulated_example",
+  "mae_n": 1.3028493271009973,
+  "rmse_n": 2.019784450405351,
+  "mape_pct": 4.663059738959343,
+  "hysteresis_mae_n": 1.7981803900074214,
+  "ml_accuracy_note": "These residuals are sensor-curve reconstruction error on a simulated load cell, not classification macro-F1.",
+  "physical_bench_present": false
+}

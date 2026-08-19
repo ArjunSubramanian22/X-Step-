@@ -1,0 +1,7 @@
+perturbation,severity,baseline_macro_f1,perturbed_macro_f1,relative_change,source,data_source
+none,0,0.847,0.847,0.000,table5_robustness.csv,synthetic
+gaussian_noise_kpa,12,0.847,0.641,-0.243,table5_robustness.csv,synthetic
+dropped_packets_frac,0.30,0.847,0.631,-0.255,packet_loss_sweep.csv,synthetic
+missing_channel_heel,heel=0,0.847,0.218,-0.742,table5_robustness.csv,synthetic
+sensor_bias_kpa,15,0.847,0.181,-0.787,table5_robustness.csv,synthetic
+sampling_keep_frac,0.50,0.847,0.843,-0.004,sampling_rate_tradeoff.csv,synthetic

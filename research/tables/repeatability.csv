@@ -1,0 +1,12 @@
+feature,within_session_cv_median,within_session_mad_median,between_seed_icc,n_sessions,data_source,validation_type,note
+peak_any,0.25087557723026777,14.750634042717007,0.678430637166404,216,synthetic,engineering_simulation,"Simulator test-retest (seeds 67 vs 68), not human ICC"
+pti_total,0.12919876127143395,33.88185524364137,0.4497011198783669,216,synthetic,engineering_simulation,"Simulator test-retest (seeds 67 vs 68), not human ICC"
+cadence_spm,0.07515449391679957,8.333333333333334,0.7066422795835259,216,synthetic,engineering_simulation,"Simulator test-retest (seeds 67 vs 68), not human ICC"
+stance_ratio,0.05295650052109949,0.03638888888888889,0.36994280405992414,216,synthetic,engineering_simulation,"Simulator test-retest (seeds 67 vs 68), not human ICC"
+forefoot_share,0.02900412632840757,0.017554637781834928,0.6807712581354306,216,synthetic,engineering_simulation,"Simulator test-retest (seeds 67 vs 68), not human ICC"
+L_met1_peak,0.13837567229192702,3.385378866334107,0.8667942210139115,216,synthetic,engineering_simulation,"Simulator test-retest (seeds 67 vs 68), not human ICC"
+L_met2_peak,0.14289096171891036,3.8844172449114263,0.8068214983077637,216,synthetic,engineering_simulation,"Simulator test-retest (seeds 67 vs 68), not human ICC"
+L_met5_peak,0.13401432676505898,2.7223002142323445,0.8889551099908197,216,synthetic,engineering_simulation,"Simulator test-retest (seeds 67 vs 68), not human ICC"
+L_heel_peak,0.14450654342690678,4.328115353870425,0.7389409026968674,216,synthetic,engineering_simulation,"Simulator test-retest (seeds 67 vs 68), not human ICC"
+L_met2_load,0.8765266810041654,0.033611111111111105,0.6453658494200571,216,synthetic,engineering_simulation,"Simulator test-retest (seeds 67 vs 68), not human ICC"
+HUMAN_REPEATABILITY,,,,0,absent,not_run,No human repeated walking sessions in data/raw; values not fabricated
