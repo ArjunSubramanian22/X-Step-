@@ -2,17 +2,17 @@
 
 from __future__ import annotations
 
-import json
 from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
 
 from xstep_ml.biomechanics import GaitWindow, extract_features
-from xstep_ml.config import ARTIFACT_DIR, GAIT_MODEL_NAME, PRODUCTION_MANIFEST, ZONE_MODEL_NAME
+from xstep_ml.config import ARTIFACT_DIR, GAIT_MODEL_NAME, ZONE_MODEL_NAME
 from xstep_ml.hardware import ALERT_PRESSURE_KPA, HIGH_RISK_PEAK_KPA, SITE_TO_APP_ZONE, SensorSite
+from xstep_ml.inference.explain import contributions_as_dicts
 from xstep_ml.models.clinical import ClinicalProfile, clinical_risk_score, iwgdf_risk_category
-from xstep_ml.models.gait import GAIT_CLASSES, load_artifact
+from xstep_ml.models.gait import load_artifact
 
 
 @dataclass
@@ -37,6 +37,20 @@ class RiskResult:
     factors: dict[str, float]
     alerts: list[PressureAlert]
     extras: dict[str, float]
+    contributions: list[dict]
+
+
+def _predict_label(model, x: np.ndarray) -> tuple[str, float]:
+    """Return (label, confidence). Works across sklearn pickle versions."""
+    if hasattr(model, "predict_proba"):
+        try:
+            proba = model.predict_proba(x)[0]
+            idx = int(np.argmax(proba))
+            return str(model.classes_[idx]), float(proba[idx])
+        except Exception:
+            pass
+    pred = model.predict(x)[0]
+    return str(pred), 1.0
 
 
 def _level(score: float) -> str:
@@ -88,20 +102,13 @@ class ProductionEngine:
         zone = "none"
         zone_p = 0.0
         if self.gait_model is not None:
-            proba = self.gait_model.predict_proba(x)[0]
-            idx = int(np.argmax(proba))
-            gait_pattern = str(self.gait_model.classes_[idx])
-            gait_p = float(proba[idx])
+            gait_pattern, gait_p = _predict_label(self.gait_model, x)
         if self.zone_model is not None:
-            proba = self.zone_model.predict_proba(x)[0]
-            idx = int(np.argmax(proba))
-            zone = str(self.zone_model.classes_[idx])
-            zone_p = float(proba[idx])
+            zone, zone_p = _predict_label(self.zone_model, x)
 
         profile = profile or ClinicalProfile()
         clinical = clinical_risk_score(profile)
         peak = float(feats.extras.get("peak_any", 0.0))
-        asym = float(np.mean([feats.extras.get(f"L_{s}_peak", 0) and 0 for s in ("met1", "met2", "met5", "heel")]))
         # pressure contribution: 0 at 40 kPa peak, 40 at 200 kPa
         pressure_score = float(np.clip((peak - 40.0) / (HIGH_RISK_PEAK_KPA - 40.0) * 40.0, 0, 40))
         temp_score = float(np.clip(feats.extras.get("temp_asym_max", 0.0) / 2.2 * 15.0, 0, 15))
@@ -141,7 +148,7 @@ class ProductionEngine:
                         )
                     )
 
-        return RiskResult(
+        result = RiskResult(
             health_index=health,
             level=_level(health),
             gait_pattern=gait_pattern,
@@ -159,7 +166,10 @@ class ProductionEngine:
             },
             alerts=alerts,
             extras=feats.extras,
+            contributions=[],
         )
+        result.contributions = contributions_as_dicts(result)
+        return result
 
 
 def latest_frame_to_app_zones(frame8: list[float]) -> dict:
