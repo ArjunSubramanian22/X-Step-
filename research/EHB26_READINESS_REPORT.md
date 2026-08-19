@@ -23,7 +23,9 @@ This is a **methods / engineering** package with a complete software freeze and 
 
 ## Overall readiness score
 
-**58 / 100**
+**65 / 100** (submission-hardening pass; still capped by \(N=0\) humans and unmeasured radio/power)
+
+See `research/EHB26_FINAL_ACCEPTANCE_RISK.md` for the axis-by-axis 0–10 scores used at RC time.
 
 Fit for an EHB **methods** submission only after the program committee’s appetite for simulation-only wearables is accepted. **Not** fit as a clinical DFU or hardware-characterization paper without new measurements.
 
