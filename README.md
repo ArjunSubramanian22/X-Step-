@@ -1,82 +1,74 @@
-# X-Step ML
+# X-Step
 
-Machine learning pipelines for diabetic foot ulcer (DFU) risk prediction, integrated into the X-Step app. Includes leakage-safe data splitting, transfer-learning training, clinical evaluation metrics, Grad-CAM interpretability, and optional multimodal fusion.
+Preventive diabetic foot ulcer system: **custom 4-FSR smart insoles**, **real-time gait/pressure ML**, **wound-image grading**, and a **mobile + clinician app**.
 
-## What's new in this pipeline
+This repository is the production monorepo for hardware firmware, on-device and server ML, the Expo app, and the inference API.
 
-- **Leakage-safe splits**: Roboflow augmented siblings (same source image) never cross train/val/test
-- **Proper augmentation**: Applied per-epoch in `Dataset.__getitem__`, not baked in at preload
-- **Transfer learning**: EfficientNet-B0 / ResNet-50 at 224×224 (vs. original 64×64 custom CNN)
-- **Ordinal & focal loss** for ordered DFU grades
-- **Early stopping** on validation macro-F1
-- **Paper metrics**: Cohen's κ, adjacent-grade error rate, per-class sensitivity/specificity
-- **K-fold CV** with mean ± std reporting
-- **Grad-CAM** heatmaps for interpretability
-- **Ablation runner** comparing architectures and losses
+## What the product actually does
 
-## Setup
+| Claim | How it is implemented |
+| --- | --- |
+| 4 sensors at 1st, 2nd, 5th metatarsal + heel | `xstep_ml/hardware.py`, ESP32 firmware, foot map labels |
+| BLE microcontroller → phone | 28-byte packet in `xstep_ml/protocol.py` / `mobile/services/protocol.ts` |
+| Abnormal pressure → immediate posture alert | Threshold + gait-pattern alerts in the app |
+| Daily pressure graphs for clinicians | Trends tab + Clinician report screen |
+| ML gait / asymmetry | Random forest on biomechanical features (cadence, PTI, peak, L/R asymmetry) |
+| Wound photo → severity | Ulcer CNN (`UlcerNN` / transfer learning) via `POST /v1/ulcer` |
+| Personalized recommendations | Rule engine grounded in sensor facts + StepMate prompt |
+| Offline | Phone-side gait engine if the API is down |
+
+## Layout
+
+```
+mobile/          Expo / React Native app (X-Step)
+api/             FastAPI production inference
+xstep_ml/        Training + inference library
+firmware/        ESP32 insole sketch
+artifacts/       Shipped gait / zone models
+scripts/         Train & eval
+ulcer model/     Legacy notebooks + ulcer CNN weights
+heatmap model/   Legacy plantar-heatmap CNN
+```
+
+## Run the ML API
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
+python3 scripts/train_production.py   # writes artifacts/
+python3 -m api.main                   # http://127.0.0.1:8080
 ```
 
-## Train ulcer model (recommended)
+- `GET /health`
+- `POST /v1/analyze` — window of 8-channel kPa frames
+- `POST /v1/ulcer` — wound image
+- `POST /v1/packet/decode` — BLE hex
 
 ```bash
-python scripts/train_ulcer.py \
-  --architecture efficientnet_b0 \
-  --loss cross_entropy \
-  --epochs 50 \
-  --gradcam
+docker build -t xstep-api .
+docker run -p 8080:8080 xstep-api
 ```
 
-### Options
-
-| Flag | Description |
-|------|-------------|
-| `--architecture` | `ulcer_cnn` (baseline), `resnet50`, `efficientnet_b0` |
-| `--loss` | `cross_entropy`, `focal`, `ordinal` |
-| `--split-mode` | `roboflow` (default) or `groupwise` |
-| `--cv-folds 5` | Run 5-fold group-wise cross-validation |
-| `--gradcam` | Save Grad-CAM visualizations |
-
-Outputs go to `outputs/ulcer/` (checkpoints, plots, `evaluation.json`).
-
-## Train heatmap model
+## Run the app
 
 ```bash
-python scripts/train_heatmap.py --architecture resnet50 --cv-folds 5
+cd mobile
+npm install
+EXPO_PUBLIC_XSTEP_API=http://127.0.0.1:8080 npx expo start
 ```
 
-Requires Kaggle dataset download via `kagglehub` on first run.
+Without hardware, the walking simulator streams physiologic 4-FSR gait (including periodic forefoot-overload demos) so alerts, graphs, and ML stay live.
 
-## Run ablation baselines (paper table)
+## Train other models
 
 ```bash
-# Full ablation (slow)
-python scripts/run_baselines.py --task ulcer
-
-# Quick smoke test
-python scripts/run_baselines.py --task ulcer --quick
+python3 scripts/train_ulcer.py --architecture efficientnet_b0 --loss ordinal --epochs 50 --gradcam
+python3 scripts/train_heatmap.py --architecture resnet50 --cv-folds 5
 ```
 
-## Package layout
+## Tests
 
-```
-xstep_ml/
-├── data/          # Datasets, splits, transforms
-├── models/        # Ulcer, heatmap, multimodal fusion
-├── training/      # Trainer, losses, early stopping
-└── evaluation/    # Metrics, plots, Grad-CAM
-scripts/           # CLI entry points
+```bash
+python3 -m pytest tests -q
 ```
 
-## Legacy notebooks
-
-The original Jupyter notebooks under `heatmap model/` and `ulcer model/` are kept for reference. Use the `scripts/` and `xstep_ml/` package for reproducible paper experiments.
-
-## Multimodal fusion
-
-`xstep_ml.models.fusion.MultimodalFusionModel` provides a late-fusion architecture combining heatmap and wound-image embeddings. Pair it with aligned multimodal data for joint DFU risk scoring (training script can be extended when paired samples are available).
+Not a medical device in this repository form: models support prevention workflows and clinician review. They do not diagnose or replace in-person care.
