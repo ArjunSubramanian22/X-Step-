@@ -35,3 +35,7 @@ htmlcov/
 *.p12
 secrets/
 .mplconfig/
+data/raw/**
+!data/raw/README.md
+!data/raw/SCHEMA.md
+research/results/smoke/
