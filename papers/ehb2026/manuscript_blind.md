@@ -4,7 +4,7 @@
 
 ## Abstract
 
-Diabetic foot ulcers (DFUs) remain a leading cause of hospitalization and amputation, yet peak plantar pressure, pressure-time integral, and thermal asymmetry are measurable before tissue breakdown. Dense instrumented mats and clinical insoles can capture these signals, but they are costly and poorly suited to unsupervised daily wear. We present X-Step, an end-to-end preventive pipeline built around four force-sensitive resistors placed at the first, second, and fifth metatarsal heads and the heel—sites repeatedly implicated in neuropathic ulceration. A 25 Hz Bluetooth Low Energy stream is converted into a compact biomechanical feature set (peak pressure, pressure-time integral, loading fraction, left–right asymmetry, cadence, and anterior–posterior center of pressure). A random forest classifies gait overload patterns; a gradient-boosting model flags the dominant high-risk zone; an IWGDF-inspired clinical prior and an optional wound-image CNN are fused into a 0–100 health index with conservative, sensor-grounded alerts. Because paired insole-and-outcome cohorts are still being collected, we evaluate the pressure branch in silico on a 24-subject virtual cohort that injects mass scaling, FSR gain mismatch, offset drift, label noise, and mixed overload severity. Under 5-fold subject-grouped cross-validation, the random forest outperforms logistic regression and a majority baseline on macro-F1, with permutation importance concentrated on peak and asymmetry features. We report bootstrap 95% confidence intervals, feature ablation, and noise-robustness curves, and we state clearly that these results do not substitute for a prospective clinical trial. The contribution is a reproducible wearable-plus-ML architecture aligned with DFU biomechanics and with the EHB themes of wearable sensors, biosignal processing, and AI in medicine.
+Diabetic foot ulcers (DFUs) remain a leading cause of hospitalization and amputation, yet peak plantar pressure, pressure-time integral, and thermal asymmetry are measurable before tissue breakdown. Dense instrumented mats and clinical insoles can capture these signals, but they are costly and poorly suited to unsupervised daily wear. We present X-Step, an end-to-end **risk-monitoring** pipeline built around four force-sensitive resistors placed at the first, second, and fifth metatarsal heads and the heel—sites repeatedly implicated in neuropathic ulceration. A 25 Hz Bluetooth Low Energy stream is converted into a compact biomechanical feature set (peak pressure, pressure-time integral, loading fraction, left–right asymmetry, cadence, and anterior–posterior center of pressure). A random forest classifies gait overload patterns; a gradient-boosting model flags the dominant high-risk zone; an IWGDF-inspired clinical prior and an optional wound-image CNN are fused into a 0–100 health index with conservative, sensor-grounded alerts. Because paired insole-and-outcome cohorts are still being collected, we evaluate the pressure branch in silico on a 24-subject virtual cohort that injects mass scaling, FSR gain mismatch, offset drift, label noise, and mixed overload severity. Under 5-fold subject-grouped cross-validation, the random forest outperforms logistic regression and a majority baseline on macro-F1, with permutation importance concentrated on peak and asymmetry features. We report bootstrap 95% confidence intervals, feature ablation, and noise-robustness curves, and we state clearly that these results do not substitute for a prospective clinical trial. The contribution is a reproducible wearable-plus-ML architecture aligned with DFU biomechanics and with the EHB themes of wearable sensors, biosignal processing, and AI in medicine.
 
 **Keywords:** diabetic foot ulcer, plantar pressure, wearable insole, gait analysis, machine learning, e-health
 
@@ -81,31 +81,17 @@ No identifiable patient telemetry is released. DFU photographs, when used, come 
 
 ## 4 Results
 
-Cohort: 24 virtual subjects, 2592 windows, 5-fold GroupKFold by subject, 3% label noise, mixed overload severity (seed 67). Table 1 is `papers/ehb2026/tables/table1_baselines.md`.
+**Data source: synthetic 4-FSR cohort (engineering/simulation validation).** Do not treat these figures as patient generalization.
 
-**Table 1.** Gait-pattern classification, subject-grouped CV, bootstrap 95% CI.
+Regenerate rather than editing numbers by hand:
 
-| Model | Accuracy | Macro-F1 | Fold macro-F1 mean (SD) |
-| --- | --- | --- | --- |
-| majority | 0.109 [0.097, 0.122] | 0.051 [0.045, 0.058] | 0.022 (0.000) |
-| logreg | 0.872 [0.859, 0.885] | 0.871 [0.859, 0.883] | 0.875 (0.035) |
-| linear SVM | 0.873 [0.860, 0.885] | 0.871 [0.859, 0.884] | 0.875 (0.036) |
-| random forest | 0.834 [0.820, 0.849] | 0.837 [0.824, 0.851] | 0.842 (0.031) |
-| GBM | 0.865 [0.852, 0.879] | 0.866 [0.854, 0.880] | 0.869 (0.034) |
-| MLP | 0.885 [0.872, 0.896] | 0.884 [0.871, 0.894] | 0.885 (0.020) |
+- `research/tables/table3_model_comparison.csv`
+- `research/manuscript/results_fragment.md`
+- `papers/ehb2026/tables/` from `scripts/run_ehb_experiments.py`
 
-A stratified IID split of the same windows inflates logistic-regression accuracy to \(\approx 0.92\). We therefore **do not report IID scores as the paper result**; GroupKFold by subject is the protocol. Logistic regression significantly outperformed the random forest (McNemar \(\chi^2 = 32.1\), \(p \approx 1.4 \times 10^{-8}\); 199 windows where logreg was uniquely correct vs 100 the other way). The MLP is the numerical best but only about 1.3 points of macro-F1 above logreg. **Normal gait is the hardest class** (RF per-class F1 \(\approx 0.60\)), which is expected: mild overload was deliberately mixed into the generator so that “normal” is not a distant cluster. Forefoot overload remains the easiest localization (F1 \(> 0.88\)).
+A stratified IID split of the same windows inflates accuracy relative to GroupKFold. We **do not report IID scores as the paper result**. Zone labels are a deterministic function of pattern in the simulator.
 
-Peak-only features retain macro-F1 \(\approx 0.85\) (RF ablation); dropping asymmetry hurts more than dropping cadence. On six held-out subjects, FSR noise SD of 1.5 / 3.5 / 7 / 12 kPa yields macro-F1 0.88 / 0.85 / 0.75 / 0.48, i.e., cheap piezoresistive noise is a first-order failure mode. Zone GBM hold-out macro-F1 is 0.913 [0.892, 0.937]; this head is easier because zone is a deterministic function of pattern in the simulator and must not be over-interpreted clinically.
-
-Figures (300 dpi PNG and vector PDF in `figures/`):
-
-- Fig. 1 system pipeline (`fig_system`)
-- Fig. 2 grouped-CV confusion matrix (`fig_gait_confusion`)
-- Fig. 3 baseline macro-F1 with 95% CI (`fig_baselines`)
-- Fig. 4 feature ablation (`fig_ablation`)
-- Fig. 5 noise robustness (`fig_noise`)
-- Fig. 6 permutation importance (`fig_importance`)
+Figures: `research/figures/` (PNG/PDF/SVG) and `papers/ehb2026/figures/`.
 
 ## 5 Discussion
 
@@ -113,7 +99,7 @@ Four sensing sites cannot reconstruct a full plantar pressure map. They can, how
 
 Limitations: no human gait-lab gold standard in this release; FSR hysteresis and shear are not modeled; temperature channels are reserved; ulcer CNN labels are photographic grades, not Wagner outcomes tied to the same foot-steps; fusion weights are specified, not learned on clinical endpoints. These are appropriate caveats for EHB, not reasons to hide the system.
 
-Implications: a reproducible BLE contract and feature list let other labs swap in capacitive sensors or add IMUs without rewriting the mobile stack. The conservative alert path (threshold OR model) is deliberate for a prevention product.
+Implications: a reproducible BLE contract and feature list let other labs swap in capacitive sensors or add IMUs without rewriting the mobile stack. The conservative alert path (threshold OR model) is deliberate for a **monitoring / decision-support** prototype. It is not evidence of ulcer prevention.
 
 ## 6 Conclusion
 
