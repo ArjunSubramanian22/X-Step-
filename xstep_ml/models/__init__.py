@@ -1,11 +1,9 @@
-from xstep_ml.models.ulcer import UlcerNN, build_ulcer_model
-from xstep_ml.models.heatmap import HeatCNN, build_heatmap_model
-from xstep_ml.models.fusion import MultimodalFusionModel
+"""Model package. Optional CNN/fusion modules require torch (requirements-dl.txt)."""
+
+from xstep_ml.models.gait import GAIT_CLASSES, gait_pipeline, zone_pipeline
 
 __all__ = [
-    "UlcerNN",
-    "build_ulcer_model",
-    "HeatCNN",
-    "build_heatmap_model",
-    "MultimodalFusionModel",
+    "GAIT_CLASSES",
+    "gait_pipeline",
+    "zone_pipeline",
 ]
