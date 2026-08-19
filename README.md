@@ -1,65 +1,94 @@
 # X-Step
 
-Research software for **preventive diabetic foot ulcer (DFU) monitoring**: a four-site plantar insole, biomechanical features, subject-grouped machine learning, and a mobile/clinician interface.
+Research software for a **four-site plantar-pressure insole** and a leakage-safe machine-learning framework for **continuous biomechanical risk monitoring** in diabetic foot care.
 
-This is an **e-health / bioengineering project** aimed at [EHB 2026](https://www.ehbconference.ro/) (wearable sensors, biosignal processing, AI in medicine, biomechanics)—not a consumer-app dump. The paper is blinded at `papers/ehb2026/manuscript_blind.md`.
+**Paper title:** *X-Step: A Low-Cost Four-Site Smart Insole and Machine-Learning Framework for Continuous Plantar-Pressure Risk Monitoring in Diabetic Foot Care*
 
-## Python version (read this if pip failed)
+Target venue: [EHB 2026](https://www.ehbconference.ro/) (wearables, biosignals, AI in medicine, biomechanics). This repository is a **methods / biomedical-engineering** project. It is **not** a medical device, not FDA-cleared, and not a claim that ulcers or amputations are prevented.
 
-`python3` on some Macs is still **3.7**. Current scientific stacks need **3.10+**.
+Current quantitative gait/zone tables are **engineering/simulation validation** on a synthetic 4-FSR cohort unless a result file says `data_source=human`.
+
+## Research contribution
+
+1. Low-cost four-site sensing at MET1, MET2, MET5, and HEEL  
+2. Embedded → BLE → feature/ML → mobile pipeline (the app is a client)  
+3. Reproducible grouped-split ML for overload-pattern **characterization**  
+4. Sensor ablation, robustness, threshold sweeps, host latency  
+
+Details: [`research/README.md`](research/README.md) · manuscript [`research/manuscript/main.md`](research/manuscript/main.md)
+
+```
+FSR ×4  →  ESP32  →  BLE (28 B "XS")  →  features / sklearn  →  engineering alerts
+                                              └─ Expo app (record + educational chat)
+```
+
+## Repository structure
+
+```
+research/          SAP, experiments, figures, tables, manuscript
+xstep_ml/          schema, calibration, features, models, evaluation
+firmware/          ESP32 insole
+api/               FastAPI inference (deterministic score; LLM does not set risk)
+mobile/            Expo client
+data/              schemas; no PHI
+models/            model card (artifacts in artifacts/)
+tests/
+```
+
+## Quickstart
+
+Python **3.10+** required (`python3` on some Macs is 3.7).
 
 ```bash
 bash scripts/setup_env.sh
 source .venv/bin/activate
 make test
-make experiments    # 300 dpi figures + GroupKFold tables for the paper
+RESEARCH_SMOKE=1 python research/experiments/run_research.py
+make figures
 ```
 
-Optional ulcer/heatmap CNNs:
+Full paper assets (slower):
 
 ```bash
-WITH_DL=1 bash scripts/setup_env.sh
-pip install -r requirements-dl.txt
+make paper-assets
 ```
 
-## EHB 2026
-
-| Item | Location |
-| --- | --- |
-| Blind manuscript | `papers/ehb2026/manuscript_blind.md` |
-| Submission checklist | `papers/ehb2026/README.md` |
-| Figures (300 dpi + PDF) | `papers/ehb2026/figures/` after `make experiments` |
-| Tables | `papers/ehb2026/tables/` |
-| Ethics / intended use | `docs/ETHICS.md` |
-| Dataset card | `docs/DATASET_CARD.md` |
-| Model card | `docs/MODEL_CARD.md` |
-| Reproducibility | `docs/REPRODUCIBILITY.md` |
-
-Do **not** cite IID 99% toy accuracy. Report **GroupKFold-by-subject** macro-F1 with confidence intervals from `ehb_results.json`.
-
-## Layout
-
-```
-papers/ehb2026/  Blind manuscript, figures, tables
-docs/            Dataset/model cards, ethics
-xstep_ml/        Features, models, evaluation
-scripts/         train_production.py, run_ehb_experiments.py, setup_env.sh
-api/             FastAPI inference
-mobile/          Expo app (demo + clinician snapshot)
-firmware/        ESP32 BLE insole
-tests/
-```
-
-## API and app
+API + app:
 
 ```bash
-source .venv/bin/activate
 python -m api.main
 # other terminal
-cd mobile && npm install
+cd mobile && npm install && npx tsc --noEmit
 EXPO_PUBLIC_XSTEP_API=http://127.0.0.1:8080 npx expo start
 ```
 
-## License and citation
+## Reproducibility
 
-MIT (`LICENSE`). See `CITATION.cff`. Prototype only—not a medical device.
+See [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md). Manifests: `research/results/manifest.json`. Seed 67.
+
+## Current results
+
+After experiments, read `research/tables/table3_model_comparison.csv` and `research/manuscript/results_fragment.md`. **Do not** cite IID window accuracy as the paper result.
+
+## Dataset disclosure
+
+| Data | In this repo? |
+| --- | --- |
+| Synthetic 4-FSR windows | generated |
+| Bench FSR calibration measurements | no (pipeline + simulated example only) |
+| Human walking / clinical outcomes | no |
+| Public DFU photos | optional, gitignored, unpaired |
+
+## Limitations and clinical disclaimer
+
+[`RESEARCH_LIMITATIONS.md`](RESEARCH_LIMITATIONS.md) · [`docs/ETHICS.md`](docs/ETHICS.md)
+
+Software provides **risk monitoring / decision-support prototypes**. It does not diagnose disease, detect infection, or guarantee prevention. Prospective clinical validation is required before care-pathway claims.
+
+## Citation
+
+See `CITATION.cff`. Paper status: **draft / not yet submitted**. Blind manuscript notes: `papers/ehb2026/`.
+
+## License
+
+MIT (`LICENSE`).
