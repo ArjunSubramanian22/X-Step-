@@ -1,4 +1,4 @@
-- grouped logreg macro-F1: 0.885
+- grouped logreg macro-F1: 0.885 [95% CI: 0.873–0.894]
 - four-site ablation F1: 0.885
 - drop MET5 F1: 0.671
 - drop HEEL F1: 0.657
