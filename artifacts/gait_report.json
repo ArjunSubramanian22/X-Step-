@@ -1,0 +1,69 @@
+{
+  "asymmetric_antalgic": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 100.0
+  },
+  "left_forefoot_overload": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 100.0
+  },
+  "left_heel_overload": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 100.0
+  },
+  "left_lateral_overload": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 100.0
+  },
+  "normal": {
+    "precision": 0.9504950495049505,
+    "recall": 0.96,
+    "f1-score": 0.9552238805970149,
+    "support": 100.0
+  },
+  "right_forefoot_overload": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 100.0
+  },
+  "right_heel_overload": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 100.0
+  },
+  "right_lateral_overload": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 100.0
+  },
+  "shuffling_low_cadence": {
+    "precision": 0.9595959595959596,
+    "recall": 0.95,
+    "f1-score": 0.9547738693467337,
+    "support": 100.0
+  },
+  "accuracy": 0.99,
+  "macro avg": {
+    "precision": 0.9900101121223233,
+    "recall": 0.99,
+    "f1-score": 0.9899997499937498,
+    "support": 900.0
+  },
+  "weighted avg": {
+    "precision": 0.9900101121223233,
+    "recall": 0.99,
+    "f1-score": 0.9899997499937498,
+    "support": 900.0
+  }
+}
