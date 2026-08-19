@@ -1,12 +1,19 @@
-"""Synthetic 4-FSR gait windows labeled from known biomechanical scenarios."""
+"""In-silico 4-FSR gait cohort with inter-subject variability.
+
+IID random splits of easy sinusoids inflate accuracy. This generator models
+virtual subjects (mass, FSR gain mismatch, offset drift) and mixed-severity
+overload so evaluation can use group/subject-wise cross-validation.
+"""
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+
 import numpy as np
 
-from xstep_ml.biomechanics import extract_features, GaitWindow
+from xstep_ml.biomechanics import GaitWindow, extract_features
 from xstep_ml.hardware import SensorSite
-from xstep_ml.models.gait import GAIT_CLASSES, ZONE_CLASSES
+from xstep_ml.models.gait import GAIT_CLASSES
 
 GAIT_TO_ZONE = {
     "normal": "none",
@@ -21,9 +28,30 @@ GAIT_TO_ZONE = {
 }
 
 
-def _step_cycle(t: np.ndarray, cadence_spm: float, phase: float = 0.0) -> np.ndarray:
-    freq = cadence_spm / 60.0
-    return np.clip(np.sin(2 * np.pi * freq * t + phase), 0, None) ** 1.4
+@dataclass
+class SubjectParams:
+    subject_id: int
+    mass_scale: float
+    fsr_gain: np.ndarray  # (8,)
+    offset_kpa: np.ndarray  # (8,)
+    cadence_bias: float
+    drop_prob: float
+
+
+def _wave(t: np.ndarray, cadence_spm: float, phase: float) -> np.ndarray:
+    s = np.sin(2 * np.pi * (cadence_spm / 60.0) * t + phase)
+    return np.clip(s, 0, None) ** 1.35
+
+
+def sample_subject(rng: np.random.Generator, subject_id: int) -> SubjectParams:
+    return SubjectParams(
+        subject_id=subject_id,
+        mass_scale=float(rng.uniform(0.78, 1.32)),
+        fsr_gain=rng.uniform(0.82, 1.18, size=8),
+        offset_kpa=rng.normal(0.0, 4.0, size=8),
+        cadence_bias=float(rng.normal(0.0, 6.0)),
+        drop_prob=float(rng.uniform(0.0, 0.04)),
+    )
 
 
 def synthesize_window(
@@ -31,71 +59,99 @@ def synthesize_window(
     rng: np.random.Generator,
     seconds: float = 4.0,
     hz: float = 25.0,
+    subject: SubjectParams | None = None,
+    severity: float | None = None,
+    noise_std: float = 3.5,
 ) -> tuple[np.ndarray, str, str]:
     n = int(seconds * hz)
     t = np.arange(n) / hz
-    cadence = {
-        "shuffling_low_cadence": rng.uniform(68, 86),
-        "asymmetric_antalgic": rng.uniform(88, 102),
-    }.get(label, rng.uniform(100, 122))
+    base_cadence = {
+        "shuffling_low_cadence": rng.uniform(70, 88),
+        "asymmetric_antalgic": rng.uniform(86, 104),
+    }.get(label, rng.uniform(98, 124))
+    if subject:
+        base_cadence = float(np.clip(base_cadence + subject.cadence_bias, 62, 130))
 
-    left_phase, right_phase = 0.0, np.pi
-    l_cycle = _step_cycle(t, cadence, left_phase)
-    r_cycle = _step_cycle(t, cadence, right_phase)
+    mass = subject.mass_scale if subject else 1.0
+    base = rng.uniform(26, 44) * mass
+    severity = rng.uniform(0.25, 1.0) if severity is None else float(severity)
+    overload = rng.uniform(35, 120) * severity * mass
 
-    # Typical walking: heel then forefoot. Scale in kPa.
-    base = rng.uniform(28, 42)
+    l_heel = _wave(t, base_cadence, 0.0)
+    l_fore = _wave(t, base_cadence, -0.72)
+    r_heel = _wave(t, base_cadence, np.pi)
+    r_fore = _wave(t, base_cadence, np.pi - 0.72)
+
     left = np.zeros((n, 4))
     right = np.zeros((n, 4))
-    heel_wave = np.clip(np.sin(2 * np.pi * (cadence / 60.0) * t), 0, None)
-    fore_wave = np.clip(np.sin(2 * np.pi * (cadence / 60.0) * t - 0.7), 0, None)
+    left[:, SensorSite.HEEL] = base * 0.95 * l_heel
+    left[:, SensorSite.MET1] = base * 0.72 * l_fore
+    left[:, SensorSite.MET2] = base * 0.88 * l_fore
+    left[:, SensorSite.MET5] = base * 0.58 * l_fore
+    right[:, SensorSite.HEEL] = base * 0.95 * r_heel
+    right[:, SensorSite.MET1] = base * 0.72 * r_fore
+    right[:, SensorSite.MET2] = base * 0.88 * r_fore
+    right[:, SensorSite.MET5] = base * 0.58 * r_fore
 
-    left[:, SensorSite.HEEL] = base * 0.9 * heel_wave
-    left[:, SensorSite.MET1] = base * 0.7 * fore_wave
-    left[:, SensorSite.MET2] = base * 0.85 * fore_wave
-    left[:, SensorSite.MET5] = base * 0.55 * fore_wave
-    right[:, SensorSite.HEEL] = base * 0.9 * np.clip(np.sin(2 * np.pi * (cadence / 60.0) * t + np.pi), 0, None)
-    right[:, SensorSite.MET1] = base * 0.7 * np.clip(np.sin(2 * np.pi * (cadence / 60.0) * t + np.pi - 0.7), 0, None)
-    right[:, SensorSite.MET2] = base * 0.85 * np.clip(np.sin(2 * np.pi * (cadence / 60.0) * t + np.pi - 0.7), 0, None)
-    right[:, SensorSite.MET5] = base * 0.55 * np.clip(np.sin(2 * np.pi * (cadence / 60.0) * t + np.pi - 0.7), 0, None)
-
-    overload = rng.uniform(70, 140)
     if label == "left_forefoot_overload":
-        left[:, SensorSite.MET1] += overload * fore_wave
-        left[:, SensorSite.MET2] += overload * 1.1 * fore_wave
+        left[:, SensorSite.MET1] += overload * 0.85 * l_fore
+        left[:, SensorSite.MET2] += overload * l_fore
     elif label == "right_forefoot_overload":
-        right[:, SensorSite.MET1] += overload * np.clip(np.sin(2 * np.pi * (cadence / 60.0) * t + np.pi - 0.7), 0, None)
-        right[:, SensorSite.MET2] += overload * 1.1 * np.clip(np.sin(2 * np.pi * (cadence / 60.0) * t + np.pi - 0.7), 0, None)
+        right[:, SensorSite.MET1] += overload * 0.85 * r_fore
+        right[:, SensorSite.MET2] += overload * r_fore
     elif label == "left_heel_overload":
-        left[:, SensorSite.HEEL] += overload * heel_wave
+        left[:, SensorSite.HEEL] += overload * l_heel
     elif label == "right_heel_overload":
-        right[:, SensorSite.HEEL] += overload * np.clip(np.sin(2 * np.pi * (cadence / 60.0) * t + np.pi), 0, None)
+        right[:, SensorSite.HEEL] += overload * r_heel
     elif label == "left_lateral_overload":
-        left[:, SensorSite.MET5] += overload * 1.2 * fore_wave
+        left[:, SensorSite.MET5] += overload * 1.15 * l_fore
     elif label == "right_lateral_overload":
-        right[:, SensorSite.MET5] += overload * 1.2 * np.clip(np.sin(2 * np.pi * (cadence / 60.0) * t + np.pi - 0.7), 0, None)
+        right[:, SensorSite.MET5] += overload * 1.15 * r_fore
     elif label == "asymmetric_antalgic":
-        left *= 0.45
-        right[:, SensorSite.MET1] += overload * 0.6
+        left *= 0.55 + 0.25 * (1 - severity)
+        right[:, SensorSite.MET1] += overload * 0.45 * r_fore
     elif label == "shuffling_low_cadence":
-        left *= 0.7
-        right *= 0.7
+        left *= 0.65
+        right *= 0.65
 
-    noise = rng.normal(0, 2.5, size=(n, 4))
-    left = np.clip(left + noise, 0, None)
-    right = np.clip(right + rng.normal(0, 2.5, size=(n, 4)), 0, None)
     frames = np.concatenate([left, right], axis=1)
+    if subject is not None:
+        frames = frames * subject.fsr_gain.reshape(1, 8) + subject.offset_kpa.reshape(1, 8)
+        if subject.drop_prob > 0:
+            mask = rng.random(frames.shape) < subject.drop_prob
+            frames[mask] = 0.0
+    frames = np.clip(frames + rng.normal(0.0, noise_std, size=frames.shape), 0, None)
     return frames, label, GAIT_TO_ZONE[label]
 
 
 def make_dataset(n_per_class: int = 400, seed: int = 67) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Backward-compatible IID set (no subject ids)."""
+    x, y_gait, y_zone, _ = make_cohort(n_subjects=1, windows_per_class=n_per_class, seed=seed)
+    return x, y_gait, y_zone
+
+
+def make_cohort(
+    n_subjects: int = 24,
+    windows_per_class: int = 12,
+    seed: int = 67,
+    hz: float = 25.0,
+    noise_std: float = 3.5,
+    label_noise: float = 0.03,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    """Return X, y_gait, y_zone, subject_id."""
     rng = np.random.default_rng(seed)
-    xs, ys_gait, ys_zone = [], [], []
-    for gait in GAIT_CLASSES:
-        for _ in range(n_per_class):
-            frames, g, z = synthesize_window(gait, rng)
-            feats = extract_features(GaitWindow(frames, sample_hz=25.0))
-            xs.append(feats.vector)
-            ys_gait.append(g)
-            ys_zone.append(z)
-    return np.vstack(xs), np.array(ys_gait), np.array(ys_zone)
+    xs, ys_gait, ys_zone, sids = [], [], [], []
+    for sid in range(n_subjects):
+        subj = sample_subject(rng, sid)
+        for gait in GAIT_CLASSES:
+            for _ in range(windows_per_class):
+                frames, g, z = synthesize_window(gait, rng, hz=hz, subject=subj, noise_std=noise_std)
+                if rng.random() < label_noise:
+                    g = str(rng.choice(GAIT_CLASSES))
+                    z = GAIT_TO_ZONE[g]
+                feats = extract_features(GaitWindow(frames, sample_hz=hz))
+                xs.append(feats.vector)
+                ys_gait.append(g)
+                ys_zone.append(z)
+                sids.append(sid)
+    return np.vstack(xs), np.array(ys_gait), np.array(ys_zone), np.array(sids, dtype=np.int32)

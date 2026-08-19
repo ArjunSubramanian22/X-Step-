@@ -6,6 +6,7 @@ from pathlib import Path
 
 import joblib
 import numpy as np
+from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -30,18 +31,16 @@ ARTIFACT_DIR = ROOT / "artifacts"
 
 
 def gait_pipeline() -> Pipeline:
+    """Selected production model: L2 logistic regression (see EHB grouped-CV table)."""
     return Pipeline(
         [
             ("scaler", StandardScaler()),
             (
                 "clf",
-                RandomForestClassifier(
-                    n_estimators=180,
-                    max_depth=14,
-                    min_samples_leaf=4,
+                LogisticRegression(
+                    max_iter=400,
                     class_weight="balanced",
                     random_state=67,
-                    n_jobs=-1,
                 ),
             ),
         ]

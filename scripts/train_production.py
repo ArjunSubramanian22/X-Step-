@@ -17,7 +17,7 @@ from sklearn.model_selection import train_test_split
 
 from xstep_ml.biomechanics import extract_features, GaitWindow
 from xstep_ml.config import ARTIFACT_DIR, GAIT_MODEL_NAME, PRODUCTION_MANIFEST, ZONE_MODEL_NAME
-from xstep_ml.data.synthetic_gait import make_dataset, synthesize_window
+from xstep_ml.data.synthetic_gait import make_cohort, synthesize_window
 from xstep_ml.models.gait import gait_pipeline, zone_pipeline
 import joblib
 import numpy as np
@@ -25,7 +25,7 @@ import numpy as np
 
 def main() -> None:
     ARTIFACT_DIR.mkdir(parents=True, exist_ok=True)
-    x, y_gait, y_zone = make_dataset(n_per_class=500, seed=67)
+    x, y_gait, y_zone, groups = make_cohort(n_subjects=24, windows_per_class=12, seed=67)
     x_tr, x_te, g_tr, g_te, z_tr, z_te = train_test_split(
         x, y_gait, y_zone, test_size=0.2, random_state=67, stratify=y_gait
     )
@@ -59,6 +59,8 @@ def main() -> None:
         "feature_names": names,
         "sample_hz": 25,
         "channels": 8,
+        "n_subjects": int(len(np.unique(groups))),
+        "eval_note": "IID stratified split for the shipped artifact smoke test. Report GroupKFold numbers from scripts/run_ehb_experiments.py in the paper.",
         "sites": ["met1", "met2", "met5", "heel"],
     }
     with open(ARTIFACT_DIR / PRODUCTION_MANIFEST, "w") as f:

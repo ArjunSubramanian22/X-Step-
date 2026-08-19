@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+title: "X-Step: four-site plantar pressure sensing and machine learning for diabetic foot ulcer prevention"
+message: If you use this software, please cite the EHB manuscript once published.
+type: software
+license: MIT
+repository-code: "https://github.com/ArjunSubramanian22/X-Step-"
+keywords:
+  - diabetic foot ulcer
+  - plantar pressure
+  - wearable insole
+  - gait analysis
+  - e-health

@@ -1,69 +1,69 @@
 {
   "asymmetric_antalgic": {
-    "precision": 1.0,
-    "recall": 1.0,
-    "f1-score": 1.0,
-    "support": 100.0
+    "precision": 0.9655172413793104,
+    "recall": 0.9655172413793104,
+    "f1-score": 0.9655172413793104,
+    "support": 58.0
   },
   "left_forefoot_overload": {
-    "precision": 1.0,
-    "recall": 1.0,
-    "f1-score": 1.0,
-    "support": 100.0
+    "precision": 0.9818181818181818,
+    "recall": 0.9310344827586207,
+    "f1-score": 0.9557522123893806,
+    "support": 58.0
   },
   "left_heel_overload": {
-    "precision": 1.0,
-    "recall": 1.0,
-    "f1-score": 1.0,
-    "support": 100.0
+    "precision": 0.9649122807017544,
+    "recall": 0.9482758620689655,
+    "f1-score": 0.9565217391304348,
+    "support": 58.0
   },
   "left_lateral_overload": {
-    "precision": 1.0,
-    "recall": 1.0,
-    "f1-score": 1.0,
-    "support": 100.0
+    "precision": 0.9811320754716981,
+    "recall": 0.9122807017543859,
+    "f1-score": 0.9454545454545454,
+    "support": 57.0
   },
   "normal": {
-    "precision": 0.9504950495049505,
-    "recall": 0.96,
-    "f1-score": 0.9552238805970149,
-    "support": 100.0
+    "precision": 0.7384615384615385,
+    "recall": 0.8421052631578947,
+    "f1-score": 0.7868852459016393,
+    "support": 57.0
   },
   "right_forefoot_overload": {
-    "precision": 1.0,
-    "recall": 1.0,
-    "f1-score": 1.0,
-    "support": 100.0
+    "precision": 0.9655172413793104,
+    "recall": 0.9655172413793104,
+    "f1-score": 0.9655172413793104,
+    "support": 58.0
   },
   "right_heel_overload": {
-    "precision": 1.0,
-    "recall": 1.0,
-    "f1-score": 1.0,
-    "support": 100.0
+    "precision": 0.9818181818181818,
+    "recall": 0.9473684210526315,
+    "f1-score": 0.9642857142857143,
+    "support": 57.0
   },
   "right_lateral_overload": {
-    "precision": 1.0,
-    "recall": 1.0,
-    "f1-score": 1.0,
-    "support": 100.0
+    "precision": 0.9821428571428571,
+    "recall": 0.9322033898305084,
+    "f1-score": 0.9565217391304348,
+    "support": 59.0
   },
   "shuffling_low_cadence": {
-    "precision": 0.9595959595959596,
-    "recall": 0.95,
-    "f1-score": 0.9547738693467337,
-    "support": 100.0
+    "precision": 0.7903225806451613,
+    "recall": 0.8596491228070176,
+    "f1-score": 0.8235294117647058,
+    "support": 57.0
   },
-  "accuracy": 0.99,
+  "accuracy": 0.9229287090558767,
   "macro avg": {
-    "precision": 0.9900101121223233,
-    "recall": 0.99,
-    "f1-score": 0.9899997499937498,
-    "support": 900.0
+    "precision": 0.9279602420908883,
+    "recall": 0.9226613029098494,
+    "f1-score": 0.9244427878683863,
+    "support": 519.0
   },
   "weighted avg": {
-    "precision": 0.9900101121223233,
-    "recall": 0.99,
-    "f1-score": 0.9899997499937498,
-    "support": 900.0
+    "precision": 0.9284887376728129,
+    "recall": 0.9229287090558767,
+    "f1-score": 0.924846824834338,
+    "support": 519.0
   }
 }

@@ -1,3 +1,3 @@
-"""X-Step ML: DFU risk prediction pipelines."""
+"""X-Step ML: DFU prevention pipelines and EHB experiment code."""
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"

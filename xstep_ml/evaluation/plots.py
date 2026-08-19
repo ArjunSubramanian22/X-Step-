@@ -10,6 +10,8 @@ import seaborn as sns
 from sklearn.metrics import ConfusionMatrixDisplay, roc_curve, auc
 from sklearn.preprocessing import label_binarize
 
+plt.rcParams.update({"figure.dpi": 300, "savefig.dpi": 300, "savefig.bbox": "tight"})
+
 
 def save_evaluation_plots(
     y_true: np.ndarray,
