@@ -4,6 +4,21 @@ __pycache__/
 .venv/
 venv/
 .env
+.env.local
 outputs/
 *.pt
 tools/preproc_*.png
+node_modules/
+.expo/
+dist/
+web-build/
+mobile/node_modules/
+mobile/.expo/
+mobile/dist/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+artifacts/*.tmp
+ulcer model/archive/train/
+ulcer model/archive/valid/
+ulcer model/archive/test/
