@@ -18,12 +18,25 @@ import numpy as np
 from xstep_ml.hardware import HIGH_RISK_PEAK_KPA, SensorSite
 
 SITE_NAMES = ("met1", "met2", "met5", "heel")
-FEATURE_NAMES: list[str] = []
-
-
-def _register(*names: str) -> tuple[str, ...]:
-    FEATURE_NAMES.extend(names)
-    return names
+_SITE_SUFFIXES = ("peak", "mean", "pti", "load", "high", "cv")
+FEATURE_NAMES: list[str] = [
+    f"{prefix}_{site}_{suf}"
+    for prefix in ("L", "R")
+    for site in SITE_NAMES
+    for suf in _SITE_SUFFIXES
+] + [
+    "asym_met1",
+    "asym_met2",
+    "asym_met5",
+    "asym_heel",
+    "cadence_spm",
+    "stance_ratio",
+    "cop_ap",
+    "forefoot_share",
+    "peak_any",
+    "pti_total",
+    "temp_asym_max",
+]
 
 
 @dataclass
@@ -96,31 +109,6 @@ def extract_features(window: GaitWindow, risk_kpa: float = HIGH_RISK_PEAK_KPA) -
             extras[f"{prefix}_{name}_peak"] = float(peaks[i])
             extras[f"{prefix}_{name}_pti"] = float(pti[i])
 
-    if not FEATURE_NAMES:
-        for prefix in ("L", "R"):
-            for name in SITE_NAMES:
-                _register(
-                    f"{prefix}_{name}_peak",
-                    f"{prefix}_{name}_mean",
-                    f"{prefix}_{name}_pti",
-                    f"{prefix}_{name}_load",
-                    f"{prefix}_{name}_high",
-                    f"{prefix}_{name}_cv",
-                )
-        _register(
-            "asym_met1",
-            "asym_met2",
-            "asym_met5",
-            "asym_heel",
-            "cadence_spm",
-            "stance_ratio",
-            "cop_ap",
-            "forefoot_share",
-            "peak_any",
-            "pti_total",
-            "temp_asym_max",
-        )
-
     site_block(left, "L")
     site_block(right, "R")
 
@@ -129,7 +117,6 @@ def extract_features(window: GaitWindow, risk_kpa: float = HIGH_RISK_PEAK_KPA) -
     asym = np.abs(l_peak - r_peak) / denom
     feats.extend(float(x) for x in asym)
 
-    heel = np.concatenate([left[:, SensorSite.HEEL], right[:, SensorSite.HEEL]])
     # Use mean of both heels for strike detection
     heel_mean = (left[:, SensorSite.HEEL] + right[:, SensorSite.HEEL]) / 2.0
     min_dist = max(int(0.35 * hz), 3)
@@ -138,7 +125,6 @@ def extract_features(window: GaitWindow, risk_kpa: float = HIGH_RISK_PEAK_KPA) -
     cadence = (len(strikes) / max(duration_s, 1e-6)) * 60.0
     loaded = (p.max(axis=1) > 15.0).mean()
     fore = p[:, [SensorSite.MET1, SensorSite.MET2, SensorSite.MET5, 4 + SensorSite.MET1, 4 + SensorSite.MET2, 4 + SensorSite.MET5]]
-    heel_ch = p[:, [SensorSite.HEEL, 4 + SensorSite.HEEL]]
     total = max(float(p.sum()), 1e-6)
     cop_ap = float(fore.sum() / total)
     feats.extend(
@@ -161,6 +147,19 @@ def extract_features(window: GaitWindow, risk_kpa: float = HIGH_RISK_PEAK_KPA) -
     extras["cadence_spm"] = float(cadence)
     extras["peak_any"] = float(p.max())
     extras["temp_asym_max"] = temp_asym
+    extras["stance_ratio"] = float(loaded)
+    extras["cop_ap"] = cop_ap
+    extras["pti_total"] = float(p.sum() * dt)
+    extras["asym_met1"] = float(asym[0])
+    extras["asym_met2"] = float(asym[1])
+    extras["asym_met5"] = float(asym[2])
+    extras["asym_heel"] = float(asym[3])
+    try:
+        from xstep_ml.features import extended_from_window
+
+        extras.update(extended_from_window(window, risk_kpa=risk_kpa))
+    except ImportError:
+        pass
 
     vector = np.array(feats, dtype=np.float64)
     names = list(FEATURE_NAMES)
