@@ -1,0 +1,8 @@
+quantity,value,source
+Serialized logistic regression,7.7 kB,model_comparison.csv
+Feature extraction mean,0.23 ms path; see latency_host.json,latency_host.json
+Host path mean (features + logreg),0.23 ms,latency_host.json
+Host path P95,0.31 ms,latency_host.json
+Firmware sample period,40 ms,firmware SAMPLE_HZ=25
+BLE radio airtime,not measured,n/a
+Battery life,not measured (future work),POWER_MEASUREMENT_PROTOCOL.md

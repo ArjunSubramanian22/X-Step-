@@ -13,7 +13,9 @@ outputs/
 tools/preproc_*.png
 node_modules/
 .expo/
-dist/
+dist/*
+!dist/ehb26/
+!dist/ehb26/**
 web-build/
 mobile/node_modules/
 mobile/.expo/

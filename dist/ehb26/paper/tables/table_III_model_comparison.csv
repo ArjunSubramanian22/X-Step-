@@ -1,0 +1,10 @@
+model,macro_f1,macro_f1_ci95_lo,macro_f1_ci95_hi,accuracy,auroc_macro,ece,serialized_kb,inference_mean_ms,data_source
+threshold_heuristic,0.480,0.460,0.493,0.497,,,2.130,0.013,synthetic
+majority,0.040,0.036,0.043,0.111,,,,,synthetic
+logreg,0.885,0.873,0.894,0.885,0.979,0.031,7.740,0.065,synthetic
+decision_tree,0.796,0.782,0.812,0.785,,,11.640,0.041,synthetic
+linear_svm,0.873,0.859,0.884,0.874,,,7.590,0.068,synthetic
+random_forest,0.837,0.824,0.851,0.834,,,3547.540,13.125,synthetic
+gbm,0.870,0.860,0.881,0.870,,,,,synthetic
+mlp,0.876,0.864,0.887,0.878,,,,,synthetic
+hist_gbm,0.885,0.875,0.898,0.885,,,,,synthetic
