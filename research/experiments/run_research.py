@@ -135,6 +135,8 @@ def group_cv_oof(model_name: str, proto, X, y, groups, names, n_splits: int, see
     splits = min(n_splits, n_groups)
     gkf = GroupKFold(n_splits=splits)
     oof = np.empty(len(y), dtype=object)
+    label_order = [str(c) for c in GAIT_CLASSES]
+    oof_proba = None
     fold_rows = []
     for fold, (tr, te) in enumerate(gkf.split(X, y, groups), 1):
         assert_no_group_overlap(groups[tr], groups[te], kind="subject")
@@ -142,6 +144,19 @@ def group_cv_oof(model_name: str, proto, X, y, groups, names, n_splits: int, see
         clf.fit(X[tr], y[tr])
         pred = clf.predict(X[te])
         oof[te] = pred
+        if hasattr(clf, "predict_proba"):
+            try:
+                raw_p = np.asarray(clf.predict_proba(X[te]), dtype=np.float64)
+                aligned = np.zeros((len(te), len(label_order)), dtype=np.float64)
+                classes = [str(c) for c in clf.classes_]
+                for j, lab in enumerate(classes):
+                    if lab in label_order:
+                        aligned[:, label_order.index(lab)] = raw_p[:, j]
+                if oof_proba is None:
+                    oof_proba = np.full((len(y), len(label_order)), np.nan)
+                oof_proba[te] = aligned
+            except Exception:
+                pass
         fold_rows.append(
             {
                 "fold": fold,
@@ -150,7 +165,7 @@ def group_cv_oof(model_name: str, proto, X, y, groups, names, n_splits: int, see
                 "n_test": int(len(te)),
             }
         )
-    return oof.astype(str), None, fold_rows, list(GAIT_CLASSES)
+    return oof.astype(str), oof_proba, fold_rows, label_order
 
 
 def run_baselines(bundle: CohortBundle, cfg: dict) -> tuple[list[dict], dict[str, np.ndarray], dict]:
@@ -280,7 +295,7 @@ def run_robustness(bundle: CohortBundle, cfg: dict) -> list[dict]:
         eval_windows("gaussian_noise_kpa", s, gaussian_noise(test_w, rng, s))
     for s in (0.05, 0.15, 0.30):
         eval_windows("calibration_drift_gain", s, calibration_drift(test_w, rng, s))
-    for s in (0.02, 0.08, 0.20):
+    for s in (0.01, 0.05, 0.10, 0.20, 0.30):
         eval_windows("dropped_packets_frac", s, dropped_packets(test_w, rng, s))
     for site in (0, 1, 2, 3):
         eval_windows("missing_sensor_index", float(site), missing_sensor(test_w, site))
@@ -347,11 +362,17 @@ def run_threshold_sweep(bundle: CohortBundle) -> list[dict]:
         fn = int(((pred == 0) & (y_bin == 1)).sum())
         sens = tp / (tp + fn) if tp + fn else 0.0
         spec = tn / (tn + fp) if tn + fp else 0.0
+        prec = tp / (tp + fp) if tp + fp else 0.0
+        rec = sens
+        f1 = (2 * prec * rec / (prec + rec)) if (prec + rec) else 0.0
         rows.append(
             {
                 "threshold_kpa": thr,
                 "sensitivity": sens,
                 "specificity": spec,
+                "precision": prec,
+                "recall": rec,
+                "f1": f1,
                 "false_alert_rate": fp / max(fp + tn, 1),
                 "missed_event_rate": fn / max(fn + tp, 1),
                 "n_positive_true": int(y_bin.sum()),
@@ -379,6 +400,7 @@ def run_latency(bundle: CohortBundle, fitted: dict, cfg: dict) -> list[dict]:
             "Mean Latency": float(arr.mean()),
             "Median": float(np.median(arr)),
             "P95": float(np.percentile(arr, 95)),
+            "P99": float(np.percentile(arr, 99)),
             "Std Dev": float(arr.std(ddof=1)),
             "Notes": "Software decode of 28-byte payload. Radio/airtime not measured in this repo.",
         }
@@ -396,6 +418,7 @@ def run_latency(bundle: CohortBundle, fitted: dict, cfg: dict) -> list[dict]:
             "Mean Latency": float(arr.mean()),
             "Median": float(np.median(arr)),
             "P95": float(np.percentile(arr, 95)),
+            "P99": float(np.percentile(arr, 99)),
             "Std Dev": float(arr.std(ddof=1)),
             "Notes": f"{bundle.window_seconds}s window at {bundle.sample_hz} Hz, host CPU.",
         }
@@ -408,6 +431,7 @@ def run_latency(bundle: CohortBundle, fitted: dict, cfg: dict) -> list[dict]:
                 "Mean Latency": eff["mean_ms"],
                 "Median": eff["median_ms"],
                 "P95": eff["p95_ms"],
+                "P99": eff.get("p99_ms", ""),
                 "Std Dev": eff["std_ms"],
                 "Notes": f"serialized {eff['serialized_kb']} KB; params={eff['n_params']}",
             }
@@ -433,18 +457,18 @@ def run_latency(bundle: CohortBundle, fitted: dict, cfg: dict) -> list[dict]:
             "Notes": "Requires instrumented ESP32 + phone capture. Do not invent values.",
         }
     )
-    inf = [r for r in rows if str(r["Stage"]).startswith("Inference")]
+    inf_logreg = next((r for r in rows if r["Stage"] == "Inference (logreg)"), None)
     prep = next(r for r in rows if r["Stage"].startswith("Preprocessing"))
-    if inf:
-        mean_inf = float(np.mean([r["Mean Latency"] for r in inf if r["Mean Latency"] != ""]))
+    if inf_logreg and inf_logreg.get("Mean Latency") not in ("", None):
         rows.append(
             {
-                "Stage": "Host alert path (features + one model)",
-                "Mean Latency": float(prep["Mean Latency"]) + mean_inf,
+                "Stage": "Host alert path (features + logreg)",
+                "Mean Latency": float(prep["Mean Latency"]) + float(inf_logreg["Mean Latency"]),
                 "Median": "",
-                "P95": float(prep["P95"]) + float(np.mean([r["P95"] for r in inf])),
+                "P95": float(prep["P95"]) + float(inf_logreg["P95"]),
+                "P99": "",
                 "Std Dev": "",
-                "Notes": "Excludes BLE airtime and UI render. Engineering host timing only.",
+                "Notes": "Excludes BLE airtime and UI render. Uses logistic regression only (not RF mean).",
             }
         )
     return rows
@@ -619,7 +643,7 @@ def main() -> dict:
     _write_csv(
         TAB / "table6_system_performance.csv",
         lat_rows,
-        ["Stage", "Mean Latency", "Median", "P95", "Std Dev", "Notes"],
+        ["Stage", "Mean Latency", "Median", "P95", "P99", "Std Dev", "Notes"],
     )
     _write_csv(TAB / "table1_hardware.csv", hardware_table(), ["item", "specification"])
     _write_csv(
