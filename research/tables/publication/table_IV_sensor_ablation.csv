@@ -1,0 +1,16 @@
+Sensor Configuration,Performance,delta_vs_4_sensor,n_sites,macro_f1_ci95_lo,macro_f1_ci95_hi,Notes
+4-site (met1+met2+met5+heel),0.885,0.000,4,0.873,0.894,59 features still extracted; dropped sites are zeroed. Synthetic labels.
+3-site (met2+met5+heel),0.883,-0.002,3,0.873,0.894,59 features still extracted; dropped sites are zeroed. Synthetic labels.
+3-site (met1+met5+heel),0.874,-0.011,3,0.864,0.885,59 features still extracted; dropped sites are zeroed. Synthetic labels.
+3-site (met1+met2+heel),0.671,-0.213,3,0.652,0.688,59 features still extracted; dropped sites are zeroed. Synthetic labels.
+3-site (met1+met2+met5),0.657,-0.228,3,0.642,0.671,59 features still extracted; dropped sites are zeroed. Synthetic labels.
+2-site (met2+heel),0.686,-0.199,2,0.671,0.700,59 features still extracted; dropped sites are zeroed. Synthetic labels.
+2-site (met1+heel),0.664,-0.221,2,0.648,0.678,59 features still extracted; dropped sites are zeroed. Synthetic labels.
+2-site (met1+met2),0.435,-0.450,2,0.420,0.447,59 features still extracted; dropped sites are zeroed. Synthetic labels.
+1-site (met2),0.396,-0.489,1,0.382,0.407,59 features still extracted; dropped sites are zeroed. Synthetic labels.
+1-site (heel),0.421,-0.464,1,0.410,0.438,59 features still extracted; dropped sites are zeroed. Synthetic labels.
+1-site (met1),0.394,-0.490,1,0.380,0.410,59 features still extracted; dropped sites are zeroed. Synthetic labels.
+1-site (met5),0.398,-0.486,1,0.387,0.411,59 features still extracted; dropped sites are zeroed. Synthetic labels.
+2-site (met1+met5),0.639,-0.245,2,0.624,0.653,59 features still extracted; dropped sites are zeroed. Synthetic labels.
+2-site (met2+met5),0.631,-0.254,2,0.615,0.644,59 features still extracted; dropped sites are zeroed. Synthetic labels.
+2-site (met5+heel),0.649,-0.235,2,0.635,0.663,59 features still extracted; dropped sites are zeroed. Synthetic labels.

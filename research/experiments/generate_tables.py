@@ -19,8 +19,8 @@ def main() -> None:
     if src.exists():
         shutil.copyfile(src, SYS)
     if not RES.exists():
-        print("missing research/results/research_results.json — run make experiments", file=sys.stderr)
-        sys.exit(1)
+        print("missing research/results/research_results.json — using frozen CSVs only", file=sys.stderr)
+        return
     data = json.loads(RES.read_text())
     print(f"tables ok; n_windows={data.get('n_windows')} data_source={data.get('data_source')}")
 

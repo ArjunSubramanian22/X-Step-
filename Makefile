@@ -1,4 +1,4 @@
-.PHONY: setup test lint experiments final-eval figures tables generated-results paper-assets api ci-local
+.PHONY: setup test lint experiments final-eval figures tables generated-results paper-assets paper registry api ci-local
 PYTHON ?= python3
 export PYTHONPATH := .
 
@@ -27,12 +27,20 @@ tables:
 	$(PYTHON) research/experiments/generate_tables.py
 	$(PYTHON) research/experiments/inject_results.py
 
-generated-results:
+registry:
+	$(PYTHON) research/experiments/build_registry.py
+
+generated-results: registry
 	$(PYTHON) research/experiments/generate_results.py
 	$(PYTHON) research/experiments/inject_results.py
 
+# Retrains synthetic experiments. Do not use to chase decimals after freeze.
 paper-assets: experiments final-eval figures tables generated-results
 	@echo "Paper assets in research/figures, research/tables, research/manuscript/"
+
+# Submission package: no training.
+paper:
+	$(PYTHON) -m research.build_paper
 
 api:
 	$(PYTHON) -m api.main
@@ -42,5 +50,8 @@ ci-local: test
 	RESEARCH_SMOKE=1 $(PYTHON) research/experiments/run_final_eval.py
 	$(PYTHON) research/experiments/generate_figures.py
 	$(PYTHON) research/experiments/generate_tables.py
+	$(PYTHON) research/experiments/build_registry.py
 	$(PYTHON) research/experiments/generate_results.py
 	$(PYTHON) research/experiments/inject_results.py
+	$(PYTHON) research/experiments/verify_references.py
+	$(PYTHON) research/experiments/lint_manuscript.py
