@@ -1,0 +1,57 @@
+name: ci
+
+on:
+  push:
+    branches: [ehb26-research, production-ml]
+  pull_request:
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        run: |
+          python -m pip install -U pip
+          pip install -r requirements.txt
+          pip install -e .
+      - name: Ruff
+        run: python -m ruff check xstep_ml tests research/experiments api scripts
+      - name: Unit tests
+        run: python -m pytest tests -q
+      - name: Model / API / reproducibility smoke
+        run: |
+          python -c "from xstep_ml.models.gait import gait_pipeline; print(gait_pipeline())"
+          python -c "from api.main import app; print(app.title)"
+          python -c "from xstep_ml.data.synthetic_gait import make_cohort; from xstep_ml.data.schema import dataset_hash; x,y,z,g=make_cohort(n_subjects=2,windows_per_class=1,seed=1); print(dataset_hash(x,y,g)[:12])"
+      - name: Research experiment smoke
+        env:
+          RESEARCH_SMOKE: "1"
+        run: |
+          python research/experiments/run_research.py
+          python research/experiments/generate_figures.py
+          python research/experiments/generate_tables.py
+          python -c "from pathlib import Path; assert Path('research/results/manifest.json').exists()"
+
+  mobile:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - name: Install and typecheck
+        run: |
+          npm ci
+          npx tsc --noEmit

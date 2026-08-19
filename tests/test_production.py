@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import numpy as np
-import pytest
 
 from xstep_ml.biomechanics import GaitWindow, extract_features
 from xstep_ml.data.synthetic_gait import synthesize_window
