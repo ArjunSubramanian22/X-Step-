@@ -10,7 +10,7 @@ import torch
 from torch.utils.data import DataLoader, Dataset, Subset
 from torchvision import transforms as T
 
-from xstep_ml.config import DEFAULT_BATCH_SIZE, HEATMAP_DIR
+from xstep_ml.config import DEFAULT_BATCH_SIZE
 from xstep_ml.data.splits import groupwise_split_indices, stratified_group_kfold
 
 
