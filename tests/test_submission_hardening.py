@@ -14,6 +14,8 @@ def test_registry_matches_model_comparison_csv():
     f1 = by_key["logreg_grouped_macro_f1"]["value"]
     assert abs(f1 - 0.8845971882742668) < 1e-9
     assert by_key["n_subjects_human"]["value"] == 0
+    assert by_key["n_subjects_human_32site"]["value"] == 15
+    assert by_key["n_takes_human_32site"]["value"] == 149
     assert by_key["n_windows"]["value"] == 2592
     assert "0.885" in by_key["logreg_grouped_macro_f1"]["display"]
     path = ROOT / "research" / "results" / "final_results_registry.json"

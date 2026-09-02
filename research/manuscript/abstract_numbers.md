@@ -4,4 +4,5 @@
 - drop HEEL F1: 0.657
 - 30% packet-loss F1: 0.631
 - host path mean: 0.23 ms
-- simulated calibration MAE: 1.30 N
+- 32-cell walking subjects: 15
+- 4-site vs dense AP CoP r: 0.805

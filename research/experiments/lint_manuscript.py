@@ -47,6 +47,8 @@ REQUIRED_FIGS = [
     "fig09_robustness_noise.png",
     "fig10_packet_loss.png",
     "fig11_latency.png",
+    "fig14_human_sparse_vs_dense.png",
+    "fig15_human_walking_traces.png",
 ]
 REQUIRED_TOKENS = ["MET1", "MET2", "MET5", "HEEL", "synthetic", "GroupKFold"]
 

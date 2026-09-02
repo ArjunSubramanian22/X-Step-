@@ -62,6 +62,7 @@ def main() -> int:
     p.add_argument("--skip-lint", action="store_true")
     args = p.parse_args()
 
+    _run([sys.executable, "research/experiments/evaluate_calibration_csv.py"])
     _run([sys.executable, "research/experiments/build_registry.py"])
     _run([sys.executable, "research/experiments/generate_results.py"])
     _run([sys.executable, "research/experiments/inject_results.py"])
@@ -106,6 +107,8 @@ def main() -> int:
             "fig09_robustness_noise",
             "fig10_packet_loss",
             "fig11_latency",
+            "fig14_human_sparse_vs_dense",
+            "fig15_human_walking_traces",
         ):
             for ext in (".png", ".pdf", ".svg"):
                 f = fig_src / f"{name}{ext}"

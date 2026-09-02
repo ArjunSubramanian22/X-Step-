@@ -1,0 +1,5 @@
+site,n_foot_takes,median_timeseries_r,peak_peak_r,peak_rmse_counts,peak_nrmse,median_sparse_peak,median_dense_peak,data_source,hardware
+met1,298,0.8791,0.4293,1146.4259,0.4464,1852.5000,2635.5000,human,"32-cell insole, not X-Step 4-FSR"
+met2,298,0.9859,0.5295,647.0099,0.2685,1950.5000,2432.0000,human,"32-cell insole, not X-Step 4-FSR"
+met5,298,0.7167,0.5541,1056.7326,0.3748,2034.0000,2834.0000,human,"32-cell insole, not X-Step 4-FSR"
+heel,298,0.8846,0.7386,566.5793,0.1806,2800.5000,3191.0000,human,"32-cell insole, not X-Step 4-FSR"

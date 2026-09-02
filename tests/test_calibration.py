@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import numpy as np
 
 from xstep_ml.calibration import (
@@ -6,7 +8,9 @@ from xstep_ml.calibration import (
     adc_to_resistance_ohm,
     calibration_residuals,
     drift_rate,
+    evaluate_force_adc_table,
     hysteresis_error,
+    load_force_adc_csv,
     repeatability_cv,
     simulate_example_curve,
 )
@@ -39,3 +43,15 @@ def test_repeatability_and_hysteresis():
     assert hysteresis_error(np.array([1.0, 2.0]), np.array([1.1, 2.2])) > 0
     d = drift_rate(np.linspace(0, 2, 50), sample_hz=25.0)
     assert d["slope_kpa_per_min"] > 0
+
+
+def test_four_site_bench_csv_is_operator_attested():
+    path = Path(__file__).resolve().parents[1] / "data" / "calibration" / "four_site_fsr_bench.csv"
+    rows = load_force_adc_csv(path)
+    out = evaluate_force_adc_table(rows)
+    assert out["n_rows"] == 480
+    assert out["n_sites"] == 4
+    assert out["physical_bench_present"] is True
+    assert all(r["data_source"] == "bench" for r in rows)
+    assert not any("SIMULATED" in (r.get("notes") or "") for r in rows)
+    assert out["mae_n"] is not None and out["mae_n"] > 0

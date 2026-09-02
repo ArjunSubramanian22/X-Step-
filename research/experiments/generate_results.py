@@ -182,7 +182,18 @@ def main() -> None:
                 "window_s": "4",
                 "classes": "9 gait patterns",
                 "split": "GroupKFold by virtual subject",
-            }
+            },
+            {
+                "dataset": "human_32site_insole_optitrack",
+                "data_source": "human",
+                "n_subjects": _d(reg, "n_subjects_human_32site"),
+                "n_human_subjects": _d(reg, "n_subjects_human_32site"),
+                "n_windows": _d(reg, "n_takes_human_32site"),
+                "sample_hz": "64 (assumed; no timestamps)",
+                "window_s": "take (~4.6 s median)",
+                "classes": "unlabeled M1–M10 takes",
+                "split": "not used for frozen gait ML",
+            },
         ],
     )
     _write_csv("table_VI_deployment.csv", deploy, ["quantity", "value", "source"])
@@ -196,7 +207,9 @@ def main() -> None:
         f"Registry git SHA at build: `{reg.get('git_sha', 'unknown')}`. Dataset hash: `{reg.get('dataset_hash', '')}`.",
         "",
         f"Cohort: **{_d(reg, 'n_windows')}** windows, **{_d(reg, 'n_subjects_virtual')}** virtual subjects, "
-        f"**{_d(reg, 'n_subjects_human')}** human walking subjects in-repo, 25 Hz, 4 s windows.",
+        f"**{_d(reg, 'n_subjects_human')}** X-Step four-site FSR walking subjects, "
+        f"**{_d(reg, 'n_subjects_human_32site')}** adults in the 32-cell insole+OptiTrack archive "
+        "(not the X-Step prototype), 25 Hz synthetic windows.",
         "",
         "## 6.1 Baseline models (subject-independent)",
         "",
@@ -241,14 +254,16 @@ def main() -> None:
         _md(sampling, ["label", "effective_hz", "macro_f1", "ble_bytes_per_s_two_feet", "note"]),
         "## 6.6 Repeatability",
         "",
-        "Human test–retest ICC is **not reported** (no repeated walking sessions in-repo). Simulator CVs characterize the generator only.",
+        "X-Step four-site test–retest ICC is **not reported** (no repeated 4-FSR walking sessions). "
+        "Simulator CVs characterize the generator only. M1–M10 in the 32-cell archive are unlabeled takes, not identical repeats.",
         "",
         _md(_round_rows(_rows("repeatability.csv"), ["within_session_cv_median", "between_seed_icc"])),
         "## 6.7 Sensor calibration vs ML accuracy",
         "",
-        "These quantities are not interchangeable. Simulated log–log reconstruction "
-        f"(not a bench measurement): MAE **{_d(reg, 'calibration_mae_n')}**, RMSE **{_d(reg, 'calibration_rmse_n')}**. "
-        "Physical load-cell residuals remain unmeasured.",
+        "These quantities are not interchangeable. Four-site log–log reconstruction on "
+        f"operator-attested `data/calibration/four_site_fsr_bench.csv` (480 load–unload rows; not walking data): "
+        f"MAE **{_d(reg, 'calibration_mae_n')}**, RMSE **{_d(reg, 'calibration_rmse_n')}**. "
+        "Lab photographs of the rig are not in the repository.",
         "",
         "## 6.8 Host latency (radio not measured)",
         "",
@@ -274,6 +289,21 @@ def main() -> None:
         "",
         "The frozen 4 s / 25 Hz window is a compromise between cadence estimates and alert latency.",
         "",
+        "## 6.12 Human 32-cell walking (not X-Step FSR)",
+        "",
+        f"**{_d(reg, 'n_subjects_human_32site')}** adults, **{_d(reg, 'n_takes_human_32site')}** analyzed takes "
+        "(150 unique pressure takes, one excluded for insole desynchronization). "
+        "Hardware is a 32-cell instrumented insole synchronized to OptiTrack, **not** the four-site FSR402 prototype. "
+        f"Median anteroposterior CoP correlation (4 anatomical sites vs native 32-cell CoP): **{_d(reg, 'human_32site_copy_r')}**. "
+        f"Mediolateral CoP is not recovered (**{_d(reg, 'human_32site_copx_r')}**). "
+        f"Single-site vs regional-max time-series *r*: MET1 {_d(reg, 'human_32site_met1_timeseries_r')}, "
+        f"MET2 {_d(reg, 'human_32site_met2_timeseries_r')}, MET5 {_d(reg, 'human_32site_met5_timeseries_r')}, "
+        f"HEEL {_d(reg, 'human_32site_heel_timeseries_r')}. "
+        f"Median overground speed **{_d(reg, 'human_32site_speed_m_s')}** under a 64 Hz timestamp assumption. "
+        "These numbers are not mixed into the frozen synthetic gait macro-F1 tables.",
+        "",
+        _md(_round_rows(_rows("human_optitrack_sparse_vs_dense.csv"), ["site", "n_foot_takes", "median_timeseries_r", "peak_peak_r", "peak_nrmse", "data_source", "hardware"])),
+        "",
     ]
     text = "\n".join(parts)
     verify_text_contains(text, "0.885")
@@ -287,7 +317,8 @@ def main() -> None:
                 f"- drop HEEL F1: {_d(reg, 'ablation_drop_heel_macro_f1')}",
                 f"- 30% packet-loss F1: {_d(reg, 'packet_loss_30pct_macro_f1')}",
                 f"- host path mean: {_d(reg, 'host_path_mean_ms')}",
-                f"- simulated calibration MAE: {_d(reg, 'calibration_mae_n')}",
+                f"- 32-cell walking subjects: {_d(reg, 'n_subjects_human_32site')}",
+                f"- 4-site vs dense AP CoP r: {_d(reg, 'human_32site_copy_r')}",
                 "",
             ]
         )

@@ -168,6 +168,122 @@ def simulate_example_curve(
     }
 
 
+def load_force_adc_csv(path: Path) -> list[dict]:
+    """Load a site/trial/direction/force_n/adc table. Comment lines starting with # are ignored."""
+    import csv
+
+    rows: list[dict] = []
+    with Path(path).open(newline="") as f:
+        kept = [ln for ln in f if ln.strip() and not ln.lstrip().startswith("#")]
+    reader = csv.DictReader(kept)
+    for row in reader:
+        if not row.get("site") or row.get("force_n") in (None, "") or row.get("adc") in (None, ""):
+            continue
+        rows.append(row)
+    return rows
+
+
+def evaluate_force_adc_table(rows: list[dict], *, cal_template: SensorCalibration | None = None) -> dict:
+    """Fit per-site log–log curves and report reconstruction error.
+
+    Commanded `force_n` is treated as the reference. This does **not** certify a
+    physical bench unless `data_source` on the rows is `bench` or `human`.
+    """
+    from collections import defaultdict
+
+    sources = {str(r.get("data_source") or "").lower() for r in rows}
+    physical_tokens = {"bench", "human", "physical", "bench_operator_attested"}
+    physical = bool(sources) and sources.issubset(physical_tokens)
+    if any("simul" in s or "synthetic" in s for s in sources):
+        physical = False
+
+    by_site: dict[str, list[dict]] = defaultdict(list)
+    for row in rows:
+        by_site[str(row["site"]).lower()].append(row)
+
+    per_site = []
+    all_true = []
+    all_pred = []
+    for site, site_rows in sorted(by_site.items()):
+        cal = SensorCalibration(site=site, model="loglog", version="csv_fit")
+        if cal_template:
+            cal.r_fixed_ohm = cal_template.r_fixed_ohm
+            cal.vcc_v = cal_template.vcc_v
+            cal.adc_full_scale = cal_template.adc_full_scale
+            cal.area_m2 = cal_template.area_m2
+        load = [r for r in site_rows if str(r.get("direction", "loading")).lower() == "loading" and float(r["force_n"]) > 0]
+        if len(load) < 2:
+            continue
+        adc_l = np.array([float(r["adc"]) for r in load], dtype=np.float64)
+        f_l = np.array([float(r["force_n"]) for r in load], dtype=np.float64)
+        a, b = fit_loglog(adc_to_resistance_ohm(adc_l, cal), f_l)
+        cal.loglog_a, cal.loglog_b = a, b
+        adc_all = np.array([float(r["adc"]) for r in site_rows], dtype=np.float64)
+        f_all = np.array([float(r["force_n"]) for r in site_rows], dtype=np.float64)
+        pred = resistance_to_force_n(adc_to_resistance_ohm(adc_all, cal), cal)
+        resid = calibration_residuals(f_all, pred)
+        # hysteresis on reconstructed force at matched commanded loads (mean per trial)
+        hyst_vals = []
+        trials = sorted({str(r.get("trial", "")) for r in site_rows})
+        for trial in trials:
+            ld = {
+                round(float(r["force_n"]), 4): resistance_to_force_n(
+                    adc_to_resistance_ohm(float(r["adc"]), cal), cal
+                ).item()
+                for r in site_rows
+                if str(r.get("trial")) == trial and str(r.get("direction")).lower() == "loading"
+            }
+            un = {
+                round(float(r["force_n"]), 4): resistance_to_force_n(
+                    adc_to_resistance_ohm(float(r["adc"]), cal), cal
+                ).item()
+                for r in site_rows
+                if str(r.get("trial")) == trial and str(r.get("direction")).lower() == "unloading"
+            }
+            keys = sorted(set(ld) & set(un))
+            if keys:
+                hyst_vals.append(float(np.mean([abs(ld[k] - un[k]) for k in keys])))
+        per_site.append(
+            {
+                "site": site,
+                "n": int(resid["n"]),
+                "loglog_a": a,
+                "loglog_b": b,
+                "mae_n": resid["mae_n"],
+                "rmse_n": resid["rmse_n"],
+                "mape_pct": resid["mape_pct"],
+                "hysteresis_mae_n": float(np.mean(hyst_vals)) if hyst_vals else None,
+            }
+        )
+        all_true.extend(f_all.tolist())
+        all_pred.extend(np.asarray(pred, dtype=np.float64).tolist())
+
+    pooled = calibration_residuals(np.asarray(all_true), np.asarray(all_pred)) if all_true else {}
+    true_a = np.asarray(all_true, dtype=np.float64)
+    pred_a = np.asarray(all_pred, dtype=np.float64)
+    nz = true_a > 0.25
+    mape_nz = float(np.mean(np.abs(pred_a[nz] - true_a[nz]) / true_a[nz]) * 100.0) if np.any(nz) else None
+    for site_row in per_site:
+        # MAPE at 0 N is not a meaningful percentage; leave site mape as reconstruction-only MAE/RMSE in the table.
+        site_row["mape_pct"] = None
+    return {
+        "n_rows": len(rows),
+        "n_sites": len(per_site),
+        "n_trials": len({str(r.get("trial")) for r in rows}),
+        "data_source_values": sorted(sources),
+        "physical_bench_present": physical,
+        "mae_n": pooled.get("mae_n"),
+        "rmse_n": pooled.get("rmse_n"),
+        "mape_pct": mape_nz,
+        "mape_note": "MAPE excludes commanded force ≤ 0.25 N",
+        "hysteresis_mae_n": float(np.mean([s["hysteresis_mae_n"] for s in per_site if s["hysteresis_mae_n"] is not None]))
+        if per_site
+        else None,
+        "per_site": per_site,
+        "ml_accuracy_note": "These residuals are ADC→force reconstruction error, not classification macro-F1.",
+    }
+
+
 def write_template_csv(path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(

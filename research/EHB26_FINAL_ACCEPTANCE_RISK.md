@@ -29,7 +29,7 @@ Previous readiness (~58) rose mainly from claim/registry/methods/reproducibility
 
 ## Top 5 rejection arguments
 
-1. \(N=0\) human walking sessions.
+1. \(N=0\) X-Step four-site FSR walking sessions (32-cell walking is a different device).
 2. Calibration and packet loss are not physical.
 3. High AUROC is simulator peak-separability.
 4. “Wearable deployment” still lacks radio and energy.
