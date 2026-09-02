@@ -4,7 +4,7 @@
 **Branch:** `ehb26-research`  
 **Be critical. Scores are not inflated.**
 
-This is a **methods / engineering** package with a complete software freeze and **no human plantar dataset**. That caps several axes.
+This is a **methods / engineering** package with a software freeze, operator-attested four-site bench calibration, and a **32-cell** human walking archive (not the X-Step FSR402 prototype). Radio and power remain unmeasured. X-Step four-site walking is still \(N=0\).
 
 ## Scores (0–100)
 
@@ -12,7 +12,7 @@ This is a **methods / engineering** package with a complete software freeze and 
 |------|------:|-----------|
 | Novelty | 48 | Sparse FSR insoles exist (e.g. SmartStep). Novelty is the documented 4-site DFU-region contract + ablation/robustness/grouped ML, not a new sensing physics. |
 | Methodological rigor | 78 | Grouped splits, leakage tests, frozen HPs, CIs, ablation, perturbations, generated Results. Labels are still synthetic. |
-| Hardware validation | 28 | Firmware exists; assumed to work per project brief. No bench curve, no measured SNR, no in-shoe trace in git. |
+| Hardware validation | 38 | Firmware + operator-attested 4-site bench CSV + 15-adult 32-cell walking (different insole). No X-Step FSR walking, radio, or battery. |
 | ML validation | 62 | Strong **simulator** protocol (subject/session/LOSO/IID). Zero external human test. Zone labels derived from gait class. |
 | Statistics | 70 | Bootstrap CIs, SAP, error analysis. Frozen tables used n_boot=80. No clinical estimand. |
 | Reproducibility | 82 | Lockfile, freeze doc, Makefile, CI smoke, importer, split dumps. Full 9-model CV is slow but specified. |
@@ -23,7 +23,7 @@ This is a **methods / engineering** package with a complete software freeze and 
 
 ## Overall readiness score
 
-**65 / 100** (submission-hardening pass; still capped by \(N=0\) humans and unmeasured radio/power)
+**70 / 100** (32-cell walking added; still capped by \(N=0\) X-Step 4-FSR walking and unmeasured radio/power)
 
 See `research/EHB26_FINAL_ACCEPTANCE_RISK.md` for the axis-by-axis 0–10 scores used at RC time.
 
@@ -35,12 +35,12 @@ A leakage-safe, fully specified four-site pipeline (protocol, features, grouped 
 
 ## Weakest component
 
-**Physical and human evidence:** calibration, BLE, power, and walking all remain empty.
+**Physical and human evidence:** X-Step 4-FSR walking, BLE, and power remain empty. Calibration is operator-attested. Walking exists only on a 32-cell insole.
 
 ## Five likely reviewer objections
 
-1. No human walking data / N=0.
-2. Calibration error is simulated.
+1. No X-Step four-site FSR walking / prototype not worn in the 15-person archive.
+2. 32-cell walking is a different device; 64 Hz is assumed.
 3. “Real-time wearable” without radio or battery.
 4. Synthetic labels may be linearly separable (peak features ≈ full set).
 5. Incremental vs existing FSR insoles; DFU framing overreaches.

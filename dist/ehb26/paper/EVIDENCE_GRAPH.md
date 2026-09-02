@@ -11,9 +11,11 @@ Unsupported claims are marked **UNSUPPORTED** and must not appear in the paper.
 | Four FSR sites MET1/MET2/MET5/HEEL at 25 Hz | hardware contract | firmware spec | `firmware/xstep_insole/xstep_insole.ino` | Table I, Fig. 1–2 | §3, §4.1, §6.8 |
 | 28-byte BLE v1 payload | n/a | protocol unit tests | `xstep_ml/protocol.py` | Table I | §3, §4.1 |
 | Linear ADC→kPa, 250 kPa FS, not bench | n/a | `adc_to_kpa` | `xstep_ml/hardware.py` | Table I | §3, §4.2 |
-| Simulated calibration MAE 1.30 N, RMSE 2.02 N | `calibration_simulated_example` | `simulate_example_curve` | `research/results/calibration_evaluation.json` | §6.7 | §6.7 |
+| Four-site operator-attested FSR calibration MAE 1.69 N, RMSE 2.95 N | `four_site_fsr_bench` (480 rows, `data_source=bench`) | log–log reconstruction | `research/results/calibration_evaluation.json` | Fig. 9, Table calibration_four_site | §4.2, §6.7 |
 | 24 virtual subjects, 2592 windows, seed 67 | `synthetic_4fsr_gait` | `make_cohort` | `research/results/manifest.json` | Table II | §4.3, §6 |
-| Human walking \(N=0\) | `human_walking_fsr` | data inventory | `research/data_inventory.json` | Table II | §4.3, §8 |
+| Human walking, X-Step 4-FSR \(N=0\) | `human_walking_fsr` | data inventory | `research/data_inventory.json` | Table II | §4.3, §8 |
+| 15 adults, 149 32-cell takes, not X-Step FSR | `human_32site_insole_optitrack` | sparse vs dense | `research/results/human_optitrack_evaluation.json` | Fig. 11–12, Table human_optitrack | §4.3, §6.12 |
+| 4-site vs dense AP CoP *r* 0.805 | same | 4-site CoP vs native copY | same JSON | Fig. 11 | §6.12 |
 | Logreg grouped macro-F1 0.885 [0.873–0.894] | synthetic | GroupKFold-subject OOF | `research/tables/model_comparison.csv` | Fig. 5, Table III | §6.1 |
 | OOF AUROC 0.979, ECE 0.031 | synthetic | grouped OOF probabilities | `research/results/probability_calibration.json` | §6.9 | §6.1, §6.9 |
 | Heuristic 0.480; majority 0.040 | synthetic | same CV | `model_comparison.csv` | Fig. 5 | §6.1 |
@@ -31,7 +33,7 @@ Unsupported claims are marked **UNSUPPORTED** and must not appear in the paper.
 | Logreg 7.7 kB / 540 params | synthetic artifact | efficiency | `model_comparison.csv` | Table VI | §6.8 |
 | BLE airtime | — | — | — | — | **UNSUPPORTED** (stated unmeasured) |
 | Battery life | — | — | — | — | **UNSUPPORTED** (future work) |
-| Human ICC / repeatability | — | — | `repeatability.csv` empty of humans | — | **UNSUPPORTED** as human result |
+| Human ICC / repeatability | — | — | `repeatability.csv` empty of X-Step humans | — | **UNSUPPORTED** as 4-FSR test–retest |
 | Four sites globally optimal | — | ablation is not a global search | — | — | **UNSUPPORTED** (rewritten as “within evaluated configurations”) |
 | Predicts / detects ulcers | — | — | — | — | **UNSUPPORTED** |
 | Prevents DFU or limb loss | — | — | — | — | **UNSUPPORTED** |

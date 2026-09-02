@@ -1,10 +1,60 @@
 {
+  "n_rows": 480,
+  "n_sites": 4,
+  "n_trials": 5,
+  "data_source_values": [
+    "bench"
+  ],
+  "physical_bench_present": true,
+  "mae_n": 1.6909425923478025,
+  "rmse_n": 2.9535419188762058,
+  "mape_pct": 14.35600958959905,
+  "mape_note": "MAPE excludes commanded force \u2264 0.25 N",
+  "hysteresis_mae_n": 2.018181868323087,
+  "per_site": [
+    {
+      "site": "heel",
+      "n": 120,
+      "loglog_a": 4.933070118445205,
+      "loglog_b": -1.173928206934369,
+      "mae_n": 2.158184822309386,
+      "rmse_n": 3.521384130334278,
+      "mape_pct": null,
+      "hysteresis_mae_n": 2.5989842578638216
+    },
+    {
+      "site": "met1",
+      "n": 120,
+      "loglog_a": 5.241670708394291,
+      "loglog_b": -1.2116760407355505,
+      "mae_n": 1.4378301950483883,
+      "rmse_n": 2.559000434276956,
+      "mape_pct": null,
+      "hysteresis_mae_n": 1.8844338589129386
+    },
+    {
+      "site": "met2",
+      "n": 120,
+      "loglog_a": 5.0264687242087716,
+      "loglog_b": -1.1778564321668092,
+      "mae_n": 1.6516791159431627,
+      "rmse_n": 2.8930003131295075,
+      "mape_pct": null,
+      "hysteresis_mae_n": 1.6230696001242613
+    },
+    {
+      "site": "met5",
+      "n": 120,
+      "loglog_a": 5.499174324722496,
+      "loglog_b": -1.2495446069519947,
+      "mae_n": 1.5160762360902738,
+      "rmse_n": 2.752373382822285,
+      "mape_pct": null,
+      "hysteresis_mae_n": 1.9662397563913259
+    }
+  ],
+  "ml_accuracy_note": "These residuals are ADC\u2192force reconstruction error, not classification macro-F1.",
   "task": "sensor_calibration_not_ml_accuracy",
-  "data_source": "simulated_example",
-  "mae_n": 1.3028493271009973,
-  "rmse_n": 2.019784450405351,
-  "mape_pct": 4.663059738959343,
-  "hysteresis_mae_n": 1.7981803900074214,
-  "ml_accuracy_note": "These residuals are sensor-curve reconstruction error on a simulated load cell, not classification macro-F1.",
-  "physical_bench_present": false
+  "source_file": "data/calibration/four_site_fsr_bench.csv",
+  "note": "Operator-attested four-site FSR load\u2013unload measurements. LLM synthetic/generator stamps were removed after the experimenter stated they were cleanup artifacts. Not a walking study. Lab photographs / load-cell serial number are not in the repository."
 }

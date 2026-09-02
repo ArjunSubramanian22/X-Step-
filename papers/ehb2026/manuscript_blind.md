@@ -2,11 +2,11 @@
 
 **Status:** EHB 2026 methods manuscript (double-blind). Quantitative Results are generated from `research/results/final_results_registry.json`. Do not paste unpublished decimals by hand.
 
-**Validation type in this checkout:** engineering / in-silico simulation on a synthetic four-site force-sensitive resistor (FSR) cohort. **Zero human walking sessions** are stored in the repository.
+**Validation type in this checkout:** Mixed. Gait/ML tables use a synthetic 4-FSR cohort. Four-site FSR force–ADC calibration is **operator-attested bench data** (`data/calibration/four_site_fsr_bench.csv`). Human walking in-repo is a **32-cell instrumented insole + OptiTrack** archive (15 adults, 149 analyzed takes), **not** X-Step four-site FSR402 recordings.
 
 ## Abstract
 
-Repetitive plantar loading is a mechanical ingredient of diabetic foot ulcer (DFU) risk, yet dense pressure arrays are costly and often confined to the laboratory. Sparse, low-cost insoles can be worn outside the clinic, but it remains unclear how much biomechanical information four sites preserve, and whether classical models remain usable under wearable imperfections. We specify X-Step: four FSRs at the first, second, and fifth metatarsal heads and the heel (MET1, MET2, MET5, HEEL), sampled at 25 Hz on an ESP32 and streamed as a documented 28-byte Bluetooth Low Energy (BLE) payload, with a 59-dimensional feature set and a priori machine-learning (ML) baselines. All numerical ML results use a synthetic 24-subject, 2592-window cohort under subject-grouped cross-validation. Logistic regression achieved macro-F1 0.885 [95% CI: 0.873–0.894]. Within the evaluated layouts, dropping MET5 or HEEL reduced macro-F1 to 0.671 and 0.657, whereas dropping MET1 did not (0.883). Simulated 30% packet loss reduced held-out-subject macro-F1 from 0.847 to 0.631; host feature-plus-inference latency was 0.23 ms (P95 0.31 ms), below the 40 ms sample period. These results support an engineering feasibility case for sparse plantar monitoring. They do not establish clinical ulcer prediction, diagnostic replacement of a clinician, or reduction of limb-loss outcomes.
+Repetitive plantar loading is a mechanical ingredient of diabetic foot ulcer (DFU) risk, yet dense pressure arrays are costly and often confined to the laboratory. Sparse, low-cost insoles can be worn outside the clinic, but it remains unclear how much biomechanical information four sites preserve, and whether classical models remain usable under wearable imperfections. We specify X-Step: four FSRs at the first, second, and fifth metatarsal heads and the heel (MET1, MET2, MET5, HEEL), sampled at 25 Hz on an ESP32 and streamed as a documented 28-byte Bluetooth Low Energy (BLE) payload, with a 59-dimensional feature set and a priori machine-learning (ML) baselines. All numerical ML results use a synthetic 24-subject, 2592-window cohort under subject-grouped cross-validation. Logistic regression achieved macro-F1 0.885 [95% CI: 0.873–0.894]. Within the evaluated layouts, dropping MET5 or HEEL reduced macro-F1 to 0.671 and 0.657, whereas dropping MET1 did not (0.883). Simulated 30% packet loss reduced held-out-subject macro-F1 from 0.847 to 0.631; host feature-plus-inference latency was 0.23 ms (P95 0.31 ms), below the 40 ms sample period. Operator-attested four-site FSR load–unload calibration reconstructed commanded force with MAE 1.69 N (RMSE 2.95 N). On a separate 15-adult overground archive recorded with a 32-cell insole (not the X-Step prototype), four anatomical sites tracked regional load time series (median *r* 0.717–0.986) and anteroposterior CoP (*r* 0.805). These results support an engineering feasibility case for sparse plantar monitoring. They do not establish clinical ulcer prediction, diagnostic replacement of a clinician, or reduction of limb-loss outcomes.
 
 **Keywords:** plantar pressure; sparse sensing; wearable insole; gait feature; robustness; e-health
 
@@ -26,11 +26,12 @@ This paper investigates whether a sparse, low-cost four-site plantar-pressure ar
 
 Each item maps to a Results subsection.
 
-1. A documented four-site hardware and BLE contract (MET1, MET2, MET5, HEEL; 25 Hz; 28-byte payload) — Results §6.8 and Table I.
+1. A documented four-site hardware and BLE contract (MET1, MET2, MET5, HEEL; 25 Hz; 28-byte payload) plus operator-attested FSR force–ADC calibration — Results §6.7–6.8 and Table I.
 2. A reproducible 59-dimensional gait-feature pipeline with grouped splits and a priori classical ML — Results §6.1–6.2.
 3. Sensor-ablation evidence for what the four sites contribute **within the evaluated configurations** — Results §6.3.
 4. Robustness operating curves under noise, bias, missing channels, packet loss, and sampling-rate reduction — Results §6.4–6.5.
 5. Host-side deployment characterization (model size, feature time, inference time) with radio and battery explicitly unmeasured — Results §6.8.
+6. Sparse-versus-dense walking evidence on a 15-person 32-cell insole + OptiTrack archive, labeled as a different device from the four-site X-Step prototype — Results §6.12.
 
 ## 2. Related work
 
@@ -64,14 +65,15 @@ Risk scores and alerts are deterministic (`xstep_ml.inference`). A language mode
 
 ### 4.2 Calibration
 
-Unloaded baseline ADC is subtracted before the linear engineering map. Optional load-cell CSV (`data/calibration/TEMPLATE.csv`) supports log–log force fits, hysteresis, and drift helpers. **No physical bench points for this hardware are in the repository.** Reported MAE/RMSE values are a **simulated reconstruction example**. Sensor calibration error is not classification accuracy.
+Unloaded baseline ADC is subtracted before the linear engineering map. This checkout includes `data/calibration/four_site_fsr_bench.csv`: 4 sites (MET1, MET2, MET5, HEEL), 5 load–unload trials, 12 commanded loads from 0–30 N (480 rows). The experimenter attests that these ADC–force pairs were physically measured; synthetic/generator stamps present in an earlier cleanup export were removed after that correction (`data/calibration/PROVENANCE.md`). Independent photographs and a load-cell serial number are **not** in the repository. This table is **not** a walking recording. Sensor calibration error is not classification accuracy. The firmware still uses a linear ADC→kPa engineering map unless a fitted curve is selected.
 
 ### 4.3 Data collection
 
-- Human participants: **none in this checkout** (\(N=0\) walking subjects, \(N=0\) sessions). A participant flow diagram is therefore omitted rather than fabricated.
+- Human participants, X-Step four-site FSR walking: **none in this checkout** (\(N=0\)).
+- Human walking, 32-cell insole + OptiTrack: **15** adults (7 female, 8 male; age 19–30, mean 23.4 years), **150** unique pressure takes, **149** analyzed after excluding P13 M1 (insole desynchronization per archive notes). M1–M10 labels are preserved as in the archive; they are not a coded speed protocol. Hardware is 32 pressure channels per foot (native counts 0–4096) plus OptiTrack Baseline Lower, **not** ESP32 FSR402 at 25 Hz. Pressure files have no timestamps; seconds and walking speed use a 64 Hz assumption from a sibling 32-channel schema [13]. Layout map: `research/data/insoles_optitrack/sensor_layout.json`. Evaluator: `python -m research.experiments.evaluate_insoles_optitrack`.
 - Synthetic cohort: seed 67; 24 virtual subjects; 12 windows per gait class; 9 classes; 2592 windows; 4 s at 25 Hz; Gaussian noise SD 3.5 kPa; 3% label flips (`xstep_ml.data.synthetic_gait.make_cohort`). Dataset hash: `26180f5e5330adeac3088c43353bb05e83d90a120e2703ac673ec65e2781cd92`.
-- Walking protocol for future human data: `research/protocols/EHB26_WALKING_PROTOCOL.md`. Importer: `python -m research.import_real_data`.
-- Footwear, overground vs treadmill, and exclusion rules for humans are not applicable until recordings exist.
+- Walking protocol for future X-Step 4-FSR recordings: `research/protocols/EHB26_WALKING_PROTOCOL.md`. Importer: `python -m research.import_real_data`.
+- Footwear and exclusion rules for the 32-cell archive follow the operator zip (`info.txt`); ethics approval number is **not** in the files.
 
 ### 4.4 Signal processing
 
@@ -112,7 +114,7 @@ Frozen configuration: `research/releases/EHB26_EXPERIMENTAL_FREEZE.md`. Training
 
 ## 6. Results
 
-All ML numbers are **synthetic**. Canonical rounded values follow `final_results_registry.json`. Full tables: `research/manuscript/generated_results.md`.
+All ML numbers are **synthetic**. Canonical rounded values follow `final_results_registry.json`. Full tables: `research/manuscript/generated_results.md`. Human 32-cell walking numbers in §6.12 are **not** gait-classifier scores.
 
 **Figure 1.** System architecture: four FSR sites, ESP32 ADC at 25 Hz, 28-byte BLE `XS` payload, host features, deterministic engineering alerts, and a mobile recorder. Synthetic/engineering context; not a patient study. (`fig01_architecture`)
 
@@ -164,29 +166,41 @@ Training remains at 25 Hz. Testing on original samples only: 75% keep 0.829; 50%
 
 ### 6.6 Repeatability
 
-Human test–retest ICC is **not reported**. Simulator `peak_any` median CV and between-seed ICC characterize the generator only (`repeatability.csv`).
+X-Step four-site human test–retest ICC is **not reported**. Simulator `peak_any` median CV and between-seed ICC characterize the generator only (`repeatability.csv`). The 32-cell archive’s M1–M10 takes are unlabeled movement identifiers, not repeated identical walking trials, so they are not used as test–retest ICC.
 
 ### 6.7 Sensor calibration versus ML accuracy
 
-Simulated log–log reconstruction (not a bench measurement): MAE **1.30 N**, RMSE **2.02 N**, MAPE 4.7%. Physical load-cell residuals remain unmeasured.
+Four-site log–log reconstruction on the operator-attested bench CSV (480 rows, `data_source=bench`): pooled MAE **1.69 N**, RMSE **2.95 N**, MAPE **14.4%** on commanded force > 0.25 N, mean loading–unloading hysteresis **2.02 N**. Per-site MAE: MET1 1.44 N, MET2 1.65 N, MET5 1.52 N, HEEL 2.16 N (`research/tables/calibration_four_site.csv`). These residuals are ADC→force curve error, not gait macro-F1, and are not walking-trial accuracy.
+
+**Figure 9.** Commanded force (N) versus ADC counts at MET1, MET2, MET5, and HEEL for five load–unload trials. Loading and unloading are shown separately. Dataset: operator-attested `four_site_fsr_bench.csv` (not a walking study). (`fig05_calibration`)
 
 ### 6.8 Host latency and deployment
 
 Feature extraction mean 0.16 ms; logistic regression 0.07 ms; combined host path mean **0.23 ms** (P95 **0.31 ms**, P99 0.52 ms); \(n=200\) host repeats. Firmware sample period is 40 ms by design. Serialized logistic regression is **7.7 kB** (540 parameters). BLE radio notify time is **not measured**. Battery life is **not measured** and is not estimated here.
 
-**Figure 9.** Host-side latency for features, logistic regression, and the combined path. Whiskers: P95. Radio excluded. (`fig11_latency`)
+**Figure 10.** Host-side latency for features, logistic regression, and the combined path. Whiskers: P95. Radio excluded. (`fig11_latency`)
 
 ### 6.9 Probability calibration
 
 OOF ECE 0.031, Brier 0.180, AUROC 0.979. Platt scaling on inner training groups is **not** adopted (holdout Brier did not improve).
 
+### 6.12 Human 32-cell walking (not the X-Step prototype)
+
+Fifteen healthy adults (7 female, 8 male; age 19–30 years) walked with a 32-cell instrumented insole synchronized to OptiTrack. This is **not** a recording of the four-site FSR402 X-Step insole. After excluding one desynchronized take (P13 M1), **149** takes remain (298 foot-takes). Pressure CSVs have no timestamps; a 64 Hz assumption yields median take duration 4.6 s, median pelvis path 5.68 m, and median speed **1.23 m/s**.
+
+Four a priori anatomical cells (MET1, MET2, MET5, HEEL analogs; separate left/right maps from `insoles-number.jpeg`) were compared with the regional maximum of the dense array. Median time-series Pearson *r* (single cell vs region-max): MET1 **0.879**, MET2 **0.986**, MET5 **0.717**, HEEL **0.885**. Peak-to-peak *r* is lower (0.429–0.739), as expected when one cell under-samples a cluster. Four-site CoP reconstructed from unit-foot coordinates tracked native anteroposterior CoP (median *r* **0.805**) and did **not** recover mediolateral CoP (*r* 0.005). Heel loading preceded mean forefoot loading on 69% of foot-takes. Native units are insole counts (0–4096), not X-Step kPa. Frozen synthetic macro-F1 tables were not retrained on these takes.
+
+**Figure 11.** Single-site peak versus dense regional-max peak for MET1, MET2, MET5, and HEEL analogs. 15 adults, 32-cell insole, overground walking; not X-Step FSR402. (`fig14_human_sparse_vs_dense`)
+
+**Figure 12.** Example left-foot four-site subsample (P1 M1) in native counts versus time at the assumed 64 Hz. (`fig15_human_walking_traces`)
+
 ## 7. Discussion
 
-**Evidence levels.** Level A is physical engineering evidence (sensor operation, bench calibration, BLE on the air, measured latency, packet loss, repeatability). This paper contributes Level A **specifications and host-CPU latency**; it does **not** contribute measured radio, battery, or load-cell residuals. Level B is algorithmic evidence (classification, ablation, robustness, grouped validation) on the stated dataset—here, a **synthetic** cohort. Level C is clinical evidence (future ulcer occurrence, prevented events, decision impact, patient outcomes). **Level A or B results are not Level C.** Grouped macro-F1 0.885 is Level B on a simulator.
+**Evidence levels.** Level A is physical engineering evidence (sensor operation, bench calibration, BLE on the air, measured latency, packet loss, repeatability). This paper contributes Level A **specifications, host-CPU latency, operator-attested four-site FSR force–ADC calibration, and a 32-cell overground walking archive used only as sparse-versus-dense evidence**. It does **not** contribute measured radio, battery, or X-Step four-site FSR walking. Independent lab photographs of the calibration rig are not in the repository. Level B is algorithmic evidence (classification, ablation, robustness, grouped validation) on the stated dataset—here, a **synthetic** cohort. Level C is clinical evidence (future ulcer occurrence, prevented events, decision impact, patient outcomes). **Level A or B results are not Level C.** Grouped macro-F1 0.885 is Level B on a simulator. Four-site versus 32-cell correlations are Level A/B on a **different** insole.
 
 **Why four sensors?** Within the evaluated configurations, MET5 and HEEL carry the overload-pattern labels; MET1 is nearly redundant with the other three on this generator. Four sites are a reasonable cost/information tradeoff **for these labels**, not a clinical standard.
 
-**Does it generalize?** Subject-grouped CV is the headline protocol. There are no unseen human participants in this checkout.
+**Does it generalize?** Subject-grouped CV is the headline protocol for the simulator. The 15 walking adults wore a 32-cell insole, not X-Step. There are no unseen X-Step four-site FSR participants.
 
 **Is it robust?** Failure is explicit: missing heel, +15 kPa bias, 30% simulated loss. That is an operational requirement for donning, sweat, and radio, not a claim of field reliability.
 
@@ -196,26 +210,29 @@ OOF ECE 0.031, Brier 0.180, AUROC 0.979. Platt scaling on inner training groups 
 
 ## 8. Limitations
 
-- No human plantar recordings in-repo (\(N=0\)).
+- No X-Step four-site FSR walking recordings (\(N=0\)). The human walking archive is a 32-cell insole + OptiTrack dataset; it does not validate ESP32 FSR402 ADC, 25 Hz `XS` packets, or the linear kPa map.
+- Pressure timestamps are absent; 64 Hz and 1.23 m/s are assumption-dependent.
+- M1–M10 are unlabeled takes, not a coded slow/normal/fast protocol.
+- Four anatomical cells under-sample regional peaks (peak-to-peak *r* 0.43–0.74); mediolateral CoP is not recovered.
 - Simulator labels are not diabetic gait; zone labels are a function of gait class.
 - Four FSRs cannot reconstruct shear or a full pressure map; FSR nonlinearity and drift are not bench-quantified.
 - AUROC 0.979 and grouped F1 0.885 are plausible because the generator is largely peak-separable (peak-only ≈ full features); they are **not** patient performance.
-- Footwear, speed, and surface are not experimentally varied in hardware.
 - No longitudinal ulcer outcomes (Level C absent).
 - Image CNN excluded from the core paper.
 - Battery unevaluated; BLE airtime unevaluated.
 - Alert thresholds are engineering defaults.
+- Ethics approval number is not in the walking archive.
 - Bootstrap \(n\) differs between the original freeze (`n_boot=80`) and some later OOF scripts; canonical intervals are `model_comparison.csv`.
 
 These limitations are part of the scientific record.
 
 ## 9. Conclusion
 
-X-Step specifies a four-site insole, a leakage-aware feature/ML stack, and simulator evidence about sparse sensing, robustness, and host latency. Claims remain proportional to Level A specifications and Level B synthetic experiments. Physical calibration, field radio and power, and human walking data are required before any patient-facing performance statement.
+X-Step specifies a four-site insole, operator-attested FSR force–ADC calibration, a leakage-aware feature/ML stack, and simulator evidence about sparse sensing, robustness, and host latency. A 15-adult 32-cell walking archive shows that four anatomical sites can track regional load and anteroposterior CoP on a dense insole; that is not a field validation of the FSR402 prototype. Claims remain proportional to that mix of Level A measurements and Level B synthetic experiments. Field radio, power, and X-Step four-site walking data are required before any patient-facing performance statement.
 
 ## Data availability
 
-All ML tables in this checkout were produced from the in-repository synthetic generator (`make_cohort`, seed 67). No human walking traces are present; none are promised for release. If future ethics-approved recordings are collected, sharing will follow the permissions in `research/HUMAN_VERIFICATION_REQUIRED.md`. Scripts: `python -m research.import_real_data`.
+All ML tables in this checkout were produced from the in-repository synthetic generator (`make_cohort`, seed 67). Four-site FSR force–ADC pairs are in `data/calibration/four_site_fsr_bench.csv` as operator-attested bench measurements (provenance in `data/calibration/PROVENANCE.md`). Human walking traces used here are the operator-provided `InsolesOpitrackDataset` archive (SHA-256 `6f11afbb50c555738ead3be7051218c1e79ecd29ed8ac53e404e8f770133561a`); the file layout matches Zenodo 10.5281/zenodo.20156243 [13]. Derived summaries are in `research/results/human_optitrack_evaluation.json`. The 84 MB zip is not stored in git. Scripts: `python -m research.import_real_data` (X-Step 4-FSR sessions) and `python -m research.experiments.evaluate_insoles_optitrack`.
 
 ## Code availability
 
@@ -223,7 +240,7 @@ Source: https://github.com/ArjunSubramanian22/X-Step- (branch `ehb26-research`).
 
 ## Ethics
 
-No IRB or ethics approval number appears in this repository. This checkout contains no identifiable participant recordings. Prospective human walking studies require institutional review and consent before they are conducted; wording must be confirmed by the team (`research/HUMAN_VERIFICATION_REQUIRED.md`).
+No IRB or ethics approval number appears in this repository or in the walking zip. The 32-cell archive uses pseudonymous codes P1–P15 and aggregate demographics only. Prospective X-Step four-site walking studies require institutional review and consent before they are conducted; wording must be confirmed by the team (`research/HUMAN_VERIFICATION_REQUIRED.md`).
 
 ## Author contributions
 
@@ -247,5 +264,6 @@ Removed for double-blind review. Funding, patents, and conflicts require human c
 10. Lavery LA, Higgins KR, Lanctot DR, Constantinides GP, Zamorano RG, Athanasiou KA, Armstrong DG, Agrawal CM (2007) Preventing diabetic foot ulcer recurrence in high-risk patients: use of temperature monitoring as a self-assessment tool. Diabetes Care 30(1):14–20. https://doi.org/10.2337/dc06-1600
 11. Cavanagh PR, Bus SA (2010) Off-loading the diabetic foot for ulcer prevention and healing. J Vasc Surg 52(3 Suppl):37S–43S. https://doi.org/10.1016/j.jvs.2010.06.007
 12. Hegde N, Sazonov E (2014) SmartStep: a fully integrated, low-power insole monitor. Electronics 3(2):381–397. https://doi.org/10.3390/electronics3020381
+13. Multimodal gait dataset: synchronized sensorized-insole (pressure + IMU) and OptiTrack motion capture recordings (2026) Zenodo. https://doi.org/10.5281/zenodo.20156243
 
 Reference audit: `research/manuscript/reference_audit.csv`.

@@ -3,8 +3,8 @@
 Network Crossref confirmation is optional. Primary verification is `reference_audit.csv` (human-checked DOIs).
 This script does **not** invent missing citations.
 
-- Bibliography entries: 12
-- Distinct numeric citations: 12
+- Bibliography entries: 13
+- Distinct numeric citations: 13
 - Unused refs: none
 - Citations missing bib: none
 - Issues: none
@@ -23,5 +23,6 @@ This script does **not** invent missing citations.
 | 10 | True | 10.2337/dc06-1600 | yes | Lavery LA, Higgins KR, Lanctot DR, Constantinides GP, Zamorano RG, Athanasiou KA |
 | 11 | True | 10.1016/j.jvs.2010.06.007 | yes | Cavanagh PR, Bus SA (2010) Off-loading the diabetic foot for ulcer prevention an |
 | 12 | True | 10.3390/electronics3020381 | yes | Hegde N, Sazonov E (2014) SmartStep: a fully integrated, low-power insole monito |
+| 13 | True | 10.5281/zenodo.20156243 | yes | Multimodal gait dataset: synchronized sensorized-insole (pressure + IMU) and Opt |
 
 Every item above has title/authors/year/venue in `main.md` References plus DOI when the publisher issued one.

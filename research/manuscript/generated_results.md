@@ -2,9 +2,9 @@
 
 All quantitative ML rows below are **synthetic / engineering validation** unless a cell says otherwise. 
 Display rounding: rates to 3 decimals; latency to 0.01 ms; force to 0.01 N. 
-Registry git SHA at build: `b80ce4010f56235ebfca2802b8433b4d38c69e1c`. Dataset hash: `26180f5e5330adeac3088c43353bb05e83d90a120e2703ac673ec65e2781cd92`.
+Registry git SHA at build: `87d6164d56dc4c075c6fbd4a33fb2e03addc4821`. Dataset hash: `26180f5e5330adeac3088c43353bb05e83d90a120e2703ac673ec65e2781cd92`.
 
-Cohort: **2592** windows, **24** virtual subjects, **0** human walking subjects in-repo, 25 Hz, 4 s windows.
+Cohort: **2592** windows, **24** virtual subjects, **0** X-Step four-site FSR walking subjects, **15** adults in the 32-cell insole+OptiTrack archive (not the X-Step prototype), 25 Hz synthetic windows.
 
 ## 6.1 Baseline models (subject-independent)
 
@@ -81,7 +81,7 @@ Training remains at 25 Hz. Testing on a 50% subsample (original samples only) yi
 
 ## 6.6 Repeatability
 
-Human test–retest ICC is **not reported** (no repeated walking sessions in-repo). Simulator CVs characterize the generator only.
+X-Step four-site test–retest ICC is **not reported** (no repeated 4-FSR walking sessions). Simulator CVs characterize the generator only. M1–M10 in the 32-cell archive are unlabeled takes, not identical repeats.
 
 | feature | within_session_cv_median | within_session_mad_median | between_seed_icc | n_sessions | data_source | validation_type | note |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -99,7 +99,7 @@ Human test–retest ICC is **not reported** (no repeated walking sessions in-rep
 
 ## 6.7 Sensor calibration vs ML accuracy
 
-These quantities are not interchangeable. Simulated log–log reconstruction (not a bench measurement): MAE **1.30 N**, RMSE **2.02 N**. Physical load-cell residuals remain unmeasured.
+These quantities are not interchangeable. Four-site log–log reconstruction on operator-attested `data/calibration/four_site_fsr_bench.csv` (480 load–unload rows; not walking data): MAE **1.69 N**, RMSE **2.95 N**. Lab photographs of the rig are not in the repository.
 
 ## 6.8 Host latency (radio not measured)
 
@@ -152,3 +152,15 @@ Peak-pressure cut-offs are **engineering risk-alert operating points** on synthe
 
 
 The frozen 4 s / 25 Hz window is a compromise between cadence estimates and alert latency.
+
+## 6.12 Human 32-cell walking (not X-Step FSR)
+
+**15** adults, **149** analyzed takes (150 unique pressure takes, one excluded for insole desynchronization). Hardware is a 32-cell instrumented insole synchronized to OptiTrack, **not** the four-site FSR402 prototype. Median anteroposterior CoP correlation (4 anatomical sites vs native 32-cell CoP): **0.805**. Mediolateral CoP is not recovered (**0.005**). Single-site vs regional-max time-series *r*: MET1 0.879, MET2 0.986, MET5 0.717, HEEL 0.885. Median overground speed **1.23 m/s** under a 64 Hz timestamp assumption. These numbers are not mixed into the frozen synthetic gait macro-F1 tables.
+
+| site | n_foot_takes | median_timeseries_r | peak_peak_r | peak_rmse_counts | peak_nrmse | median_sparse_peak | median_dense_peak | data_source | hardware |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| met1 | 298.000 | 0.879 | 0.429 | 1146.4259 | 0.446 | 1852.5000 | 2635.5000 | human | 32-cell insole, not X-Step 4-FSR |
+| met2 | 298.000 | 0.986 | 0.529 | 647.0099 | 0.269 | 1950.5000 | 2432.0000 | human | 32-cell insole, not X-Step 4-FSR |
+| met5 | 298.000 | 0.717 | 0.554 | 1056.7326 | 0.375 | 2034.0000 | 2834.0000 | human | 32-cell insole, not X-Step 4-FSR |
+| heel | 298.000 | 0.885 | 0.739 | 566.5793 | 0.181 | 2800.5000 | 3191.0000 | human | 32-cell insole, not X-Step 4-FSR |
+

@@ -18,4 +18,10 @@ Use these captions in the Springer template. Every caption states the dataset/co
 
 **Figure 8. Robustness.** Left: Gaussian measurement noise (kPa SD). Right: simulated packet loss (% of time samples zeroed). Metric: macro-F1 on held-out virtual subjects after training on clean windows. Not over-the-air BLE measurements.
 
-**Figure 9. Host latency.** Mean feature extraction, logistic-regression inference, and combined host path (ms). Whiskers: 95th percentile. BLE radio time excluded. Firmware sample period is 40 ms by specification.
+**Figure 9. Four-site FSR force–ADC calibration.** Commanded force (N) versus ADC counts at MET1, MET2, MET5, and HEEL. Five operator-attested load–unload trials (`data/calibration/four_site_fsr_bench.csv`). Not a walking study.
+
+**Figure 10. Host latency.** Mean feature extraction, logistic-regression inference, and combined host path (ms). Whiskers: 95th percentile. BLE radio time excluded. Firmware sample period is 40 ms by specification.
+
+**Figure 11. Four anatomical sites versus dense regional peaks.** Single-cell peak (counts) versus the maximum of the same anatomical cluster on a 32-cell insole. Fifteen adults, overground walking. Not the X-Step four-site FSR402 prototype. Native counts 0–4096.
+
+**Figure 12. Example four-site subsample.** Left-foot MET1/MET2/MET5/HEEL analog traces from one take (P1 M1). Time axis uses the 64 Hz assumption (no timestamps in the CSV). Not X-Step kPa.

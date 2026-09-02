@@ -1,0 +1,70 @@
+{
+  "dataset": "insoles_optitrack",
+  "not_xstep_4fsr": true,
+  "index_base": 0,
+  "channel_count": 32,
+  "source_figure": "insoles-number.jpeg (1-based silkscreen; CSV PressureSensor i = number-1)",
+  "homology": "Left and right CSV columns are NOT homologous. Separate maps were digitized from the left and right numbered photographs.",
+  "units": "native insole counts (0-4096), not X-Step kPa",
+  "cop_convention": "Unit-foot x increases medially on the left map and is mirrored (x -> -x) on the right. y increases anteriorly. Native copY in this archive correlates with the posterior direction, so 4-site CoP y is negated before correlation.",
+  "sides": {
+    "left": {
+      "met1": {
+        "label": "MET1 analog (medial forefoot / first ray)",
+        "representative": 7,
+        "members": [0, 3, 4, 7, 16, 19],
+        "photo_1based": [1, 4, 5, 8, 17, 20]
+      },
+      "met2": {
+        "label": "MET2 analog (central forefoot)",
+        "representative": 20,
+        "members": [1, 2, 17, 18, 20, 23],
+        "photo_1based": [2, 3, 18, 19, 21, 24]
+      },
+      "met5": {
+        "label": "MET5 analog (lateral forefoot / fifth ray)",
+        "representative": 10,
+        "members": [5, 6, 8, 9, 10, 11, 14, 15, 21, 22],
+        "photo_1based": [6, 7, 9, 10, 11, 12, 15, 16, 22, 23]
+      },
+      "heel": {
+        "label": "HEEL analog (rearfoot)",
+        "representative": 30,
+        "members": [12, 13, 24, 25, 26, 27, 28, 29, 30, 31],
+        "photo_1based": [13, 14, 25, 26, 27, 28, 29, 30, 31, 32]
+      }
+    },
+    "right": {
+      "met1": {
+        "label": "MET1 analog (medial forefoot / first ray)",
+        "representative": 27,
+        "members": [12, 15, 24, 27, 28, 30],
+        "photo_1based": [13, 16, 25, 28, 29, 31]
+      },
+      "met2": {
+        "label": "MET2 analog (central forefoot)",
+        "representative": 8,
+        "members": [8, 11, 13, 14, 29, 31],
+        "photo_1based": [9, 12, 14, 15, 30, 32]
+      },
+      "met5": {
+        "label": "MET5 analog (lateral forefoot / fifth ray)",
+        "representative": 6,
+        "members": [0, 3, 4, 5, 6, 7, 9, 10, 25],
+        "photo_1based": [1, 4, 5, 6, 7, 8, 11, 26, 10]
+      },
+      "heel": {
+        "label": "HEEL analog (rearfoot)",
+        "representative": 20,
+        "members": [1, 2, 16, 17, 18, 19, 20, 21, 22, 23],
+        "photo_1based": [2, 3, 17, 18, 19, 20, 21, 22, 23, 24]
+      }
+    }
+  },
+  "representative_xy_unit_foot": {
+    "met1": [0.35, 0.72],
+    "met2": [0.05, 0.70],
+    "met5": [-0.38, 0.64],
+    "heel": [0.0, 0.12]
+  }
+}

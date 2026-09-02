@@ -1,2 +1,3 @@
 dataset,data_source,n_subjects,n_human_subjects,n_windows,sample_hz,window_s,classes,split
 synthetic_4fsr_gait,synthetic,24,0,2592,25,4,9 gait patterns,GroupKFold by virtual subject
+human_32site_insole_optitrack,human,15,15,149,64 (assumed; no timestamps),take (~4.6 s median),unlabeled M1–M10 takes,not used for frozen gait ML

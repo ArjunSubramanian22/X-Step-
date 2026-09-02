@@ -1,0 +1,123 @@
+{
+  "task": "human_32site_optitrack_sparse_vs_dense",
+  "data_source": "human",
+  "hardware": "32-cell instrumented insole + OptiTrack Baseline Lower (not X-Step 4-FSR402)",
+  "not_xstep_four_site_fsr": true,
+  "source_zip": "InsolesOpitrackDataset.zip",
+  "source_zip_sha256": "6f11afbb50c555738ead3be7051218c1e79ecd29ed8ac53e404e8f770133561a",
+  "zenodo_record": "10.5281/zenodo.20156243",
+  "layout_file": "research/data/insoles_optitrack/sensor_layout.json",
+  "assumed_insole_hz": 64.0,
+  "assumed_insole_hz_note": "Pressure CSVs have no timestamps. 64 Hz is the nominal rate of a sibling public 32-channel insole schema from the same software stack (10.5281/zenodo.19662017). Seconds and m/s use this assumption.",
+  "n_take_folders": 155,
+  "n_unique_pressure_takes": 150,
+  "n_takes_analyzed": 149,
+  "n_takes_excluded_pressure": 1,
+  "n_subjects": 15,
+  "subject_ids": [
+    "P1",
+    "P2",
+    "P3",
+    "P4",
+    "P5",
+    "P6",
+    "P7",
+    "P8",
+    "P9",
+    "P10",
+    "P11",
+    "P12",
+    "P13",
+    "P14",
+    "P15"
+  ],
+  "demographics_aggregate": {
+    "n": 15,
+    "age_min": 19.0,
+    "age_max": 30.0,
+    "age_mean": 23.4,
+    "height_cm_min": 158.0,
+    "height_cm_max": 180.0,
+    "weight_kg_min": 50.0,
+    "weight_kg_max": 100.0,
+    "n_female": 7,
+    "n_male": 8
+  },
+  "median_n_pressure_samples": 293.0,
+  "median_motion_pressure_ratio": 2.9795820885152504,
+  "median_speed_m_s_assumed_64hz": 1.229822828326697,
+  "median_duration_s_assumed_64hz": 4.6015625,
+  "median_root_path_m": 5.677159499102663,
+  "median_steps_both_feet": 13.0,
+  "median_copx_r": 0.005405091832426115,
+  "median_copy_r": 0.8049810579289797,
+  "heel_before_forefoot_frac": 0.6912751677852349,
+  "within_subject_icc": {
+    "sumP": 0.40824038907983146,
+    "met1": 0.218812894164176,
+    "met2": 0.10073958804723616,
+    "met5": 0.4197499318001744,
+    "heel": 0.5584159587781502
+  },
+  "icc_note": "ICC is across unlabeled M1\u2013M10 takes, not repeated identical walking trials. Do not report as test\u2013retest reliability.",
+  "per_region": [
+    {
+      "site": "met1",
+      "n_foot_takes": 298,
+      "median_timeseries_r": 0.8790788179439644,
+      "peak_peak_r": 0.42925937672596115,
+      "peak_rmse_counts": 1146.4258918496894,
+      "peak_nrmse": 0.44640769448137513,
+      "median_sparse_peak": 1852.5,
+      "median_dense_peak": 2635.5
+    },
+    {
+      "site": "met2",
+      "n_foot_takes": 298,
+      "median_timeseries_r": 0.9859495322856733,
+      "peak_peak_r": 0.5294830150241193,
+      "peak_rmse_counts": 647.0099114413593,
+      "peak_nrmse": 0.26853689510211043,
+      "median_sparse_peak": 1950.5,
+      "median_dense_peak": 2432.0
+    },
+    {
+      "site": "met5",
+      "n_foot_takes": 298,
+      "median_timeseries_r": 0.7166785431958285,
+      "peak_peak_r": 0.5540589498556389,
+      "peak_rmse_counts": 1056.7326066765531,
+      "peak_nrmse": 0.37483180137004624,
+      "median_sparse_peak": 2034.0,
+      "median_dense_peak": 2834.0
+    },
+    {
+      "site": "heel",
+      "n_foot_takes": 298,
+      "median_timeseries_r": 0.884559189368477,
+      "peak_peak_r": 0.7385601230404452,
+      "peak_rmse_counts": 566.5792918557221,
+      "peak_nrmse": 0.1806466073497401,
+      "median_sparse_peak": 2800.5,
+      "median_dense_peak": 3191.0
+    }
+  ],
+  "exclusions": {
+    "pressure": [
+      "P13/M1"
+    ],
+    "mocap": [
+      "P13/M1",
+      "P3/M8"
+    ],
+    "mocap_repaired_used": {
+      "P3/M5": "M5.I",
+      "P3/M6": "M6.I",
+      "P13/M8": "M8.I",
+      "P13/M9": "M9.I",
+      "P15/M3": "M3.I"
+    }
+  },
+  "ethics_note": "No IRB/ethics approval number is present in the zip. Do not invent one.",
+  "n_take_rows": 150
+}

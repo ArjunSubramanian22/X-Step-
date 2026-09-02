@@ -1,6 +1,6 @@
 {
-  "n_refs": 12,
-  "n_cited": 12,
+  "n_refs": 13,
+  "n_cited": 13,
   "unused_refs": [],
   "missing_bib": [],
   "issues": [],
@@ -97,6 +97,14 @@
       "n": 12,
       "text": "Hegde N, Sazonov E (2014) SmartStep: a fully integrated, low-power insole monitor. Electronics 3(2):381\u2013397. https://doi.org/10.3390/electronics3020381",
       "doi": "10.3390/electronics3020381",
+      "cited": true,
+      "verification_status": "yes",
+      "crossref": null
+    },
+    {
+      "n": 13,
+      "text": "Multimodal gait dataset: synchronized sensorized-insole (pressure + IMU) and OptiTrack motion capture recordings (2026) Zenodo. https://doi.org/10.5281/zenodo.20156243",
+      "doi": "10.5281/zenodo.20156243",
       "cited": true,
       "verification_status": "yes",
       "crossref": null

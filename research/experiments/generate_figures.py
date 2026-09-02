@@ -341,6 +341,8 @@ def fig_from_csv() -> None:
 def _alias_calibration() -> None:
     from shutil import copyfile
 
+    if (FIG / "fig05_calibration.png").exists():
+        return
     src = FIG / "fig_calibration_measured_vs_pred.png"
     if src.exists():
         for ext in (".png", ".pdf", ".svg"):
