@@ -1,0 +1,7 @@
+pdflatex was not installed in the environment that filled the manuscript
+numbers (2026-09-03). Rebuild locally or on Overleaf:
+
+    pdflatex main && pdflatex main
+
+Confirm the output is still 6 pages before EDAS upload. The bundled main.pdf
+is the pre-fill-in reference build and should be replaced.

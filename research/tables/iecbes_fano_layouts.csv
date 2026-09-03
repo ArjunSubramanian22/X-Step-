@@ -1,0 +1,10 @@
+layout,subset,macro_f1,accuracy,I_lower_bits,pct_of_HY
+All four sites,4_all,0.885,0.885,2.310,72.9
+Drop MET1,3_no_met1,0.883,0.883,2.297,72.4
+Drop MET2,3_no_met2,0.874,0.875,2.254,71.1
+Drop MET5,3_no_met5,0.671,0.686,1.332,42.0
+Drop HEEL,3_no_heel,0.657,0.669,1.259,39.7
+MET2+HEEL (best pair),2_met2_heel,0.686,0.695,1.369,43.2
+MET1+MET2 only,2_met1_met2,0.435,0.459,0.553,17.4
+Best single site (HEEL),1_heel,0.420,0.449,0.524,16.5
+Majority dummy,dummy,0.040,0.111,0.000,0.0
